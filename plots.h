@@ -75,7 +75,6 @@ public:
 
     void AveragePlot(vector<double> &deltak){
         ofstream f;
-        int k=1;
         f.open("AveragePlot.dat");
         if (!f.is_open())
           {
@@ -83,13 +82,19 @@ public:
             exit(EXIT_FAILURE);
           }
         f<<deltak[0]<<"   "<<log10(deltak[0])<<"  "<<0<<endl;
+        double predk=deltak[0];
         for (int i=4; i<deltak.size()-1; i++){
-            if ((deltak[i]>deltak[i-1]) and (i%4==0)) {f<<deltak[i]<<"   "<<log10(deltak[i])<<"  "<<i<<endl;}
+            if ((deltak[i]<predk) and (i%4==0)) {
+                f<<deltak[i]<<"   "<<log10(deltak[i])<<"  "<<i<<endl;
+                predk=deltak[i];
+            }
         }
         f.close();
         Gnuplot plot;
         plot("set terminal png size 900,800 enhanced font \"Helvetica,20\"");
         plot("set output 'AveragePlot.png'");
+        plot("set mxtics (5)");
+        plot("set grid xtics mxtics ytics");
         plot("plot 'AveragePlot.dat' using 3:2 with lines title 'Average log (delta k(s))'");
     }
 

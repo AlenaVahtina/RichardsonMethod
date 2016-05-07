@@ -92,7 +92,22 @@ public:
              MatrixB[i].resize(N+1);
         }
         CreateB(Matrix, MatrixB);
+      //вывод B
+        for (int i=0; i<=N;i++){
+            for (int j=0; j<=N; j++){
+                std::cout<<MatrixB[i][j]<<" ";
+            }
+            std::cout<<endl;
+        }
         ReB(MatrixB);
+     //вывод B
+        for (int i=0; i<=N;i++){
+            for (int j=0; j<=N; j++){
+                std::cout<<MatrixB[i][j]<<" ";
+            }
+            std::cout<<endl;
+        }
+
 
         //работа с матрицей C
             MatrixC.resize(N+1);
@@ -101,6 +116,7 @@ public:
             }
 
             MatrixMatrix(Matrix,MatrixB, MatrixC);
+            //выводC
             for (int i=0; i<=N;i++){
                 for (int j=0; j<=N; j++){
                     std::cout<<MatrixC[i][j]<<" ";
@@ -111,6 +127,7 @@ public:
         //гамма 1(26) верхняя граница спектра
         gamma1=4*sin(M_PI*h/2*(b-a))*sin(M_PI*h/2*(b-a))/(h*h);
 //      gamma2=4*cos(M_PI*h/2*(b-a))*cos(M_PI*h/2*(b-a))/(h*h);
+
 
        //расчет нижней границы с помощью кругов Герщгорина
         vector<double> R;
@@ -124,11 +141,10 @@ public:
         for (int i=0; i<=N;i++){
             if (gamma2<fabs(MatrixC[i][i]+R[i])) {
                     gamma2=fabs(MatrixC[i][i]+R[i]);
-                    std::cout<<gamma2<<"HUI"<<endl;
             }
        }
-       gamma2=gamma2/(h*h);
-
+        gamma2=gamma2/(h*h);
+        std::cout<<gamma2<<"UI"<<endl;
        //посчитать p0
         p0=(1-gamma1/gamma2)/(1+gamma1/gamma2);
 
@@ -206,15 +222,18 @@ public:
         vector<vector<double> > MatrixAB;
         int N=Matrix.size();
         MatrixAB.resize(N+1);
+        for (int i=0; i<=N; i++){
+             MatrixAB[i].resize(N+1);
+        }
         for (int i=1; i<N;i++){
             for (int j=0; j<N; j++){
-                MatrixC[i][j]+=Matrix[i][j]*MatrixB[i][j];
+                MatrixAB[i][j]+=MatrixB[i][j]*Matrix[i][j];
                 }
             }
 
         for (int i=1; i<N;i++){
             for (int j=0; j<N; j++){
-                MatrixC[i][j]+=Matrix[i][j]*MatrixB[i][j];
+                MatrixC[i][j]+=MatrixAB[i][j]*MatrixB[i][j];
                 }
             }
 
