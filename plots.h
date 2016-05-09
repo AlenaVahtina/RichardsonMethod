@@ -93,9 +93,10 @@ public:
         Gnuplot plot;
         plot("set terminal png size 900,800 enhanced font \"Helvetica,20\"");
         plot("set output 'AveragePlot.png'");
-        plot("set mxtics (5)");
+        plot("set xtics 4");
         plot("set grid xtics mxtics ytics");
-        plot("plot 'AveragePlot.dat' using 3:2 with lines title 'Average log (delta k(s))'");
+        plot("set format x '' ");
+        plot("plot 'AveragePlot.dat' using 3:2 with linespoints title 'Average log (delta k(s))'");
     }
 
 };

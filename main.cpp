@@ -6,12 +6,12 @@ using namespace std;
 
 int main()
 {
-
+    system("rm *.png *.dat");
     Richardson Rid;
     Plots Plot;
 
     //инициализация данных
-    double a,b,h;
+    double a=0,b=1,h;
     int N; //чтение колличества ячеек
     double s;//колличесство итераций
     vector<double> f;//функция, правая часть
@@ -30,68 +30,79 @@ int main()
     cout<<"The number of cells \n"<<N<<'\n';
 
     //настройки а и b по умолчанию
-    Rid.setA(0);
-    Rid.setB(1);
+    Rid.setA(a);
+    Rid.setB(b);
 
     //шаг
     h=(b-a)/N;
 
     //число итераций
-    s=64;
+    s=256;
     cout<<"Enter the number of iterations\n"<<s<<'\n';
     Rid.setS(s);
 
     //заполнение матрицы СЛАУ A
-    Matrix.resize(N+1);
+    Matrix.resize(N);
     for (int i=0; i<=N; i++){
-        Matrix[i].resize(N+1);
+        Matrix[i].resize(N);
     }
-    for (int i=0; i<=N; i++){
-        for (int j=0; j<=N; j++){
-            if(j>0)Matrix[j-1][j]=1;
-            Matrix[j][j]=-2;
-            if(j<N-1)Matrix[j+1][j]=1;
+    for (int i=0; i<N; i++){
+        for (int j=0; j<N; j++){
+            if(j>0) Matrix[j-1][j]=1/(h*h);
+            Matrix[j][j]=-2/(h*h);
+            if(j<N-1) Matrix[j+1][j]=1/(h*h);
         }
     }
 
+//    //вывод A
+//       for (int i=0; i<N;i++){
+//           for (int j=0; j<N; j++){
+//               std::cout<<Matrix[i][j]<<" ";
+//           }
+//           std::cout<<endl;
+//       }
+
     //нулевое заполнение y
-    y.resize(N+1);
-    for (int i=0; i<=N; i++){
+    y.resize(N);
+    for (int i=0; i<N; i++){
         y[i]=1;
     }
     y[0]=0;
-    y[N]=0;
+    y[N-1]=0;
+
+
 
     //считать значения вектора f
-    f.resize(N+1);
-    for (int i=0; i<=N; i++){
+    f.resize(N);
+    for (int i=0; i<N; i++){
         f[i]=0;
     }
 
 
-//    MatrixB.resize(N+1);
-//    for (int i=0; i<=N; i++){
-//        MatrixB[i].resize(N+1);
+//    MatrixB.resize(N);
+//    for (int i=0; i<N; i++){
+//        MatrixB[i].resize(N);
 //    }
 //    Rid.CreateB(Matrix, MatrixB);
 //    Rid.ReB(MatrixB);
 
-//    MatrixC.resize(N+1);
-//    for (int i=0; i<=N; i++){
-//        MatrixC[i].resize(N+1);
+//    MatrixC.resize(N);
+//    for (int i=0; i<N; i++){
+//        MatrixC[i].resize(N);
 //    }
 
 
     //итерация
     Plot.setKr(kr);
     Rid.ItartionR(y, Matrix, f,kr);
-//    Rid.ItartionRWithGer(y, Matrix, f,kr);
+//  Rid.ItartionRWithGer(y, Matrix, f,kr);
+
     deltak=Rid.getErrors();
 
 
     //вывод у
     cout<<endl;
-    for (int i=0; i<=N; i++){
+    for (int i=0; i<N; i++){
         cout<<y[i]<<"  ";
     }
     cout<<endl;
