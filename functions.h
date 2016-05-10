@@ -92,7 +92,7 @@ public:
             }
             std::cout<<endl;
         }
-        std::cout<<std::endl;
+        std::cout<<'\n';
 
         //работа с матрицей B
         MatrixB.resize(N);
@@ -108,7 +108,7 @@ public:
             }
             std::cout<<endl;
         }
-        std::cout<<endl;
+        std::cout<<'\n';
         ReB(MatrixB);
 
      //вывод B
@@ -124,7 +124,8 @@ public:
             for (int i=0; i<N; i++){
                 MatrixC[i].resize(N);
             }
-            
+
+            std::cout<<'\n';
             MatrixMatrix(Matrix,MatrixB, MatrixC);
             //выводC
             for (int i=0; i<N;i++){
@@ -133,6 +134,7 @@ public:
                 }
                 std::cout<<endl;
             }
+        std::cout<<'\n';
 
         //гамма 1(26) верхняя граница спектра
         gamma1=4*sin(M_PI*h/2*(b-a))*sin(M_PI*h/2*(b-a))/(h*h);
@@ -144,11 +146,15 @@ public:
         R.resize(N);
         for (int i=0; i<N;i++){
             for (int j=0; j<N; j++){
-                if (i!=j) {R[i]+=MatrixC[i][j];}
+                if (i!=j) {
+                    R[i]+=fabs(MatrixC[i][j]);
+                }
             }
         }
 
-        for (int i=0; i<=N;i++){
+        std::cout.flush();
+
+        for (int i=0; i<N;i++){
             if (gamma2<fabs(MatrixC[i][i]+R[i])) {
                     gamma2=fabs(MatrixC[i][i]+R[i]);
             }
