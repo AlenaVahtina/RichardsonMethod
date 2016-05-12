@@ -70,7 +70,7 @@ public:
         Gnuplot plot;
         plot("set terminal png size 900,800 enhanced font \"Helvetica,20\"");
         plot("set output 'outdelta.png'");
-        plot("plot 'outdelta.dat' using 3:2 with lines title 'lg(delta k(s))'");
+        plot("plot 'outdelta.dat' using 3:2 with linespoints title 'lg(delta k(s))'");
     }
 
     void AveragePlot(vector<double> &deltak){

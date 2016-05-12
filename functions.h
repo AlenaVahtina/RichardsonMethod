@@ -30,8 +30,12 @@ public:
         yb=0;
 
         //гамма 1 и гамма 2 (26) границы спектра
-        gamma1=4*sin(M_PI*h/2*(b-a))*sin(M_PI*h/2*(b-a))/(h*h);
-        gamma2=4*cos(M_PI*h/2*(b-a))*cos(M_PI*h/2*(b-a))/(h*h);
+//        gamma1=4*sin(M_PI*h/2*(b-a))*sin(M_PI*h/2*(b-a))/(h*h);
+//        gamma2=4*cos(M_PI*h/2*(b-a))*cos(M_PI*h/2*(b-a))/(h*h);
+
+        gamma1=8/(b-a)*(b-a);
+        gamma2=4/(h*h);
+
         //посчитать p0
         p0=(1-gamma1/gamma2)/(1+gamma1/gamma2);
 

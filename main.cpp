@@ -26,7 +26,7 @@ int main()
     Plot.setKr(kr);
 
     //число ячеек
-    N=10;
+    N=100;
     cout<<"The number of cells \n"<<N<<'\n';
 
     //настройки а и b по умолчанию
@@ -37,7 +37,7 @@ int main()
     h=(b-a)/N;
 
     //число итераций
-    s=16;
+    s=128;
     cout<<"Enter the number of iterations\n"<<s<<'\n';
     Rid.setS(s);
 
@@ -94,8 +94,8 @@ int main()
 
     //итерация
     Plot.setKr(kr);
-//    Rid.ItartionR(y, Matrix, f,kr);
-    Rid.ItartionRWithGer(y, Matrix, f,kr);
+     Rid.ItartionR(y, Matrix, f,kr);
+//   Rid.ItartionRWithGer(y, Matrix, f,kr);
 
     deltak=Rid.getErrors();
 
