@@ -7,8 +7,13 @@
 #include <vector>
 #include <fstream>
 #include "plots.h"
+#include "richardsonslau.h"
 
 using namespace std;
+
+#ifndef M_PI
+    const double M_PI=3,1415926535897932384626;
+#endif
 
 class Richardson
 {
@@ -22,6 +27,7 @@ public:
     //функция расчета итогового значения
     void ItartionR (vector<double> &y, vector<vector<double> > &Matrix,vector<double> f,int kr){
 
+        RichardsonSLAU SLAU;
         vector<double> oldy=y;
         //граничные условия, колличество ячеек и шаг
         N=y.size();
@@ -47,7 +53,7 @@ public:
         for (int i=0; i<s; i++){
             tao[i]=tao0/(1+p0*lambda[i]);
         }
-        MinesMatrex(Matrix);
+        SLAU.MinesMatrex(Matrix);
         f[1]=ya/(h*h);
         f[N-1]=yb/(h*h);
         s=tao.size();
@@ -55,7 +61,7 @@ public:
         deltak.resize(s);
         MultVector.resize(N);
         for (int i=0; i<s; i++){
-            MultMatrixVector(y, Matrix);
+            SLAU.MultMatrixVector(y, Matrix, MultVector);
             for (int j=1; j<N; j++){
 //                std::cout<<"nomer "<<i<<std::endl;
 //                std::cout<<tao[i]<<std::endl;
@@ -78,6 +84,7 @@ public:
 
     void ItartionRWithGer (vector<double> &y, vector<vector<double> > &Matrix,vector<double> f,int kr){
 
+        RichardsonSLAU SLAU;
         vector<double> oldy=y;
         vector<vector<double> >MatrixB;
         vector<vector<double> >MatrixC;
@@ -88,7 +95,7 @@ public:
         yb=0;
 
         //-A
-        MinesMatrex(Matrix);
+        SLAU.MinesMatrex(Matrix);
         std::cout<<"mitrix\n";
         for (int i=0; i<N;i++){
             for (int j=0; j<N; j++){
@@ -104,7 +111,7 @@ public:
              MatrixB[i].resize(N);
         }
 
-        CreateB(Matrix, MatrixB);
+        SLAU.CreateB(Matrix, MatrixB);
         //вывод B
         for (int i=0; i<N;i++){
             for (int j=0; j<N; j++){
@@ -113,7 +120,7 @@ public:
             std::cout<<endl;
         }
         std::cout<<'\n';
-        ReB(MatrixB);
+        SLAU.ReB(MatrixB);
 
      //вывод B
         for (int i=0; i<N;i++){
@@ -130,7 +137,7 @@ public:
             }
 
             std::cout<<'\n';
-            MatrixMatrix(Matrix,MatrixB, MatrixC);
+            SLAU.MatrixMatrix(Matrix,MatrixB, MatrixC);
             //выводC
             for (int i=0; i<N;i++){
                 for (int j=0; j<N; j++){
@@ -185,7 +192,7 @@ public:
         deltak.resize(s);
         MultVector.resize(N);
         for (int i=0; i<s; i++){
-            MultMatrixVector(y, Matrix);
+            SLAU.MultMatrixVector(y, Matrix, MultVector);
             for (int j=0; j<N; j++){
 //                std::cout<<"nomer "<<i<<std::endl;
 //                std::cout<<tao[i]<<std::endl;
@@ -206,70 +213,6 @@ public:
     }
 
 
-
-    //создание матрицы B
-    void CreateB(vector<vector<double> > &Matrix, vector<vector<double> > &MatrixB) {
-        double max;
-        for (int i=0; i<MatrixB.size();i++){
-            max=Matrix[i][0];
-            for (int j=0; j<Matrix.size(); j++){
-                if (Matrix[i][j]!=0) {
-                    if (Matrix[i][j]>max){max=Matrix[i][j];}
-                }
-            }
-            if (Matrix[i].empty()) {std::cout<<"Error. In your matrix you have line with all 0 "<<endl;}
-            for (int j=0; j<MatrixB.size(); j++){
-                if ((i==j) and (Matrix[i][j]!=0) and (!Matrix[i].empty())) {
-                    MatrixB[i][j]=Matrix[i][j];
-                }
-                if ((i==j) and (Matrix[i][j]==0) and (!Matrix[i].empty())) {
-                    MatrixB[i][j]=max;
-                }
-            }
-        }
-    }
-
-
-    //преобразование матрицы B^(-1/2)
-    void ReB(vector<vector<double> >&MatrixB){
-        for (int i=0; i<MatrixB.size();i++){
-            for (int j=0; j<MatrixB.size(); j++){
-                if (i==j) {MatrixB[i][j]=pow(MatrixB[i][j],-0.5);}
-                }
-            }
-    }
-
-
-    //функция умножения матриц
-    void MatrixMatrix (vector<vector<double> > &Matrix, vector<vector<double> > & MatrixB, vector<vector<double> > &MatrixC) {
-        int N=Matrix.size();
-        vector<vector<double> > MatrixAB;
-        MatrixAB.resize(N);
-        for (int i=0; i<N; i++){
-             MatrixAB[i].resize(N);
-        }
-
-        for (int i=0; i<N;i++){
-            for (int j=0; j<N; j++){
-                MatrixAB[i][j]=0;
-                for (int l=0; l<N; l++){
-               MatrixAB[i][j]+=MatrixB[i][l]*Matrix[l][j];
-                }
-            }
-         }
-
-        for (int i=0; i<N;i++){
-            for (int j=0; j<N; j++){
-                MatrixC[i][j]=0;
-                for (int l=0; l<N; l++){
-               MatrixC[i][j]+=MatrixAB[i][l]*MatrixB[l][j];
-                }
-            }
-         }
-
-    }
-
-
 private:
     double a,b,ya,yb,h;
     int N; //чтение колличества ячеек
@@ -284,15 +227,6 @@ private:
     vector<double> deltak;
 
     double gamma1, gamma2, p0, tao0;
-
-
-    void MinesMatrex(vector<vector<double> > &Matrix){
-        for (int i=0; i<N; i++){
-            for (int j=0; j<N; j++){
-                Matrix[i][j]*=-1;
-            }
-        }
-    }
 
 
     //функция сортировки
@@ -318,17 +252,6 @@ private:
         lambda.resize(s);
         for (int i=0; i<s; i++){
             lambda[i]=-cos(M_PI*index[i]/(2*s));
-        }
-    }
-
-
-    //функция умножения матрицы A' на у
-    void MultMatrixVector(vector<double> &y, vector<vector<double> > &Matrix){
-        for (int i=0; i<y.size(); i++){
-            MultVector[i]=0;
-            for (int j=0; j<y.size(); j++){
-                MultVector[i]+=Matrix[i][j]*y[j];
-            }
         }
     }
 

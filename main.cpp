@@ -6,6 +6,7 @@ using namespace std;
 
 int main()
 {
+    //удаление файлов данных и графиков предыдущей работы программы
     system("rm *.png *.dat");
     Richardson Rid;
     Plots Plot;
@@ -92,8 +93,8 @@ int main()
 //    }
 
 
-    //итерация
-    Plot.setKr(kr);
+     //итерация
+     Plot.setKr(kr);
      Rid.ItartionR(y, Matrix, f,kr);
 //   Rid.ItartionRWithGer(y, Matrix, f,kr);
 
