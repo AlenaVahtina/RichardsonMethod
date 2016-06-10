@@ -99,5 +99,58 @@ public:
         plot("plot 'AveragePlot.dat' using 3:2 with linespoints title 'Average log (delta k(s))'");
     }
 
+    void AveragePlotDoble(vector<double> &deltak,std::string plotname,std::string filename){
+        ofstream f;
+        f.open(filename);
+        if (!f.is_open())
+          {
+            cout << "Error opening file output.dat.\n";
+            exit(EXIT_FAILURE);
+          }
+        f<<deltak[0]<<"   "<<log10(deltak[0])<<"  "<<0<<endl;
+        double predk=deltak[0];
+        for (int i=4; i<deltak.size()-1; i++){
+            if ((deltak[i]<predk) && (i%4==0)) {
+                f<<deltak[i]<<"   "<<log10(deltak[i])<<"  "<<i<<endl;
+                predk=deltak[i];
+            }
+        }
+        f.close();
+        Gnuplot plot;
+        plot("set terminal png size 900,800 enhanced font \"Helvetica,20\"");
+        plot("set output '"+plotname+"'");
+        plot("set xtics 4");
+        plot("set grid xtics mxtics ytics");
+        plot("set format x '' ");
+        plot("plot '"+filename+"' using 3:2 with linespoints title 'Average log (delta k(s))'");
+    }
+
+    void AveragePlotDoble2(vector<double> &deltak, vector<double> &deltak2, std::string plotname,std::string filename){
+        ofstream f;
+        f.open(filename);
+        if (!f.is_open())
+          {
+            cout << "Error opening file output.dat.\n";
+            exit(EXIT_FAILURE);
+          }
+        f<<deltak[0]<<"   "<<log10(deltak[0])<<"   "<<deltak2[0]<<"  "<<log10(deltak2[0])<<"   "<<0<<endl;
+        double predk=deltak[0];
+        for (int i=4; i<deltak.size()-1; i++){
+            if ((deltak[i]<predk) && (deltak2[i]<predk) && (i%4==0)) {
+                f<<deltak[i]<<"   "<<log10(deltak[i])<<"   "<<deltak2[i]<<"  "<<log10(deltak2[i])<<"   "<<i<<endl;
+                predk=deltak[i];
+            }
+        }
+        f.close();
+        Gnuplot plot;
+        plot("set terminal png size 900,800 enhanced font \"Helvetica,20\"");
+        plot("set output '"+plotname+"'");
+        plot("set xtics 4");
+        plot("set grid xtics mxtics ytics");
+        plot("set format x '' ");
+        plot("plot \""+filename+"\" using 5:2 with linespoints ,\\");
+        plot("  \""+filename+"\" using 5:4 with linespoints");
+    }
+
 };
 #endif // PLOTS_H

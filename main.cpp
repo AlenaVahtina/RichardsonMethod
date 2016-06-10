@@ -38,7 +38,7 @@ int main()
     h=(b-a)/N;
 
     //число итераций
-    s=128;
+    s=16;
     cout<<"Enter the number of iterations\n"<<s<<'\n';
     Rid.setS(s);
 
@@ -95,8 +95,8 @@ int main()
 
      //итерация
      Plot.setKr(kr);
-     Rid.ItartionR(y, Matrix, f,kr);
-//   Rid.ItartionRWithGer(y, Matrix, f,kr);
+ //     Rid.ItartionR(y, Matrix,f,kr);
+    Rid.ItartionRFin(y, Matrix,f,kr);
 
     deltak=Rid.getErrors();
 
@@ -108,14 +108,14 @@ int main()
     }
     cout<<endl;
 
-    for (int i=0; i<=s; i++){
-        cout<<deltak[i]<<"  ";
-    }
-    cout<<endl;
+//    for (int i=0; i<=s; i++){
+//        cout<<deltak[i]<<"  ";
+//    }
+//    cout<<endl;
 
     Plot.YPlot(y);
-    Plot.PlotWithE(deltak);
-    Plot.AveragePlot(deltak);
+    //Plot.PlotWithE(deltak);
+   // Plot.AveragePlot(deltak);
     return 0;
 }
 
