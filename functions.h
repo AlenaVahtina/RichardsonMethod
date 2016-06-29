@@ -249,7 +249,117 @@ bool ko =false;
        y=y1;
     }
 
-    void ItartionRWithGer (vector<double> &y, vector<vector<double> > &Matrix,vector<double> f,int kr){
+    void ItartionRWithGer1 (vector<double> &y, vector<vector<double> > &Matrix,vector<double> f,int kr){
+
+           RichardsonSLAU SLAU;
+           vector <vector <double> > MatrixB;
+           vector <vector <double> > MatrixC;
+           vector <double> oldy=y;
+           //граничные условия, колличество ячеек и шаг
+           N=y.size();
+           h=(b-a)/N;
+           ya=1;
+           yb=0;
+
+           SLAU.MinesMatrex(Matrix);
+
+           //заполнение матрицы B, в данном случае она единичная
+            MatrixB.resize(N);
+            for (int i=0; i<N; i++){
+                MatrixB[i].resize(N);
+            }
+            for (int i=0; i<N; i++){
+                for (int j=0; j<N; j++){
+                    MatrixB[j][j]=1;
+                }
+            }
+
+
+            //заполнение матрицы С
+                MatrixC.resize(N);
+                for (int i=0; i<N; i++){
+                    MatrixC[i].resize(N);
+                }
+             SLAU.MatrixMatrix(Matrix, MatrixB, MatrixC);
+
+             for (int i=0; i<N; i++){
+                 for (int j=0; j<N; j++){
+                     cout<<MatrixC[j][j]<<" ";
+                 }
+                 cout<<'\n';
+             }
+             cout<<'\n';
+
+                //расчет нижней границы(гамма2) с помощью кругов Герщгорина
+                 vector<double> R;
+                 R.resize(N);
+                 for (int i=0; i<N;i++){
+                     for (int j=0; j<N; j++){
+                         if (i!=j) {
+                             R[i]+=fabs(MatrixC[i][j]);
+                         }
+                     }
+                 }
+                 std::cout.flush();
+
+                 gamma2=0;
+                 for (int i=0; i<N;i++){
+                     if (gamma2<fabs(MatrixC[i][i]+R[i])) {
+                             gamma2=fabs(MatrixC[i][i]+R[i]);
+                     }
+                }
+
+           gamma1=gamma2/10;
+
+           cout<<"gamma1 = "<<gamma1<<"  gamma2 = "<<gamma2<<"\n";
+
+           //посчитать p0
+           p0=(1-gamma1/gamma2)/(1+gamma1/gamma2);
+
+           flambda(index, lambda);
+
+           //заполнить масив тао
+           tao0=2/(gamma1+gamma2);
+           tao.resize(s);
+           for (int i=0; i<s; i++){
+               tao[i]=tao0/(1+p0*lambda[i]);
+           }
+
+
+           for (int i=0; i<s; i++){
+               cout<<tao[i]<<"  ";
+           }
+           cout<<endl;
+
+           f[0]=ya/(h*h);
+           f[N-1]=yb/(h*h);
+           s=tao.size();
+           Plots plot;
+           deltak.resize(s);
+           MultVector.resize(N);
+           for (int i=0; i<s; i++){
+               SLAU.MultMatrixVector(y, Matrix, MultVector);
+               for (int j=0; j<N; j++){
+   //                std::cout<<"nomer "<<i<<std::endl;
+   //                std::cout<<tao[i]<<std::endl;
+   //                std::cout<<f[j]<<std::endl;
+   //                std::cout<<MultVector[j]/(h*h)<<std::endl;
+                   y[j]+=tao[i]*(f[j]-MultVector[j]);
+   //                std::cout<<y[j]<<"  ";
+               }
+   //            cout<<endl;
+               //Yplot(y,"output"+atoi(i)+".png")
+               if(i%kr==0)//условие сюда ,а там цикл убрать
+               plot.IteratPlot(y,std::string("output")+std::to_string(i)+".png",std::string("output")+std::to_string(i)+".dat");
+               deltak[i]=IterError(y,oldy);
+           }
+
+           y[0]=ya;
+           y[N-1]=yb;
+       }
+
+
+    void ItartionRWithGer2 (vector<double> &y, vector<vector<double> > &Matrix,vector<double> f,int kr){
 
         RichardsonSLAU SLAU;
         Plots plot;

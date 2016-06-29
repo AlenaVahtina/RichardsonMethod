@@ -38,7 +38,7 @@ int main()
     h=(b-a)/N;
 
     //число итераций
-    s=16;
+    s=128;
     cout<<"Enter the number of iterations\n"<<s<<'\n';
     Rid.setS(s);
 
@@ -55,14 +55,6 @@ int main()
         }
     }
 
-//    //вывод A
-//       for (int i=0; i<N;i++){
-//           for (int j=0; j<N; j++){
-//               std::cout<<Matrix[i][j]<<" ";
-//           }
-//           std::cout<<endl;
-//       }
-
     //нулевое заполнение y
     y.resize(N);
     for (int i=0; i<N; i++){
@@ -72,31 +64,17 @@ int main()
     y[N-1]=0;
 
 
-
     //считать значения вектора f
     f.resize(N);
     for (int i=0; i<N; i++){
         f[i]=0;
     }
 
-
-//    MatrixB.resize(N);
-//    for (int i=0; i<N; i++){
-//        MatrixB[i].resize(N);
-//    }
-//    Rid.CreateB(Matrix, MatrixB);
-//    Rid.ReB(MatrixB);
-
-//    MatrixC.resize(N);
-//    for (int i=0; i<N; i++){
-//        MatrixC[i].resize(N);
-//    }
-
-
      //итерация
      Plot.setKr(kr);
- //     Rid.ItartionR(y, Matrix,f,kr);
-    Rid.ItartionRFin(y, Matrix,f,kr);
+ //   Rid.ItartionR(y, Matrix,f,kr);
+//    Rid.ItartionRFin(y, Matrix,f,kr);
+    Rid.ItartionRWithGer1(y,Matrix,f,kr);
 
     deltak=Rid.getErrors();
 
