@@ -19,15 +19,13 @@ int main()
     vector<double> y;//искомое расспределение темпиратур, вектор неизвестных
     vector<double> deltak;// вектор ошибок
     vector<vector<double>> Matrix;
-//    vector<vector<double> >MatrixB;
-//    vector<vector<double> >MatrixC;
 
     //какие графики итерации нужно выводить, kr=0-ни одного, kr=1-(s-1)-графики кратные kr, kr=s -только последнюю итерацию
     int kr=4;
     Plot.setKr(kr);
 
     //число ячеек
-    N=100;
+    N=10;
     cout<<"The number of cells \n"<<N<<'\n';
 
     //настройки а и b по умолчанию
@@ -38,7 +36,7 @@ int main()
     h=(b-a)/N;
 
     //число итераций
-    s=128;
+    s=16;
     cout<<"Enter the number of iterations\n"<<s<<'\n';
     Rid.setS(s);
 
@@ -72,9 +70,9 @@ int main()
 
      //итерация
      Plot.setKr(kr);
- //   Rid.ItartionR(y, Matrix,f,kr);
-//    Rid.ItartionRFin(y, Matrix,f,kr);
-    Rid.ItartionRWithGer1(y,Matrix,f,kr);
+//    Rid.ItartionR(y, Matrix,f,kr);
+    Rid.ItartionRFin(y, Matrix,f,kr);
+//    Rid.ItartionRWithGer1(y,Matrix,f,kr);
 
     deltak=Rid.getErrors();
 

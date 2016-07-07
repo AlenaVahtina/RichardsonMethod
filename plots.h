@@ -16,6 +16,8 @@ public:
     Plots();
     int kr;
     void setKr(int _kr){kr=_kr;}
+
+    //посторение графика для у (1 раз)
     void YPlot(vector<double> &y){
         ofstream f;
         f.open("output.dat");
@@ -35,6 +37,7 @@ public:
         plot("plot 'output.dat' using 2:1 with lines title 'y(i)'");
     }
 
+    //постороение приведенного графика
     void IteratPlot(vector<double> &y,std::string plotname,std::string filename){
         ofstream f;
             f.open(filename);
@@ -54,6 +57,7 @@ public:
             plot("plot '"+filename+"' using 2:1 with lines title 'y(i)'");
     }
 
+    //построение графика ошибки
     void PlotWithE(vector<double> &deltak){
         ofstream f;
         f.open("outdelta.dat");
@@ -73,6 +77,7 @@ public:
         plot("plot 'outdelta.dat' using 3:2 with linespoints title 'lg(delta k(s))'");
     }
 
+    //построение приведенного графика ошибки
     void AveragePlot(vector<double> &deltak){
         ofstream f;
         f.open("AveragePlot.dat");
@@ -99,6 +104,7 @@ public:
         plot("plot 'AveragePlot.dat' using 3:2 with linespoints title 'Average log (delta k(s))'");
     }
 
+    //построние приведнных гафиков для конкурирующих процессов (1 ветвь)
     void AveragePlotDoble(vector<double> &deltak,std::string plotname,std::string filename){
         ofstream f;
         f.open(filename);
@@ -125,6 +131,7 @@ public:
         plot("plot '"+filename+"' using 3:2 with linespoints title 'Average log (delta k(s))'");
     }
 
+    //построние приведнных гафиков для конкурирующих процессов (2 ветвь)
     void AveragePlotDoble2(vector<double> &deltak, vector<double> &deltak2, std::string plotname,std::string filename){
         ofstream f;
         f.open(filename);

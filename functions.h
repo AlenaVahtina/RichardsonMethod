@@ -26,7 +26,9 @@ public:
     void setS(double _s){s=_s;}
     vector<double> getErrors(){return deltak;}
     vector<double> VectorB;
-    //функция расчета итогового значения
+
+
+    //итерация для y без конкурирующих процессов, когда В единичная матрица
     void ItartionR (vector<double> &y, vector<vector<double> > &Matrix,vector<double> f,int kr){
 
         RichardsonSLAU SLAU;
@@ -83,16 +85,17 @@ public:
         y[N-1]=yb;
     }
 
-    void ItartionR2 (vector<double> &y, vector<vector<double> > Matrix,vector<double> f,int kr, vector<double> &deltak,int s,double gamma1,double gamma2,int N,double h,int ya,int yb){
+
+    void ItartionR2 (vector<double> &y, vector<vector<double> > Matrix,vector<double> f,int kr, vector<double> &deltak,int s,double gamma1,double gamma2,int N,double h,int ya,int yb, vector<vector<double> > MatrixB){
 
         RichardsonSLAU SLAU;
         vector<double> oldy=y;
-        //граничные условия, колличество ячеек и шаг
 
+        //заполнить масив тао
         double p0=(1-gamma1/gamma2)/(1+gamma1/gamma2);
 
         flambda(index, lambda);
-        //заполнить масив тао
+
         double tao0=2/(gamma1+gamma2);
         vector<double> tao;
         tao.resize(s);
@@ -103,18 +106,19 @@ public:
         SLAU.MinesMatrex(Matrix);
         f[0]=ya/(h*h);
         f[N-1]=yb/(h*h);
-        s=tao.size();
-        Plots plot;
+
         deltak.resize(s);
+
         vector<double> MultVector;
         MultVector.resize(N);
+
         for (int i=0; i<s; i++){
             SLAU.MultMatrixVector(y, Matrix, MultVector);
             for (int j=0; j<N; j++){
-                y[j]+=tao[i]*(f[j]-MultVector[j]);
+                y[j]+=(tao[i]/2000)*(f[j]-MultVector[j]);
+                cout<<y[j]<<"  ";
             }
-//            if(i%kr==0)//условие сюда ,а там цикл
-//                plot.IteratPlot(y,std::string("output")+std::to_string(i)+".png",std::string("output")+std::to_string(i)+".dat");
+             cout<"\n";
             deltak[i]=IterError(y,oldy);
         }
 
@@ -122,20 +126,15 @@ public:
         y[N-1]=yb;
     }
 
-    void gammacalculation(double& gamma11,double &gamma12, double & gamma2,vector<vector<double> > &Matrix){
+
+    //расчет гамма 1*, 1** и 2 для конкурирующих процессов
+    void gammacalculation(double& gamma11,double &gamma12, double & gamma2,vector<vector<double> > &Matrix, vector<vector<double> > &MatrixB){
 
         RichardsonSLAU SLAU;
-vector<vector<double> >MatrixB;
-vector<vector<double> >MatrixC;
+//vector<vector<double> >MatrixB;
+        vector<vector<double> >MatrixC;
 
         SLAU.MinesMatrex(Matrix);
-
-        //работа с матрицей B
-        MatrixB.resize(N);
-        for (int i=0; i<N; i++){
-             MatrixB[i].resize(N);
-        }
-
         SLAU.CreateB(Matrix, MatrixB);
         SLAU.ReB(MatrixB);
 
@@ -180,42 +179,38 @@ cout<<gamma2<<"   ";
         cout<<gamma12<<"  гамма1**  ";
     }
 
+
     void ItartionRFin(vector<double> &y, vector<vector<double> > &Matrix,vector<double> f,int kr){
         N=y.size();
         h=(b-a)/N;
         ya=1;
         yb=0;
-        gamma1=8/(b-a)*(b-a);
-        gamma2=4/(h*h);
-        std::string plname="";
 
-        gamma11=gamma1;
-        gamma12=gamma1;
-        std::cout<<"gamma1 "<<gamma1<<"\n";
-        std::cout<<"gamma2 "<<gamma2<<"\n";
+        vector<vector<double> >MatrixB;
 
-        //gammacalculation(gamma11,gamma12,gamma2,Matrix);
-        std::cout<<"gamma11 "<<gamma11<<"\n";
-        std::cout<<"gamma12 "<<gamma12<<"\n";
-        std::cout<<"gamma2 "<<gamma2<<"\n";
-        gamma2=40000;
-        gamma11=4000;
-        gamma12=800;
-//        gamma2=gamma2*10000;
+       MatrixB.resize(N);
+            for (int i=0; i<N; i++){
+                 MatrixB[i].resize(N);
+            }
+
+        std::string plname="";\
+
+        double gamma11;
+        double gamma12;
+        double gamma2;
+        gammacalculation(gamma11, gamma12, gamma2, Matrix, MatrixB);
+
+
         vector<double> y1=y;
         vector<double> y2=y;
 
-bool ko =false;
+        bool ko =false;
         while (true){
-           ItartionR2(y1,Matrix,f,kr,deltak1,s,gamma11,gamma2,N,h,ya,yb);
-           ItartionR2(y2,Matrix,f,kr,deltak2,s,gamma12,gamma2,N,h,ya,yb);
+           ItartionR2(y1,Matrix,f,kr,deltak1,s,gamma11,gamma2,N,h,ya,yb,MatrixB);
+           ItartionR2(y2,Matrix,f,kr,deltak2,s,gamma12,gamma2,N,h,ya,yb,MatrixB);
 
            int istop=s-1;
            if (ko)break;
-//           std::cout<<"\n";
-//           for (int i=0;i<s;i++){
-//               std::cout << deltak1[i]<<" "<<deltak2[i]<<"\n";
-//           }
 
            if (deltak1[istop]<deltak2[istop])
                {
@@ -249,6 +244,8 @@ bool ko =false;
        y=y1;
     }
 
+
+    //итерация для y без конкурирующих процессов, когда В не единичная матрица
     void ItartionRWithGer1 (vector<double> &y, vector<vector<double> > &Matrix,vector<double> f,int kr){
 
            RichardsonSLAU SLAU;

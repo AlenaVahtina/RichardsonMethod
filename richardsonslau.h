@@ -107,7 +107,9 @@ public:
             MultVector[i]=0;
             for (int j=0; j<y.size(); j++){
                 MultVector[i]+=Matrix[i][j]*y[j];
+//                cout<<" Matrix="<<Matrix[i][j]<<"  y="<<y[j]<<"  MultVector="<<MultVector[i]<<"  i="<<i<<"  j="<<j<<'\n';
             }
+//            cout<<'\n';
         }
     }
 
