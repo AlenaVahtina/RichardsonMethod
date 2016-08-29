@@ -30,10 +30,7 @@ public:
     vector<double> VectorB; //посмотреть что это за хрень
 
     //функция расчета итогового значения вектора у для еденичной матрицы и без конкурирующих процессов
-    void computeResultVector (vector<double> &y, vector<vector<double> > &Matrix,vector<double> f,int fold){
-
-        RichardsonSLAU *SLAU=new normalmatrix(Matrix);
-
+    void computeResultVector (vector<double> &y, RichardsonSLAU *SLAU,vector<double> f,int fold){
 
         vector<double> oldy=y;
         //граничные условия, колличество ячеек и шаг
@@ -70,7 +67,7 @@ public:
         deltak.resize(iterationNomber);
         MultVector.resize(nAmountPoints);
         for (int i=0; i<iterationNomber; i++){
-            SLAU->MultMatrixVector();
+            MultVector=SLAU->MultMatrixVector(y);
             for (int j=0; j<nAmountPoints; j++){
                 y[j]+=tao[i]*(f[j]-MultVector[j]);
             }
@@ -109,7 +106,7 @@ public:
         vector<double> MultVector;
         MultVector.resize(nAmountPoints);
         for (int i=0; i<iterationNomber; i++){
-            SLAU->MultMatrixVector();
+            SLAU->MultMatrixVector(y);
             for (int j=0; j<nAmountPoints; j++){
                 y[j]+=tao[i]*(f[j]-MultVector[j]);
             }
@@ -144,7 +141,7 @@ public:
                 MatrixC[i].resize(nAmountPoints);
             }
 
-        SLAU->MatrixMatrix();
+        //SLAU->MatrixMatrix();
 
        //расчет нижней границы(гамма2) с помощью кругов Герщгорина
         vector<double> R;
@@ -278,7 +275,7 @@ bool ko =false;
                 for (int i=0; i<nAmountPoints; i++){
                     MatrixC[i].resize(nAmountPoints);
                 }
-             SLAU->MatrixMatrix();
+             //SLAU->MatrixMatrix();
 
              for (int i=0; i<nAmountPoints; i++){
                  for (int j=0; j<nAmountPoints; j++){
@@ -336,7 +333,7 @@ bool ko =false;
            deltak.resize(iterationNomber);
            MultVector.resize(nAmountPoints);
            for (int i=0; i<iterationNomber; i++){
-               SLAU->MultMatrixVector();
+               SLAU->MultMatrixVector(y);
                for (int j=0; j<nAmountPoints; j++){
    //                std::cout<<"nomer "<<i<<std::endl;
    //                std::cout<<tao[i]<<std::endl;
@@ -384,7 +381,7 @@ bool ko =false;
              for (int i=0; i<nAmountPoints; i++){
                  MatrixC[i].resize(nAmountPoints);
              }
-          SLAU->MatrixMatrix();
+          //SLAU->MatrixMatrix();
 
           for (int i=0; i<nAmountPoints; i++){
               for (int j=0; j<nAmountPoints; j++){
@@ -459,7 +456,7 @@ bool ko =false;
         deltak.resize(iterationNomber);
         MultVector.resize(nAmountPoints);
         for (int i=0; i<iterationNomber; i++){
-            SLAU->MultMatrixVector();
+            SLAU->MultMatrixVector(y);
             for (int j=0; j<nAmountPoints; j++){
 //                std::cout<<"nomer "<<i<<std::endl;
 //                std::cout<<tao[i]<<std::endl;

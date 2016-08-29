@@ -33,10 +33,12 @@ public:
 
 
     //создание матрицы B из A
-    RichardsonSLAU CreateB() {
+    RichardsonSLAU *CreateB() {
         double max;
         vector <vector <double> > MatrixB;
+        MatrixB.resize(Matrix.size());
         for (int i=0; i<MatrixB.size();i++){
+            MatrixB[i].resize(Matrix.size());
             max=Matrix[i][0];
             for (int j=0; j<Matrix.size(); j++){
                 if (Matrix[i][j]!=0) {
@@ -54,72 +56,76 @@ public:
             }
         }
 
-        return normalmatrix (MatrixB);
+        return  new normalmatrix (MatrixB);
     }
 
 
     //преобразование матрицы^(-1/2)
-    void ReB(){
+    RichardsonSLAU * ReB(){
         for (int i=0; i<Matrix.size();i++){
             for (int j=0; j<Matrix.size(); j++){
                 if (i==j) {Matrix[i][j]=pow(Matrix[i][j],-0.5);}
                 }
             }
+        return this;
     }
 
 
     //функция умножения матриц
-    void MatrixMatrix (vector<vector<double> > &Matrix, vector<vector<double> > & MatrixB, vector<vector<double> > &MatrixC){
+    RichardsonSLAU *MatrixMatrix (RichardsonSLAU * secondM)
+    {
         int nAmountPoints=Matrix.size();
+        vector <vector <double> > resultMatrix;
+        resultMatrix.resize(Matrix.size());
+        normalmatrix* second=static_cast<normalmatrix*>(secondM);
         for (int i=0; i<nAmountPoints;i++){
+            resultMatrix[i].resize(Matrix.size());
             for (int j=0; j<nAmountPoints; j++){
-                MatrixC[i][j]=0;
+                resultMatrix[i][j]=0;
                 for (int l=0; l<nAmountPoints; l++){
-               MatrixC[i][j]+=MatrixB[i][l]*Matrix[l][j];
+                resultMatrix[i][j]+=second->Matrix[i][l] * this->Matrix[l][j];
                 }
             }
          }
+        return new normalmatrix(resultMatrix);
     }
 
 
-    //функция создание матрицы С
-    void CreatC (vector<vector<double> > &Matrix, vector<vector<double> > & MatrixB, vector<vector<double> > &MatrixC) {
-        int nAmountPoints=Matrix.size();
-        vector<vector<double> > MatrixAB;
-        MatrixAB.resize(nAmountPoints);
-        for (int i=0; i<nAmountPoints; i++){
-             MatrixAB[i].resize(nAmountPoints);
-        }
-
-        MatrixMatrix(MatrixB, Matrix, MatrixAB);
-        MatrixMatrix(MatrixAB, MatrixB, MatrixC);
-
+    //функция создания матрицы С=B^(-1/2)*A*B^(-1/2)
+    RichardsonSLAU *CreateC(){
+        RichardsonSLAU *MatrixB=this->CreateB()->ReB();
+        RichardsonSLAU *MatrixC=this->CreateB()->ReB();
+        MatrixC->MatrixMatrix(static_cast<RichardsonSLAU*>(this))->MatrixMatrix(MatrixB);
+        return MatrixC;
     }
-
 
     //функция обращения матрицы(-A)
-    void MinesMatrex(){
+    RichardsonSLAU * MinesMatrex(){
         for (int i=0; i<Matrix.size(); i++){
             for (int j=0; j<Matrix.size(); j++){
                 Matrix[i][j]*=-1;
             }
         }
+        return this;
     }
 
 
     //функция умножения матрицы на вектор
-    void MultMatrixVector(vector<double> &y, vector<vector<double> > &Matrix, vector <double> &MultVector){
+    vector <double> MultMatrixVector( vector <double> y){
+        vector <double> MultVector;
+        MultVector.resize(y.size());
         for (int i=0; i<y.size(); i++){
             MultVector[i]=0;
             for (int j=0; j<y.size(); j++){
                 MultVector[i]+=Matrix[i][j]*y[j];
             }
         }
+        return MultVector;
     }
 
 
     //функция вывода матрицы
-    void WriteMatrix (vector<vector<double> > &Matrix){
+    void WriteMatrix (){
         for (int i=0; i<Matrix.size(); i++){
             for (int j=0; j<Matrix.size(); j++){
                 cout<<Matrix[i][j]<<"  ";

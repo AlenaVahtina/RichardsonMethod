@@ -24,7 +24,7 @@ public:
     }
 
     //чтение матрицы с клавиатуры в Йельском формате
-    void ReadMatrix (int length, int nomberNotNullElemet, vector <int> &pointer, vector <int> &cols, vector <double> &values){
+    void ReadMatrix (int length, int nomberNotNullElemet){
 
         pointer.resize(length);
         cout<<'\n'<<"pointer"<<'\n';
@@ -47,39 +47,40 @@ public:
 
 
     //создание матрицы B из А
-    RichardsonSLAU CreateB()
+    RichardsonSLAU *CreateB()
     {
      vector <double> valuesB;
      vector <int> colsB;
      vector <int>  pointerB;
      int point=0;
      pointerB.push_back(0);
-     for (int i=1; i<pointer.size(); i++){
+     for (int i=0; i<pointer.size()-1; i++){
         point=0;
-        for (int j=pointer[i-1]; j<pointer[i]; j++){
+        for (int j=pointer[i]; j<pointer[i+1]; j++){
             if (cols[j]==i){
                     valuesB.push_back(values[j]);
                     colsB.push_back(cols[j]);
                     point++;
             }
         }
-        if (point!=0){pointerB.push_back(pointerB[i-1]+point);}
+        if (point!=0){pointerB.push_back(pointerB[i]+point);}
      }
-     return crsmatrix (pointerB, colsB, valuesB);
+     return new crsmatrix (pointerB, colsB, valuesB);
     }
 
 
     //преобразование матрицы(-1/2)
-    void ReB()
+    RichardsonSLAU * ReB()
     {
      for (int i=0; i<values.size(); i++){
         values[i]=1/sqrt(values[i]);
      }
+     return this;
     }
 
 
     //фунция транспонирования матрицы
-    void TCRSMaatrix(vector <double> values, vector <int> cols, vector <int>  pointer,vector <double> &valuesT, vector <int> &colsT, vector <int>  &pointerT)
+    RichardsonSLAU * TCRSMaatrix()
     {
         vector <vector <int> > IntVectors;
         vector <vector <double> > RealVectors;
@@ -92,32 +93,34 @@ public:
             }
         }
 
-        pointerT.push_back(0);
+        pointer.push_back(0);
         for (int i=0; i<IntVectors.size(); i++){
             for (int j=0; j<IntVectors[i].size(); j++){
 
-                    colsT.push_back(IntVectors[i][j]);
-                    valuesT.push_back(RealVectors[i][j]);
+                    cols.push_back(IntVectors[i][j]);
+                    values.push_back(RealVectors[i][j]);
 
             }
-           pointerT.push_back(pointerT[i]+IntVectors[i].size());
+           pointer.push_back(pointer[i]+IntVectors[i].size());
         }
 
-    for (int i=0; i<pointerT.size();i++){
-            cout<<pointerT[i]<<"  ";
-      }
+        for (int i=0; i<pointer.size();i++){
+                cout<<pointer[i]<<"  ";
+          }
         cout<<'\n';
+        return this;
     }
 
 
     //функция умножение матриц
-    void MatrixMatrix (vector <double> values, vector <int> cols, vector <int>  pointer, vector <double> values2, vector <int> cols2, vector <int> pointer2, vector <double> &resultValues, vector <int> &resultCols, vector <int> &resultPointe )
+    RichardsonSLAU *MatrixMatrix (RichardsonSLAU * secondM)
     {
+        vector <double>resultValues;
+        vector <int> resultCols;
+        vector <int> resultPointe;
 
-        vector <double> valuesT;
-        vector <int> colsT;
-        vector <int> pointerT;
-        TCRSMaatrix(values2, cols2, pointer2,valuesT, colsT, pointerT);
+        crsmatrix* second=static_cast<crsmatrix*>(secondM);
+        second->TCRSMaatrix();
 
         double sum;
         int resultPointer;
@@ -127,9 +130,9 @@ public:
             for(int j=0; j<pointer.size()-1; j++){
                 sum=0;
                 for (int k=pointer[i]; k<pointer[i+1]; k++){
-                    for (int l=pointerT[j]; l<pointerT[j+1];l++){
-                        if (cols[k]==colsT[l]){
-                            sum+=values[k]*valuesT[l];
+                    for (int l=second->pointer[j]; l<second->pointer[j+1];l++){
+                        if (cols[k]==second->cols[l]){
+                            sum+=values[k]*second->values[l];
                             break;
                         }
                  }
@@ -142,35 +145,35 @@ public:
             }
             resultPointe.push_back(resultPointer+resultPointe[i]);
         }
+        return new crsmatrix(resultPointe,resultCols,resultValues);
     }
 
 
-    //функция создания матрицы С
-    void CreateC(vector <double> values, vector <int> cols, vector <int>  pointer,vector <double> valuesB, vector <int> colsB, vector <int>  pointerB, vector <double> &valuesC, vector <int> &colsC, vector <int>  &pointerC){
-        ReB();
-        vector <double> valuesGap;
-        vector <int> colsGap;
-        vector <int> pointerGap;
-        MatrixMatrix(values, cols, pointer, valuesB, colsB, pointerB, valuesGap, colsGap, pointerGap);
-        MatrixMatrix(valuesGap, colsGap, pointerGap, valuesB, colsB, pointerB, valuesC, colsC, pointerC);
+    //функция создания матрицы С=B^(-1/2)*A*B^(-1/2)
+    RichardsonSLAU *CreateC(){
+        RichardsonSLAU *MatrixB=this->CreateB()->ReB();
+        RichardsonSLAU *MatrixC=this->CreateB()->ReB();
+        MatrixC->MatrixMatrix(static_cast<RichardsonSLAU*>(this))->MatrixMatrix(MatrixB);
+        return MatrixC;
     }
 
     //функция обращения матрицы (-А)
-    void MinesMatrex(){
+    RichardsonSLAU * MinesMatrex(){
         for (int i=0; i<values.size(); i++){
            values[i]*=-1;
         }
+        return this;
     }
 
 
     //функция умножения матрицы на вектор
-    void MultMatrixVector(vector <double> vectorB)
+    vector <double> MultMatrixVector(vector <double> y)
     {
         int N=pointer.size();
         vector <double> vectorC;
         for (int i=1; i<=N; i++){
             for (int j=pointer[i-1]; j<pointer[i]; j++){
-                    vectorC[i-1]+=values[j]*vectorB[cols[j]];
+                    vectorC[i-1]+=values[j]*y[cols[j]];
             }
         }
 
@@ -179,7 +182,7 @@ public:
 
 
     //функция вывода матрицы в Йельском формате
-    void WriteMatrix ( vector <int> pointer, vector <int> cols, vector <double> values){
+    void WriteMatrix (){
 
         int length=pointer.size();
         cout<<'\n'<<"pointer"<<'\n';

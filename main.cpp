@@ -13,11 +13,20 @@ int main()
     system("rm *.png *.dat");
 
 
-    RichardsonSLAU *SLAU=new normalmatrix(vector <vector <double> >());
-    RichardsonSLAU *SLAU1=new crsmatrix(vector <int> (), vector <int> (), vector <double> ());
-    cout<<"Types"<<SLAU->getType()<<"  "<<SLAU1->getType()<<'\n';
-    RichardsonSLAU MatrixB=SLAU->CreateB();
-    MatrixB.ReB();
+    RichardsonSLAU *SLAU=new normalmatrix(vector <vector <double> >({
+                                                                    {2, 1, 0, 0, 0, 0},
+                                                                    {1, 2, 1, 0, 0, 0},
+                                                                    {0, 1, 2, 1, 0, 0},
+                                                                    {0, 0, 1, 2, 1, 0},
+                                                                    {0, 0, 0, 1, 2, 1},
+                                                                    {0, 0, 0, 0, 1, 2}
+                                                                    }));
+    RichardsonSLAU *SLAU1=new crsmatrix(vector <int> ({0,2,5,8,11,14,16}), vector <int> ({0,1,2,1,2,3,2,3,4,3,4,5,4,5}), vector <double> ({2,1,1,2,1,1,2,1,1,2,1,1,2,1,1,2}));
+    SLAU->WriteMatrix();
+//    cout<<"Types"<<SLAU->getType()<<"  "<<SLAU1->getType()<<'\n';
+    SLAU->CreateB()->WriteMatrix();
+    SLAU->CreateC()->WriteMatrix();
+
 
 
     Richardson Rid;
@@ -56,7 +65,7 @@ int main()
 
     //заполнение матрицы СЛАУ A
     Matrix.resize(nAmountPoints);
-    for (int i=0; i<=nAmountPoints; i++){
+    for (int i=0; i<nAmountPoints; i++){
         Matrix[i].resize(nAmountPoints);
     }
     for (int i=0; i<nAmountPoints; i++){
@@ -83,8 +92,9 @@ int main()
     }
 
       //вычисление у (основное решение задачи)
-//      Rid.computeResultVector(y, Matrix,f,fold);
-    Rid.ItartionRFin(y, Matrix,f,fold);
+    RichardsonSLAU *testslau=new normalmatrix(Matrix);
+      Rid.computeResultVector(y, testslau,f,fold);
+//    Rid.ItartionRFin(y, Matrix,f,fold);
 //    Rid.ItartionRWithGer2(y,Matrix,f,fold);
 
       deltak=Rid.getErrors();

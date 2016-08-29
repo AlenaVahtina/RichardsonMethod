@@ -23,26 +23,26 @@ public:
 
 
     //создание матрицы B из A
-    virtual RichardsonSLAU CreateB() { }
+    virtual RichardsonSLAU * CreateB() { }
 
 
     //преобразование матрицы B^(-1/2)
-    virtual void ReB(){ }
+    virtual RichardsonSLAU * ReB(){ }
 
 
     //функция умножения матриц (создание матрицы С)
-    virtual void MatrixMatrix () { }
+    virtual RichardsonSLAU * MatrixMatrix (RichardsonSLAU * secondM) { }
 
 
     //функция обращения матрицы(-A)
-    virtual void MinesMatrex(){ }
+    virtual RichardsonSLAU * MinesMatrex(){ }
 
     //создание матрицы С
-    virtual void CreateC() { }
+    virtual RichardsonSLAU * CreateC() { }
 
 
     //функция умножения матрицы на вектор
-    virtual void MultMatrixVector(){ }
+    virtual vector <double> MultMatrixVector(vector <double> y){ }
 
 
     //функция вывода матрицы
