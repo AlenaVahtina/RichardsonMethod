@@ -8,119 +8,86 @@
 #include <fstream>
 
 using namespace std;
-
-
 class RichardsonSLAU
 {
 public:
     RichardsonSLAU();
+    enum TYPE{NO_TYPE, NORMALMATRIX, CRSMATRIX};
+    virtual int getType(){
+        return NO_TYPE;
+    }
 
 
     //чтение матрицы с клавиатуры
-    void ReadMatrix(int N){
-        vector <vector <double> > Matrix;
-        Matrix.resize(N);
-        for (int i=0;i<N; i++){
-            for (int j=0;j<N; j++){
-                cin>>Matrix[i][j];
-            }
-        }
-    }
+    virtual void ReadMatrix(){ }
 
 
     //создание матрицы B из A
-    void CreateB(vector<vector<double> > &Matrix, vector<vector<double> > &MatrixB) {
-        double max;
-        for (int i=0; i<MatrixB.size();i++){
-            max=Matrix[i][0];
-            for (int j=0; j<Matrix.size(); j++){
-                if (Matrix[i][j]!=0) {
-                    if (Matrix[i][j]>max){max=Matrix[i][j];}
-                }
-            }
-            if (Matrix[i].empty()) {std::cout<<"Error. In your matrix you have line with all 0 "<<endl;}
-            for (int j=0; j<MatrixB.size(); j++){
-                if ((i==j) && (Matrix[i][j]!=0) && (!Matrix[i].empty())) {
-                    MatrixB[i][j]=Matrix[i][j];
-                }
-                if ((i==j) && (Matrix[i][j]==0) && (!Matrix[i].empty())) {
-                    MatrixB[i][j]=max;
-                }
-            }
-        }
-    }
+    virtual RichardsonSLAU CreateB() { }
 
 
     //преобразование матрицы B^(-1/2)
-    void ReB(vector<vector<double> >&MatrixB){
-        for (int i=0; i<MatrixB.size();i++){
-            for (int j=0; j<MatrixB.size(); j++){
-                if (i==j) {MatrixB[i][j]=pow(MatrixB[i][j],-0.5);}
-                }
-            }
-    }
+    virtual void ReB(){ }
 
 
     //функция умножения матриц (создание матрицы С)
-    void MatrixMatrix (vector<vector<double> > &Matrix, vector<vector<double> > & MatrixB, vector<vector<double> > &MatrixC) {
-        int N=Matrix.size();
-        vector<vector<double> > MatrixAB;
-        MatrixAB.resize(N);
-        for (int i=0; i<N; i++){
-             MatrixAB[i].resize(N);
-        }
-
-        for (int i=0; i<N;i++){
-            for (int j=0; j<N; j++){
-                MatrixAB[i][j]=0;
-                for (int l=0; l<N; l++){
-               MatrixAB[i][j]+=MatrixB[i][l]*Matrix[l][j];
-                }
-            }
-         }
-
-        for (int i=0; i<N;i++){
-            for (int j=0; j<N; j++){
-                MatrixC[i][j]=0;
-                for (int l=0; l<N; l++){
-               MatrixC[i][j]+=MatrixAB[i][l]*MatrixB[l][j];
-                }
-            }
-         }
-
-    }
+    virtual void MatrixMatrix () { }
 
 
     //функция обращения матрицы(-A)
-    void MinesMatrex(vector<vector<double> > &Matrix){
-        for (int i=0; i<Matrix.size(); i++){
-            for (int j=0; j<Matrix.size(); j++){
-                Matrix[i][j]*=-1;
-            }
-        }
-    }
+    virtual void MinesMatrex(){ }
+
+    //создание матрицы С
+    virtual void CreateC() { }
 
 
     //функция умножения матрицы на вектор
-    void MultMatrixVector(vector<double> &y, vector<vector<double> > &Matrix, vector <double> &MultVector){
-        for (int i=0; i<y.size(); i++){
-            MultVector[i]=0;
-            for (int j=0; j<y.size(); j++){
-                MultVector[i]+=Matrix[i][j]*y[j];
-            }
-        }
-    }
+    virtual void MultMatrixVector(){ }
 
 
     //функция вывода матрицы
-    void WriteMatrix (vector<vector<double> > &Matrix){
-        for (int i=0; i<Matrix.size(); i++){
-            for (int j=0; j<Matrix.size(); j++){
-                cout<<Matrix[i][j]<<"  ";
+    virtual void WriteMatrix (){ }
+
+
+ private:
+    //перевод из Йельского формата в обычный
+    void TranslateCRSNormal(vector<vector<double> > &Matrix, vector <double> values,vector <int> cols, vector <int>  pointer )
+    {
+        int N=pointer.size();
+        int colon;
+        for (int i=1; i<=N; i++){
+            for (int j=pointer[i-1]; j<pointer[i]; j++){
+                colon=cols[j];
+                Matrix[i-1][colon]=values[j];
             }
-            cout<<endl;
         }
     }
+
+
+    //перевод из обычного формата в Йельский
+    void TranslateNormalCRS(vector<vector<double> > Matrix, vector <double>  &values,vector <int> &cols, vector <int>  &pointer )
+    {
+        int k=0;
+        int numb;
+        int N=Matrix[0].size();
+        pointer.resize(N+1);
+        pointer[0]=0;
+        for (int i=0; i<N;i++){
+            if (i!=0) {pointer[i]=pointer[i-1]+numb;}
+            numb=0;
+            for (int j=0; j<N; j++){
+                if (Matrix[i][j]!=0){
+                    k++;
+                    numb++;
+                    values.resize(k);
+                    values[k-1]=Matrix[i][j];
+                    cols.resize(k);
+                    cols[k-1]=j;
+                }
+            }
+        }
+        pointer[N]=pointer[N-1]+numb;
+      }
 
 };
 

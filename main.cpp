@@ -2,98 +2,108 @@
 #include "functions.h"
 #include "gnuplot.h"
 #include "plots.h"
+#include "normalmatrix.h"
+#include "crsmatrix.h"
+
 using namespace std;
 
 int main()
 {
     //удаление файлов данных и графиков предыдущей работы программы
     system("rm *.png *.dat");
+
+
+    RichardsonSLAU *SLAU=new normalmatrix(vector <vector <double> >());
+    RichardsonSLAU *SLAU1=new crsmatrix(vector <int> (), vector <int> (), vector <double> ());
+    cout<<"Types"<<SLAU->getType()<<"  "<<SLAU1->getType()<<'\n';
+    RichardsonSLAU MatrixB=SLAU->CreateB();
+    MatrixB.ReB();
+
+
     Richardson Rid;
     Plots Plot;
 
     //инициализация данных
-    double a=0,b=1,h;
-    int N; //чтение колличества ячеек
-    double s;//колличесство итераций
+    double a=0,b=1,step;//левый и правый конец, шаг
+    int nAmountPoints; //чтение колличества ячеек
+    double iterationNomber;//колличесство итераций
     vector<double> f;//функция, правая часть
     vector<double> y;//искомое расспределение темпиратур, вектор неизвестных
     vector<double> deltak;// вектор ошибок
     vector<vector<double>> Matrix;
-//    vector<vector<double> >MatrixB;
-//    vector<vector<double> >MatrixC;
 
-    //какие графики итерации нужно выводить, kr=0-ни одного, kr=1-(s-1)-графики кратные kr, kr=s -только последнюю итерацию
-    int kr=4;
-    Plot.setKr(kr);
 
-    //число ячеек
-    N=100;
-    cout<<"The number of cells \n"<<N<<'\n';
+    //какие графики итерации нужно выводить, fold=0-ни одного, fold=1-(iterationNomber-1)-графики кратные fold, fold=iterationNomber -только последнюю итерацию
+    int fold=4;
+    Plot.setfold(fold);
+
+
+    //число ячеек (узлов)
+    nAmountPoints=100;
+    cout<<"The number of cells \n"<<nAmountPoints<<'\n';
 
     //настройки а и b по умолчанию
     Rid.setA(a);
     Rid.setB(b);
 
     //шаг
-    h=(b-a)/N;
+    step=(b-a)/nAmountPoints;
 
     //число итераций
-    s=128;
-    cout<<"Enter the number of iterations\n"<<s<<'\n';
-    Rid.setS(s);
+    iterationNomber=32;
+    cout<<"Enter the number of iterations\n"<<iterationNomber<<'\n';
+    Rid.setS(iterationNomber);
 
     //заполнение матрицы СЛАУ A
-    Matrix.resize(N);
-    for (int i=0; i<=N; i++){
-        Matrix[i].resize(N);
+    Matrix.resize(nAmountPoints);
+    for (int i=0; i<=nAmountPoints; i++){
+        Matrix[i].resize(nAmountPoints);
     }
-    for (int i=0; i<N; i++){
-        for (int j=0; j<N; j++){
-            if(j>0) Matrix[j-1][j]=1/(h*h);
-            Matrix[j][j]=-2/(h*h);
-            if(j<N-1) Matrix[j+1][j]=1/(h*h);
+    for (int i=0; i<nAmountPoints; i++){
+        for (int j=0; j<nAmountPoints; j++){
+            if(j>0) Matrix[j-1][j]=1/(step*step);
+            Matrix[j][j]=-2/(step*step);
+            if(j<nAmountPoints-1) Matrix[j+1][j]=1/(step*step);
         }
     }
 
     //нулевое заполнение y
-    y.resize(N);
-    for (int i=0; i<N; i++){
+    y.resize(nAmountPoints);
+    for (int i=0; i<nAmountPoints; i++){
         y[i]=1;
     }
     y[0]=0;
-    y[N-1]=0;
+    y[nAmountPoints-1]=0;
 
 
     //считать значения вектора f
-    f.resize(N);
-    for (int i=0; i<N; i++){
+    f.resize(nAmountPoints);
+    for (int i=0; i<nAmountPoints; i++){
         f[i]=0;
     }
 
-     //итерация
-     Plot.setKr(kr);
- //   Rid.ItartionR(y, Matrix,f,kr);
-//    Rid.ItartionRFin(y, Matrix,f,kr);
-    Rid.ItartionRWithGer1(y,Matrix,f,kr);
+      //вычисление у (основное решение задачи)
+//      Rid.computeResultVector(y, Matrix,f,fold);
+    Rid.ItartionRFin(y, Matrix,f,fold);
+//    Rid.ItartionRWithGer2(y,Matrix,f,fold);
 
-    deltak=Rid.getErrors();
+      deltak=Rid.getErrors();
 
 
     //вывод у
     cout<<endl;
-    for (int i=0; i<N; i++){
+    for (int i=0; i<nAmountPoints; i++){
         cout<<y[i]<<"  ";
     }
     cout<<endl;
 
-//    for (int i=0; i<=s; i++){
-//        cout<<deltak[i]<<"  ";
-//    }
-//    cout<<endl;
 
+
+    //построение графиков (по умолчанию выведены функции построения графиков для единичной матрицы без конкурирующих процессов)
+    Plot.setfold(fold);
     Plot.YPlot(y);
-    //Plot.PlotWithE(deltak);
-   // Plot.AveragePlot(deltak);
+    Plot.PlotWithE(deltak);
+    Plot.AveragePlot(deltak);
     return 0;
 }
 
