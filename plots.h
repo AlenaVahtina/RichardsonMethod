@@ -17,6 +17,7 @@ public:
     int fold;
     void setfold(int _fold){fold=_fold;}
 
+
     //построение графика у
     void YPlot(vector<double> &y){
         ofstream f;
@@ -36,6 +37,7 @@ public:
         plot("set output 'output.png'");
         plot("plot 'output.dat' using 2:1 with lines title 'y(i)'");
     }
+
 
     //построение графика у на каждой итерации с пресвоением нового имени
     void IteratPlot(vector<double> &y,std::string plotname,std::string filename){
@@ -57,6 +59,7 @@ public:
             plot("plot '"+filename+"' using 2:1 with lines title 'y(i)'");
     }
 
+
     //построение графика ошибки
     void PlotWithE(vector<double> &deltak){
         ofstream f;
@@ -77,6 +80,7 @@ public:
         plot("plot 'outdelta.dat' using 3:2 with linespoints title 'lg(delta k(s))'");
     }
 
+
     //построение приведенного графика ошибки
     void AveragePlot(vector<double> &deltak){
         ofstream f;
@@ -86,6 +90,7 @@ public:
             cout << "Error opening file output.dat.\n";
             exit(EXIT_FAILURE);
           }
+        if (deltak.size()==0)return;
         f<<deltak[0]<<"   "<<log10(deltak[0])<<"  "<<0<<endl;
         double predk=deltak[0];
         for (int i=4; i<deltak.size()-1; i++){
@@ -103,6 +108,7 @@ public:
         plot("set format x '' ");
         plot("plot 'AveragePlot.dat' using 3:2 with linespoints title 'Average log (delta k(s))'");
     }
+
 
     //построение графиков для конкурирующих процессов
     void AveragePlotDoble(vector<double> &deltak,std::string plotname,std::string filename){
@@ -130,6 +136,7 @@ public:
         plot("set format x '' ");
         plot("plot '"+filename+"' using 3:2 with linespoints title 'Average log (delta k(s))'");
     }
+
 
     //построение приведенных графиков для конкурирующих процессов
     void AveragePlotDoble2(vector<double> &deltak, vector<double> &deltak2, std::string plotname,std::string filename){

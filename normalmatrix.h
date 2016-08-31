@@ -95,8 +95,7 @@ public:
     RichardsonSLAU *CreateC(){
         RichardsonSLAU *MatrixB=this->CreateB()->ReB();
         RichardsonSLAU *MatrixC=this->CreateB()->ReB();
-        MatrixC->MatrixMatrix(static_cast<RichardsonSLAU*>(this))->MatrixMatrix(MatrixB);
-        return MatrixC;
+        return MatrixC->MatrixMatrix(static_cast<RichardsonSLAU*>(this))->MatrixMatrix(MatrixB);
     }
 
     //функция обращения матрицы(-A)
@@ -113,12 +112,19 @@ public:
     //функция умножения матрицы на вектор
     vector <double> MultMatrixVector( vector <double> y){
         vector <double> MultVector;
-        MultVector.resize(y.size());
-        for (int i=0; i<y.size(); i++){
+        int ysize=y.size();
+        double sum=0;
+        vector<double> part;
+        MultVector.resize(ysize);
+        for (int i=0; i<ysize; i++){
             MultVector[i]=0;
-            for (int j=0; j<y.size(); j++){
-                MultVector[i]+=Matrix[i][j]*y[j];
+            sum=0;
+            part=Matrix[i];
+            for (int j=0; j<ysize; j++){
+                sum+=part[j]*y[j];
             }
+            MultVector[i]=sum;
+            sum=0;
         }
         return MultVector;
     }

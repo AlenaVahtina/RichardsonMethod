@@ -22,13 +22,12 @@ int main()
                                                                     {0, 0, 0, 0, 1, 2}
                                                                     }));
     RichardsonSLAU *SLAU1=new crsmatrix(vector <int> ({0,2,5,8,11,14,16}), vector <int> ({0,1,2,1,2,3,2,3,4,3,4,5,4,5}), vector <double> ({2,1,1,2,1,1,2,1,1,2,1,1,2,1,1,2}));
-    SLAU->WriteMatrix();
+//    SLAU->CreateC()->WriteMatrix();
+
 //    cout<<"Types"<<SLAU->getType()<<"  "<<SLAU1->getType()<<'\n';
-    SLAU->CreateB()->WriteMatrix();
-    SLAU->CreateC()->WriteMatrix();
-
-
-
+//    RichardsonSLAU *testslau2=new normalmatrix(Matrix);
+//    testslau2>CreateB()->WriteMatrix();
+//    testslau2->CreateC()->WriteMatrix();
     Richardson Rid;
     Plots Plot;
 
@@ -91,13 +90,14 @@ int main()
         f[i]=0;
     }
 
-      //вычисление у (основное решение задачи)
-    RichardsonSLAU *testslau=new normalmatrix(Matrix);
-      Rid.computeResultVector(y, testslau,f,fold);
-//    Rid.ItartionRFin(y, Matrix,f,fold);
-//    Rid.ItartionRWithGer2(y,Matrix,f,fold);
 
-      deltak=Rid.getErrors();
+     //вычисление у (основное решение задачи)
+     RichardsonSLAU *testslau=new normalmatrix(Matrix);
+//     Rid.computeResultVectorForE(y, testslau,f,fold);
+    // Rid.computeResultVectorForEWithRivalProcess(y, testslau,f,fold);
+   Rid.computeResultVectorForNotEWithRivalProcess(y,testslau,f,fold);
+
+     deltak=Rid.getErrors();
 
 
     //вывод у
