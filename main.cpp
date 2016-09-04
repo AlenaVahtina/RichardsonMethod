@@ -1,4 +1,5 @@
 #include <iostream>
+#include "richardsonslau.h"
 #include "functions.h"
 #include "gnuplot.h"
 #include "plots.h"
@@ -94,8 +95,8 @@ int main()
      //вычисление у (основное решение задачи)
      RichardsonSLAU *testslau=new normalmatrix(Matrix);
 //     Rid.computeResultVectorForE(y, testslau,f,fold);
-    // Rid.computeResultVectorForEWithRivalProcess(y, testslau,f,fold);
-   Rid.computeResultVectorForNotEWithRivalProcess(y,testslau,f,fold);
+     Rid.computeResultVectorForEWithRivalProcess(y, testslau,f,fold);
+//   Rid.computeResultVectorForNotEWithRivalProcess(y,testslau,f,fold);
 
      deltak=Rid.getErrors();
 
