@@ -1,5 +1,5 @@
-#ifndef RICHARDSONSLAU_H
-#define RICHARDSONSLAU_H
+#ifndef BASEMATRIX_H
+#define BASEMATRIX_H
 
 #include <iostream>
 using namespace std;
@@ -8,10 +8,10 @@ using namespace std;
 #include <vector>
 #include <fstream>
 
-class RichardsonSLAU
+class BaseMatrix
 {
 public:
-    RichardsonSLAU();
+    BaseMatrix();
     enum TYPE{NO_TYPE, NORMALMATRIX, CRSMATRIX};
     virtual int getType(){
         return NO_TYPE;
@@ -19,34 +19,37 @@ public:
 
 
     //чтение матрицы с клавиатуры
-    virtual void ReadMatrix(){ }
+    virtual void readMatrix(){ }
 
 
     //создание матрицы B из A
-    virtual RichardsonSLAU * CreateB() { }
+    virtual BaseMatrix * createB(){ }
 
 
     //преобразование матрицы B^(-1/2)
-    virtual RichardsonSLAU * ReB(){ }
+    virtual BaseMatrix * reB(){ }
 
 
     //функция умножения матриц (создание матрицы С)
-    virtual RichardsonSLAU * MatrixMatrix (RichardsonSLAU * secondM) { }
+    virtual BaseMatrix * matrixMatrix (BaseMatrix * secondM) { }
 
 
     //функция обращения матрицы(-A)
-    virtual RichardsonSLAU * MinesMatrex(){ }
+    virtual BaseMatrix * minesMatrex(){ }
 
     //создание матрицы С
-    virtual RichardsonSLAU * CreateC() { }
+    virtual BaseMatrix * createC(){ }
 
 
     //функция умножения матрицы на вектор
-    virtual vector <double> MultMatrixVector(vector <double> y){ }
+    virtual vector <double> multMatrixVector(vector <double> y){ }
 
 
     //функция вывода матрицы
-    virtual void WriteMatrix (){ }
+    virtual void writeMatrix (){ }
+
+    //взять элемент
+    virtual double getElement(int row, int column) const{ }
 };
 
-#endif // RICHARDSONSLAU_H
+#endif // BASEMATRIX_H

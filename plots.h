@@ -19,27 +19,27 @@ public:
 
 
     //построение графика у
-    void YPlot(vector<double> &y);
+    void yPlot(vector<double> &y);
 
 
     //построение графика у на каждой итерации с пресвоением нового имени
-    void IteratPlot(vector<double> &y,std::string plotname,std::string filename);
+    void iteratPlot(vector<double> &y,std::string plotname,std::string filename);
 
 
     //построение графика ошибки
-    void PlotWithE(vector<double> &deltak);
+    void plotWithError(vector<double> &deltak);
 
 
     //построение приведенного графика ошибки
-    void AveragePlot(vector<double> &deltak);
+    void averagePlot(vector<double> &deltak);
 
 
     //построение графиков для конкурирующих процессов
-    void AveragePlotDoble(vector<double> &deltak,std::string plotname,std::string filename);
+    void averagePlotDoble(vector<double> &deltak,std::string plotname,std::string filename);
 
 
     //построение приведенных графиков для конкурирующих процессов
-    void AveragePlotDoble2(vector<double> &deltak, vector<double> &deltak2, std::string plotname,std::string filename);
+    void averagePlotDoble2(vector<double> &deltak, vector<double> &deltak2, std::string plotname,std::string filename);
 
 };
 #endif // PLOTS_H

@@ -7,15 +7,15 @@ using namespace std;
 #include <stdio.h>
 #include <vector>
 #include <fstream>
-#include "richardsonslau.h"
+#include "basematrix.h"
 
 
 
-class crsmatrix : public RichardsonSLAU
+class CrsMatrix : public BaseMatrix
 {
 public:
-    crsmatrix(vector <int> pointer_, vector <int> cols_, vector <double> values_);
-    crsmatrix(RichardsonSLAU * another);
+    CrsMatrix(vector <int> pointer_, vector <int> cols_, vector <double> values_);
+    CrsMatrix(BaseMatrix * another);
 
     vector <int> pointer;
     vector <int> cols;
@@ -26,40 +26,42 @@ public:
     }
 
     //чтение матрицы с клавиатуры в Йельском формате
-    void ReadMatrix (int length, int nomberNotNullElemet);
+    void readMatrix (int length, int nomberNotNullElemet);
 
 
     //создание матрицы B из А
-    RichardsonSLAU *CreateB();
+    BaseMatrix *createB();
 
 
     //преобразование матрицы(-1/2)
-    RichardsonSLAU * ReB();
+    BaseMatrix * reB();
 
 
     //фунция транспонирования матрицы
-    RichardsonSLAU * TCRSMaatrix();
+    BaseMatrix * TCRSMaatrix();
 
 
     //функция умножение матриц
-    RichardsonSLAU *MatrixMatrix (RichardsonSLAU * secondM);
+    BaseMatrix *matrixMatrix (BaseMatrix * secondM);
 
 
     //функция создания матрицы С=B^(-1/2)*A*B^(-1/2)
-    RichardsonSLAU *CreateC();
+    BaseMatrix *createC();
 
     //функция обращения матрицы (-А)
-    RichardsonSLAU * MinesMatrex();
+    BaseMatrix * minesMatrex();
 
 
     //функция умножения матрицы на вектор
-    vector <double> MultMatrixVector(vector <double> y);
+    vector <double> multMatrixVector(vector <double> y);
 
 
     //функция вывода матрицы в Йельском формате
-    void WriteMatrix ();
+    void writeMatrix ();
 
 
+    //взять элемент
+    double getElement (int row, int column) const;
 };
 
 #endif // CRSMATRIX_H

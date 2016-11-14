@@ -1,10 +1,10 @@
 #include <iostream>
-#include "richardsonslau.h"
+#include "matrix/basematrix.h"
 #include "functions.h"
 #include "gnuplot.h"
 #include "plots.h"
-#include "normalmatrix.h"
-#include "crsmatrix.h"
+#include "matrix/normalmatrix.h"
+#include "matrix/crsmatrix.h"
 
 using namespace std;
 
@@ -14,7 +14,7 @@ int main()
     system("rm *.png *.dat");
 
 
-    RichardsonSLAU *SLAU=new normalmatrix(vector <vector <double> >({
+    BaseMatrix *SLAU=new NormalMatrix(vector <vector <double> >({
                                                                     {2, 1, 0, 0, 0, 0},
                                                                     {1, 2, 1, 0, 0, 0},
                                                                     {0, 1, 2, 1, 0, 0},
@@ -22,13 +22,10 @@ int main()
                                                                     {0, 0, 0, 1, 2, 1},
                                                                     {0, 0, 0, 0, 1, 2}
                                                                     }));
-    RichardsonSLAU *SLAU1=new crsmatrix(vector <int> ({0,2,5,8,11,14,16}), vector <int> ({0,1,2,1,2,3,2,3,4,3,4,5,4,5}), vector <double> ({2,1,1,2,1,1,2,1,1,2,1,1,2,1,1,2}));
-//    SLAU->CreateC()->WriteMatrix();
+    BaseMatrix *SLAU12=new CrsMatrix(vector <int> ({0,2,5,8,11,14,16}), vector <int> ({0,1,2,1,2,3,2,3,4,3,4,5,4,5}), vector <double> ({2,1,1,2,1,1,2,1,1,2,1,1,2,1,1,2}));
+//    cout<<SLAU12->GetElement(0,3);
+    SLAU->createC()->writeMatrix();
 
-//    cout<<"Types"<<SLAU->getType()<<"  "<<SLAU1->getType()<<'\n';
-//    RichardsonSLAU *testslau2=new normalmatrix(Matrix);
-//    testslau2>CreateB()->WriteMatrix();
-//    testslau2->CreateC()->WriteMatrix();
     Richardson Rid;
     Plots Plot;
 
@@ -59,7 +56,7 @@ int main()
     step=(b-a)/nAmountPoints;
 
     //число итераций
-    iterationNomber=32;
+    iterationNomber=512;
     cout<<"Enter the number of iterations\n"<<iterationNomber<<'\n';
     Rid.setS(iterationNomber);
 
@@ -93,10 +90,9 @@ int main()
 
 
      //вычисление у (основное решение задачи)
-     RichardsonSLAU *testslau=new normalmatrix(Matrix);
+     BaseMatrix *testslau=new NormalMatrix(Matrix);
 //     Rid.computeResultVectorForE(y, testslau,f,fold);
-     Rid.computeResultVectorForEWithRivalProcess(y, testslau,f,fold);
-//   Rid.computeResultVectorForNotEWithRivalProcess(y,testslau,f,fold);
+     Rid.computeResultVectorForC(y, testslau,f,fold);
 
      deltak=Rid.getErrors();
 
@@ -111,10 +107,10 @@ int main()
 
 
     //построение графиков (по умолчанию выведены функции построения графиков для единичной матрицы без конкурирующих процессов)
-    Plot.setfold(fold);
-    Plot.YPlot(y);
-    Plot.PlotWithE(deltak);
-    Plot.AveragePlot(deltak);
+//    Plot.setfold(fold);
+//    Plot.YPlot(y);
+//    Plot.PlotWithE(deltak);
+//    Plot.AveragePlot(deltak);
     return 0;
 }
 

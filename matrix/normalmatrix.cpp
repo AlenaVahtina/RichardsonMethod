@@ -1,7 +1,7 @@
 #include "normalmatrix.h"
 #include "crsmatrix.h"
 
-normalmatrix::normalmatrix(vector <vector <double> > Matrix_)
+NormalMatrix::NormalMatrix(vector <vector <double> > Matrix_)
 {
     Matrix = Matrix_;
 }
@@ -21,15 +21,15 @@ void TranslateCRSNormal(vector<vector<double> > &Matrix, vector <double> values,
 }
 
 
-normalmatrix::normalmatrix(RichardsonSLAU * another){
-    if (another->getType()==RichardsonSLAU::NORMALMATRIX)
+NormalMatrix::NormalMatrix(BaseMatrix * another){
+    if (another->getType()==BaseMatrix::NORMALMATRIX)
     {
-        normalmatrix* normal=static_cast<normalmatrix*>(another);
+        NormalMatrix* normal=static_cast<NormalMatrix*>(another);
         Matrix = normal->Matrix;
     }
-    else if (another->getType()==RichardsonSLAU::CRSMATRIX){
+    else if (another->getType()==BaseMatrix::CRSMATRIX){
         //перевод из Йельского в нормальный
-        crsmatrix* crs=static_cast<crsmatrix*>(another);
+        CrsMatrix* crs=static_cast<CrsMatrix*>(another);
         vector <int> toPointer=crs->pointer;
         vector <int> toCols=crs->cols;
         vector <double> toValuse=crs->values;
@@ -40,7 +40,7 @@ normalmatrix::normalmatrix(RichardsonSLAU * another){
 
 
 //чтение матрицы с клавиатуры
-void normalmatrix::ReadMatrix(int nAmountPoints){
+void NormalMatrix::readMatrix(int nAmountPoints){
     vector <vector <double> > Matrix;
     Matrix.resize(nAmountPoints);
     for (int i=0;i<nAmountPoints; i++){
@@ -52,7 +52,7 @@ void normalmatrix::ReadMatrix(int nAmountPoints){
 
 
 //создание матрицы B из A
-RichardsonSLAU *normalmatrix::CreateB() {
+BaseMatrix *NormalMatrix::createB() {
     double max;
     vector <vector <double> > MatrixB;
     MatrixB.resize(Matrix.size());
@@ -75,12 +75,12 @@ RichardsonSLAU *normalmatrix::CreateB() {
         }
     }
 
-    return  new normalmatrix (MatrixB);
+    return  new NormalMatrix (MatrixB);
 }
 
 
 //преобразование матрицы^(-1/2)
-RichardsonSLAU * normalmatrix::ReB(){
+BaseMatrix * NormalMatrix::reB(){
     for (int i=0; i<Matrix.size();i++){
         for (int j=0; j<Matrix.size(); j++){
             if (i==j) {Matrix[i][j]=pow(Matrix[i][j],-0.5);}
@@ -91,12 +91,12 @@ RichardsonSLAU * normalmatrix::ReB(){
 
 
 //функция умножения матриц
-RichardsonSLAU *normalmatrix::MatrixMatrix (RichardsonSLAU * secondM)
+BaseMatrix *NormalMatrix::matrixMatrix (BaseMatrix * secondM)
 {
     int nAmountPoints=Matrix.size();
     vector <vector <double> > resultMatrix;
     resultMatrix.resize(Matrix.size());
-    normalmatrix* second=static_cast<normalmatrix*>(secondM);
+    NormalMatrix* second=static_cast<NormalMatrix*>(secondM);
     for (int i=0; i<nAmountPoints;i++){
         resultMatrix[i].resize(Matrix.size());
         for (int j=0; j<nAmountPoints; j++){
@@ -106,19 +106,19 @@ RichardsonSLAU *normalmatrix::MatrixMatrix (RichardsonSLAU * secondM)
             }
         }
      }
-    return new normalmatrix(resultMatrix);
+    return new NormalMatrix(resultMatrix);
 }
 
 
 //функция создания матрицы С=B^(-1/2)*A*B^(-1/2)
-RichardsonSLAU *normalmatrix::CreateC(){
-    RichardsonSLAU *MatrixB=this->CreateB()->ReB();
-    RichardsonSLAU *MatrixC=this->CreateB()->ReB();
-    return MatrixC->MatrixMatrix(static_cast<RichardsonSLAU*>(this))->MatrixMatrix(MatrixB);
+BaseMatrix *NormalMatrix::createC(){
+    BaseMatrix *MatrixB=this->createB()->reB();
+    BaseMatrix *MatrixC=this->createB()->reB();
+    return MatrixC->matrixMatrix(static_cast<BaseMatrix*>(this))->matrixMatrix(MatrixB);
 }
 
 //функция обращения матрицы(-A)
-RichardsonSLAU * normalmatrix::MinesMatrex(){
+BaseMatrix * NormalMatrix::minesMatrex(){
     for (int i=0; i<Matrix.size(); i++){
         for (int j=0; j<Matrix.size(); j++){
             Matrix[i][j]*=-1;
@@ -129,7 +129,7 @@ RichardsonSLAU * normalmatrix::MinesMatrex(){
 
 
 //функция умножения матрицы на вектор
-vector <double> normalmatrix::MultMatrixVector( vector <double> y){
+vector <double> NormalMatrix::multMatrixVector( vector <double> y){
     vector <double> MultVector;
     int ysize=y.size();
     double sum=0;
@@ -150,11 +150,18 @@ vector <double> normalmatrix::MultMatrixVector( vector <double> y){
 
 
 //функция вывода матрицы
-void normalmatrix::WriteMatrix (){
+void NormalMatrix::writeMatrix (){
     for (int i=0; i<Matrix.size(); i++){
         for (int j=0; j<Matrix.size(); j++){
             cout<<Matrix[i][j]<<"  ";
         }
         cout<<endl;
     }
+}
+
+
+//взять элемент
+double NormalMatrix::getElement (int row, int column) const
+{
+    return Matrix[row][column];
 }

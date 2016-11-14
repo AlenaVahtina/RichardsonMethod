@@ -1,14 +1,14 @@
 #include "crsmatrix.h"
 #include "normalmatrix.h"
 
-crsmatrix::crsmatrix(vector <int> pointer_, vector <int> cols_, vector <double> values_)
+CrsMatrix::CrsMatrix(vector <int> pointer_, vector <int> cols_, vector <double> values_)
 {
     pointer=pointer_;
     cols=cols_;
     values=values_;
 }
 
-void TranslateNormalCRS(vector<vector<double> > Matrix, vector <double>  &values,vector <int> &cols, vector <int>  &pointer )
+void translateNormalCRS(vector<vector<double> > Matrix, vector <double>  &values,vector <int> &cols, vector <int>  &pointer )
 {
     int k=0;
     int numb;
@@ -32,22 +32,22 @@ void TranslateNormalCRS(vector<vector<double> > Matrix, vector <double>  &values
     pointer[N]=pointer[N-1]+numb;
   }
 
-crsmatrix::crsmatrix(RichardsonSLAU * another){
-    if (another->getType()==RichardsonSLAU::CRSMATRIX){
-        crsmatrix* crs=static_cast<crsmatrix*>(another);
+CrsMatrix::CrsMatrix(BaseMatrix * another){
+    if (another->getType()==BaseMatrix::CRSMATRIX){
+        CrsMatrix* crs=static_cast<CrsMatrix*>(another);
         pointer=crs->pointer;
         cols=crs->cols;
         values=crs->values;
-    }else if (another->getType()==RichardsonSLAU::NORMALMATRIX){
+    }else if (another->getType()==BaseMatrix::NORMALMATRIX){
         //перевод из matrix в три вектора
-        normalmatrix* normal=static_cast<normalmatrix*>(another);
+        NormalMatrix* normal=static_cast<NormalMatrix*>(another);
         vector<vector<double>> to =normal->Matrix;
-        TranslateNormalCRS(to, values,cols, pointer);
+        translateNormalCRS(to, values,cols, pointer);
     }
 }
 
 //чтение матрицы с клавиатуры в Йельском формате
-void crsmatrix::ReadMatrix (int length, int nomberNotNullElemet){
+void CrsMatrix::readMatrix (int length, int nomberNotNullElemet){
 
     pointer.resize(length);
     cout<<'\n'<<"pointer"<<'\n';
@@ -70,7 +70,7 @@ void crsmatrix::ReadMatrix (int length, int nomberNotNullElemet){
 
 
 //создание матрицы B из А
-RichardsonSLAU *crsmatrix::CreateB()
+BaseMatrix *CrsMatrix::createB()
 {
  vector <double> valuesB;
  vector <int> colsB;
@@ -88,12 +88,12 @@ RichardsonSLAU *crsmatrix::CreateB()
     }
     if (point!=0){pointerB.push_back(pointerB[i]+point);}
  }
- return new crsmatrix (pointerB, colsB, valuesB);
+ return new CrsMatrix (pointerB, colsB, valuesB);
 }
 
 
 //преобразование матрицы(-1/2)
-RichardsonSLAU * crsmatrix::ReB()
+BaseMatrix * CrsMatrix::reB()
 {
  for (int i=0; i<values.size(); i++){
     values[i]=1/sqrt(values[i]);
@@ -103,28 +103,28 @@ RichardsonSLAU * crsmatrix::ReB()
 
 
 //фунция транспонирования матрицы
-RichardsonSLAU * crsmatrix::TCRSMaatrix()
+BaseMatrix * CrsMatrix::TCRSMaatrix()
 {
-    vector <vector <int> > IntVectors;
+    vector <vector <int> > int_vectors;
     vector <vector <double> > RealVectors;
-    IntVectors.resize(pointer.size()-1);
+    int_vectors.resize(pointer.size()-1);
     RealVectors.resize(pointer.size()-1);
     for (int i=1; i<pointer.size(); i++){
         for (int j=pointer[i-1]; j<pointer[i]; j++){
-            IntVectors[cols[j]].push_back(i-1);
+            int_vectors[cols[j]].push_back(i-1);
             RealVectors[cols[j]].push_back(values[j]);
         }
     }
 
     pointer.push_back(0);
-    for (int i=0; i<IntVectors.size(); i++){
-        for (int j=0; j<IntVectors[i].size(); j++){
+    for (int i=0; i<int_vectors.size(); i++){
+        for (int j=0; j<int_vectors[i].size(); j++){
 
-                cols.push_back(IntVectors[i][j]);
+                cols.push_back(int_vectors[i][j]);
                 values.push_back(RealVectors[i][j]);
 
         }
-       pointer.push_back(pointer[i]+IntVectors[i].size());
+       pointer.push_back(pointer[i]+int_vectors[i].size());
     }
 
     for (int i=0; i<pointer.size();i++){
@@ -136,18 +136,18 @@ RichardsonSLAU * crsmatrix::TCRSMaatrix()
 
 
 //функция умножение матриц
-RichardsonSLAU *crsmatrix::MatrixMatrix (RichardsonSLAU * secondM)
+BaseMatrix *CrsMatrix::matrixMatrix (BaseMatrix * secondM)
 {
-    vector <double>resultValues;
-    vector <int> resultCols;
-    vector <int> resultPointe;
+    vector <double>result_values;
+    vector <int> result_cols;
+    vector <int> result_pointe;
 
-    crsmatrix* second=static_cast<crsmatrix*>(secondM);
+    CrsMatrix* second=static_cast<CrsMatrix*>(secondM);
     second->TCRSMaatrix();
 
     double sum;
     int resultPointer;
-    resultPointe.push_back(0);
+    result_pointe.push_back(0);
     for (int i=0; i<pointer.size()-1; i++){
         resultPointer=0;
         for(int j=0; j<pointer.size()-1; j++){
@@ -161,27 +161,27 @@ RichardsonSLAU *crsmatrix::MatrixMatrix (RichardsonSLAU * secondM)
              }
             }
             if (sum!=0){
-                resultValues.push_back(sum);
-                resultCols.push_back(j);
+                result_values.push_back(sum);
+                result_cols.push_back(j);
                 resultPointer++;
             }
         }
-        resultPointe.push_back(resultPointer+resultPointe[i]);
+        result_pointe.push_back(resultPointer+result_pointe[i]);
     }
-    return new crsmatrix(resultPointe,resultCols,resultValues);
+    return new CrsMatrix(result_pointe,result_cols,result_values);
 }
 
 
 //функция создания матрицы С=B^(-1/2)*A*B^(-1/2)
-RichardsonSLAU *crsmatrix::CreateC(){
-    RichardsonSLAU *MatrixB=this->CreateB()->ReB();
-    RichardsonSLAU *MatrixC=this->CreateB()->ReB();
-    MatrixC->MatrixMatrix(static_cast<RichardsonSLAU*>(this))->MatrixMatrix(MatrixB);
+BaseMatrix *CrsMatrix::createC(){
+    BaseMatrix *MatrixB=this->createB()->reB();
+    BaseMatrix *MatrixC=this->createB()->reB();
+    MatrixC->matrixMatrix(static_cast<BaseMatrix*>(this))->matrixMatrix(MatrixB);
     return MatrixC;
 }
 
 //функция обращения матрицы (-А)
-RichardsonSLAU * crsmatrix::MinesMatrex(){
+BaseMatrix * CrsMatrix::minesMatrex(){
     for (int i=0; i<values.size(); i++){
        values[i]*=-1;
     }
@@ -190,7 +190,7 @@ RichardsonSLAU * crsmatrix::MinesMatrex(){
 
 
 //функция умножения матрицы на вектор
-vector <double> crsmatrix::MultMatrixVector(vector <double> y)
+vector <double> CrsMatrix::multMatrixVector(vector <double> y)
 {
     int N=pointer.size();
     vector <double> vectorC;
@@ -205,7 +205,7 @@ vector <double> crsmatrix::MultMatrixVector(vector <double> y)
 
 
 //функция вывода матрицы в Йельском формате
-void crsmatrix::WriteMatrix (){
+void CrsMatrix::writeMatrix (){
 
     int length=pointer.size();
     cout<<'\n'<<"pointer"<<'\n';
@@ -226,4 +226,15 @@ void crsmatrix::WriteMatrix (){
         cout<<cols[i]<<"  ";
     }
     cout<<'\n';
+}
+
+
+//взять элемент
+double CrsMatrix::getElement (int row, int column) const
+{
+    for (int i=pointer[row]; i<pointer[row+1]; i++){
+        if (cols[i]==column){
+            return values[i];
+        }
+    }
 }

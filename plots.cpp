@@ -5,7 +5,7 @@ Plots::Plots()
 }
 
 //построение графика у
-void Plots::YPlot(vector<double> &y){
+void Plots::yPlot(vector<double> &y){
     ofstream f;
     f.open("output.dat");
     if (!f.is_open())
@@ -29,7 +29,7 @@ void Plots::YPlot(vector<double> &y){
 
 
 //построение графика у на каждой итерации с пресвоением нового имени
-void Plots::IteratPlot(vector<double> &y,std::string plotname,std::string filename){
+void Plots::iteratPlot(vector<double> &y,std::string plotname,std::string filename){
     ofstream f;
         f.open(filename);
         if (!f.is_open())
@@ -53,7 +53,7 @@ void Plots::IteratPlot(vector<double> &y,std::string plotname,std::string filena
 
 
 //построение графика ошибки
-void Plots::PlotWithE(vector<double> &deltak){
+void Plots::plotWithError(vector<double> &deltak){
     ofstream f;
     f.open("outdelta.dat");
     if (!f.is_open())
@@ -77,7 +77,7 @@ void Plots::PlotWithE(vector<double> &deltak){
 
 
 //построение приведенного графика ошибки
-void Plots::AveragePlot(vector<double> &deltak){
+void Plots::averagePlot(vector<double> &deltak){
     ofstream f;
     f.open("AveragePlot.dat");
     if (!f.is_open())
@@ -109,7 +109,7 @@ void Plots::AveragePlot(vector<double> &deltak){
 
 
 //построение графиков для конкурирующих процессов
-void Plots::AveragePlotDoble(vector<double> &deltak,std::string plotname,std::string filename){
+void Plots::averagePlotDoble(vector<double> &deltak,std::string plotname,std::string filename){
     ofstream f;
     f.open(filename);
     if (!f.is_open())
@@ -140,7 +140,7 @@ void Plots::AveragePlotDoble(vector<double> &deltak,std::string plotname,std::st
 
 
 //построение приведенных графиков для конкурирующих процессов
-void Plots::AveragePlotDoble2(vector<double> &deltak, vector<double> &deltak2, std::string plotname,std::string filename){
+void Plots::averagePlotDoble2(vector<double> &deltak, vector<double> &deltak2, std::string plotname,std::string filename){
     ofstream f;
     f.open(filename);
     if (!f.is_open())

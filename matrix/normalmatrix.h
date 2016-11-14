@@ -7,49 +7,52 @@ using namespace std;
 #include <stdio.h>
 #include <vector>
 
-#include "richardsonslau.h"
+#include "basematrix.h"
 
-class RichardsonSLAU;
+class BaseMatrix;
 
-class normalmatrix : public RichardsonSLAU
+class NormalMatrix : public BaseMatrix
 {
 public:
     vector <vector <double> > Matrix;
-    normalmatrix(vector <vector <double> > Matrix_);
-    normalmatrix(RichardsonSLAU * another);
+    NormalMatrix(vector <vector <double> > Matrix_);
+    NormalMatrix(BaseMatrix * another);
 
     int getType() {
         return NORMALMATRIX;
     }
 
     //чтение матрицы с клавиатуры
-    void ReadMatrix(int nAmountPoints);
+    void readMatrix(int nAmountPoints);
 
 
     //создание матрицы B из A
-    RichardsonSLAU *CreateB();
+    BaseMatrix *createB();
 
     //преобразование матрицы^(-1/2)
-    RichardsonSLAU * ReB();
+    BaseMatrix * reB();
 
     //функция умножения матриц
-    RichardsonSLAU *MatrixMatrix (RichardsonSLAU * secondM);
+    BaseMatrix *matrixMatrix (BaseMatrix * secondM);
 
 
     //функция создания матрицы С=B^(-1/2)*A*B^(-1/2)
-    RichardsonSLAU *CreateC();
+    BaseMatrix *createC();
 
 
     //функция обращения матрицы(-A)
-    RichardsonSLAU * MinesMatrex();
+    BaseMatrix * minesMatrex();
 
 
     //функция умножения матрицы на вектор
-    vector <double> MultMatrixVector( vector <double> y);
+    vector <double> multMatrixVector( vector <double> y);
 
 
     //функция вывода матрицы
-    void WriteMatrix ();
+    void writeMatrix ();
+
+    //взять элемент
+    double getElement (int row, int column) const;
 };
 
 #endif // NORMALMATRIX_H

@@ -1,15 +1,16 @@
-#ifndef FUNCTIONS_H
-#define FUNCTIONS_H
+#ifndef RICHARDSONMETHOD_H
+#define RICHARDSONMETHOD_H
 
 #include <iostream>
 #include <math.h>
 #include <stdio.h>
 #include <vector>
 #include <fstream>
-#include "plots.h"
 
+#include "plots.h"
 #include "matrix/normalmatrix.h"
 #include "matrix/crsmatrix.h"
+#include "common.h"
 
 using namespace std;
 
@@ -17,29 +18,14 @@ using namespace std;
     const double M_PI=3,1415926535897932384626;
 #endif
 
-class Richardson
+class RichardsonMethod
 {
+    RichardsonMethod(){};
 public:
-    Richardson();
-    const double EPSELON_SOLUTION=0.00000000000001;
-    const double EPSELON_ERROU=0.3;
-    void setA(double _a){a=_a;}
-    void setB(double _b){b=_b;}
-    void setS(double _iterationNomber){iterationNomber=_iterationNomber;}
-    vector<double> getErrors(){return deltak;}
-
 
     //функция расчета итогового значения вектора у для еденичной матрицы и без конкурирующих процессов
     void computeResultVectorForE (vector<double> &y, BaseMatrix *SLAU, vector<double> f,int fold);
 
-    //функция расчета гамма1* гамма1** и гамма2
-    void gammacalculation(double& gamma11,double &gamma12, double & gamma2,BaseMatrix *SLAU);
-
-
-    //вспомогательная функция расчета значения у для конкурирующх процессов
-    void supportingComputeResultVector (vector<double> &y, BaseMatrix *SLAU,vector<double> f,int fold, vector<double> &deltak,int iterationNomber,double gamma1,double gamma2,int nAmountPoints,double step,int ya,int yb);
-
-    //
     void computeResultVectorForC (vector<double> &y, BaseMatrix *SLAU, vector<double> f,int fold);
 
 
@@ -61,20 +47,6 @@ private:
     vector<double> deltak2;
 
     double gamma1, gamma2, p0, tao0, tao01, tao02, p, q, gamma12, gamma11, p01, p02;
-
-
-    //функция сортировки
-    void Rsort(vector<int> &index);
-
-
-    //сделать массив лямбда
-    void flambda (vector <int> &index, vector <double> &lambda);
-
-
-    //функция итерационной ошибки
-    double IterError(vector<double> &y, vector<double> &oldy);
-
 };
 
-
-#endif // FUNCTIONS_H
+#endif // RICHARDSONMETHOD_H
