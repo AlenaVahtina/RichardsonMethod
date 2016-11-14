@@ -22,7 +22,7 @@ void RichardsonMethod::computeResultVectorForE (vector<double> &y, BaseMatrix *S
     //посчитать p0
     p0=(1-gamma1/gamma2)/(1+gamma1/gamma2);
 
-    Common::flambda(index, lambda);
+    Common::flambda(index, lambda, iterationNomber);
 
     //заполнить масив тао
     tao0=2/(gamma1+gamma2);
@@ -73,7 +73,7 @@ void RichardsonMethod::computeResultVectorForC (vector<double> &y, BaseMatrix *S
     //посчитать p0
     p0=(1-gamma1/gamma2)/(1+gamma1/gamma2);
 
-    Common::flambda(index, lambda);
+    Common::flambda(index, lambda, iterationNomber);
 
     //заполнить масив тао
     tao0=2/(gamma1+gamma2);

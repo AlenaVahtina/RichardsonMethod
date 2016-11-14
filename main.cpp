@@ -5,6 +5,8 @@
 #include "plots.h"
 #include "matrix/normalmatrix.h"
 #include "matrix/crsmatrix.h"
+#include "common.h"
+#include "richardsonMethodWithChebyshevOrderedSetOfParameters.h"
 
 using namespace std;
 
@@ -26,8 +28,9 @@ int main()
 //    cout<<SLAU12->GetElement(0,3);
     SLAU->createC()->writeMatrix();
 
-    Richardson Rid;
+    RichardsonMethod Rid;
     Plots Plot;
+
 
     //инициализация данных
     double a=0,b=1,step;//левый и правый конец, шаг
@@ -88,6 +91,9 @@ int main()
         f[i]=0;
     }
 
+    //считать параметры q и p
+    Rid.setP(0);
+    Rid.setQ(0);
 
      //вычисление у (основное решение задачи)
      BaseMatrix *testslau=new NormalMatrix(Matrix);

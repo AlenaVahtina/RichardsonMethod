@@ -1,7 +1,7 @@
 #include "common.h"
 
 //функция расчета гамма1* гамма1** и гамма2
-void Common::gammacalculation(double& gamma11,double &gamma12, double & gamma2,BaseMatrix *SLAU){
+void Common::gammacalculation(double& gamma11,double &gamma12, double & gamma2,BaseMatrix *SLAU, double p, double q, int nAmountPoints){
 
     NormalMatrix* matrC=static_cast<NormalMatrix*>(new NormalMatrix(SLAU));//перевод в нормальный тип матрицы матрицу);
 
@@ -49,7 +49,7 @@ void Common::Rsort(vector<int> &index){
 
 
 //сделать массив лямбда
-void Common::flambda (vector <int> &index, vector <double> &lambda){
+void Common::flambda (vector <int> &index, vector <double> &lambda, double iterationNomber){
     //заполнить массив index
     index.resize(iterationNomber);
     for (int i=0; i<iterationNomber; i++) {

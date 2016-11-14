@@ -26,11 +26,12 @@ public:
 
 
     //функция расчета гамма1* гамма1** и гамма2
-    static void gammacalculation(double& gamma11,double &gamma12, double & gamma2,BaseMatrix *SLAU);
+    static void gammacalculation(double& gamma11,double &gamma12, double & gamma2,BaseMatrix *SLAU, double p, double q, int nAmountPoints);
 
 
     //вспомогательная функция расчета значения у для конкурирующх процессов
-    static void supportingComputeResultVector (vector<double> &y, BaseMatrix *SLAU,vector<double> f,int fold, vector<double> &deltak,int iterationNomber,double gamma1,double gamma2,int nAmountPoints,double step,int ya,int yb);
+    static void supportingComputeResultVector (vector<double> &y, BaseMatrix *SLAU,vector<double> f,int fold, vector<double> &deltak,
+                                                int iterationNomber,double gamma1,double gamma2,int nAmountPoints,double step,int ya,int yb);
 
 
     //функция сортировки
@@ -38,7 +39,7 @@ public:
 
 
     //сделать массив лямбда
-    static void flambda (vector <int> &index, vector <double> &lambda);
+    static void flambda (vector <int> &index, vector <double> &lambda, double iterationNomber);
 
 
     //функция итерационной ошибки

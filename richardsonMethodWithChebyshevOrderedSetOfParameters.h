@@ -20,8 +20,14 @@ using namespace std;
 
 class RichardsonMethod
 {
-    RichardsonMethod(){};
 public:
+    RichardsonMethod(){};
+    void setQ(double _q){q=_q;}
+    void setP(double _p){p=_p;}
+    void setA(double _a){a=_a;}
+    void setB(double _b){b=_b;}
+    void setS(double _iterationNomber){iterationNomber=_iterationNomber;}
+    vector<double> getErrors(){return deltak;}
 
     //функция расчета итогового значения вектора у для еденичной матрицы и без конкурирующих процессов
     void computeResultVectorForE (vector<double> &y, BaseMatrix *SLAU, vector<double> f,int fold);
