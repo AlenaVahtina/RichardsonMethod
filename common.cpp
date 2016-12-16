@@ -1,5 +1,33 @@
 #include "common.h"
 
+//функция расчета гамма1 и гамма2 для модуля без конкурирующих процессов
+void Common::gammacalculation1(double& gamma1, double & gamma2,BaseMatrix *SLAU, int nAmountPoints){
+
+    NormalMatrix* matrC=static_cast<NormalMatrix*>(new NormalMatrix(SLAU));//перевод в нормальный тип матрицы матрицу);
+
+   //расчет нижней границы(гамма2) с помощью кругов Герщгорина
+    vector<double> R;
+    R.resize(nAmountPoints);
+    for (int i=0; i<nAmountPoints;i++){
+        for (int j=0; j<nAmountPoints; j++){
+            if (i!=j) {
+                R[i]+=fabs(matrC->Matrix[i][j]);
+            }
+        }
+    }
+    std::cout.flush();
+
+    gamma2=0;
+    for (int i=0; i<nAmountPoints;i++){
+        if (gamma2<fabs(matrC->Matrix[i][i]+R[i])) {
+                gamma2=fabs(matrC->Matrix[i][i]+R[i]);
+        }
+   }
+    gamma1=gamma2/10;
+    cout<<gamma1<<"   "<<gamma2<<"   ";
+}
+
+
 //функция расчета гамма1* гамма1** и гамма2
 void Common::gammacalculation(double& gamma11,double &gamma12, double & gamma2,BaseMatrix *SLAU, double p, double q, int nAmountPoints){
 
@@ -72,4 +100,37 @@ double Common::IterError(vector<double> &y, vector<double> &oldy) {
     }
     oldy=y;
     return maxk;
+}
+
+
+//является ли s степенью 2
+bool Common::fold2(int s) {
+    if(s<=0)
+      return false;
+  while((s%2)!=0)
+  {
+
+   if((s%2)==1) {
+      return false;
+      break;
+   }
+  }
+  return true;
+}
+
+
+bool Common::appliedCriteria(vector<double>y, vector<double>&y1, double relativE, double absolutlyE){
+    int nAmountPoints=y.size();
+    double max=y[0];
+    for (int i=0;i<nAmountPoints; i++)
+    {
+        if (y[i]>y1[i]) max=y[i];
+                else max=y1[i];
+
+        if (fabs(y[i]-y1[i])<relativE*max+absolutlyE)
+            return true;
+        else
+            return false;
+    }
+
 }

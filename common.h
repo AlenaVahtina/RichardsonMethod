@@ -28,6 +28,9 @@ public:
     //функция расчета гамма1* гамма1** и гамма2
     static void gammacalculation(double& gamma11,double &gamma12, double & gamma2,BaseMatrix *SLAU, double p, double q, int nAmountPoints);
 
+    //функция расчета гамма1 и гамма2 для модуля без конкурирующих процессов
+    static void gammacalculation1(double& gamma1, double & gamma2,BaseMatrix *SLAU, int nAmountPoints);
+
 
     //вспомогательная функция расчета значения у для конкурирующх процессов
     static void supportingComputeResultVector (vector<double> &y, BaseMatrix *SLAU,vector<double> f,int fold, vector<double> &deltak,
@@ -44,6 +47,13 @@ public:
 
     //функция итерационной ошибки
     static double IterError(vector<double> &y, vector<double> &oldy);
+
+
+    //является ли s степенью 2
+    static bool fold2(int s);
+
+    //критерий для физики
+    static bool appliedCriteria(vector<double>y, vector<double>&y1, double relativE, double absolutlyE);
 
 };
 

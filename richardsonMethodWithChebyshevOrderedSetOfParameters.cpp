@@ -19,6 +19,20 @@ void RichardsonMethod::computeResultVectorForE (vector<double> &y, BaseMatrix *S
     gamma1=8/(b-a)*(b-a);
     gamma2=4/(step*step);
 
+    Common::gammacalculation1(gamma1,gamma2, SLAU, nAmountPoints);
+
+    if ((0>gamma1) || (gamma1>gamma2))
+    {
+        cout<<"gamma1 or gamma2 does not meet the requirements"<<'\n';
+        return void();
+    }
+
+    if (!Common::fold2(iterationNomber))
+    {
+        cout<<"s not multiply 2"<<'\n';
+        return void();
+    }
+
     //посчитать p0
     p0=(1-gamma1/gamma2)/(1+gamma1/gamma2);
 
@@ -93,6 +107,7 @@ void RichardsonMethod::computeResultVectorForC (vector<double> &y, BaseMatrix *S
     for (int i=0; i<iterationNomber; i++){
         MultVector=SLAU->multMatrixVector(y);
         for (int j=0; j<nAmountPoints; j++){
+            divider=SLAUB->getElement(j,j);
             y[j]+=tao[i]*(f[j]-MultVector[j])/-divider;
         }
         if(i%fold==0)
