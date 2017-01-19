@@ -107,15 +107,15 @@ double Common::IterError(vector<double> &y, vector<double> &oldy) {
 bool Common::fold2(int s) {
     if(s<=0)
       return false;
-  while((s%2)!=0)
+  while((s%2)==0)
   {
+      s=s/2;
 
-   if((s%2)==1) {
-      return false;
-      break;
+   if(s==2) {
+      return true;
    }
   }
-  return true;
+  return false;
 }
 
 

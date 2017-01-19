@@ -30,9 +30,9 @@ public:
     vector<double> getErrors(){return deltak;}
 
     //функция расчета итогового значения вектора у для еденичной матрицы и без конкурирующих процессов
-    void computeResultVectorForE (vector<double> &y, BaseMatrix *SLAU, vector<double> f,int fold);
+    void computeResultVectorForE (vector<double> &y, BaseMatrix *SLAU, vector<double> f,int fold, double gamma1=8, double gamma2=40000);
 
-    void computeResultVectorForC (vector<double> &y, BaseMatrix *SLAU, vector<double> f,int fold);
+    void computeResultVectorForC (vector<double> &y, BaseMatrix *SLAU, vector<double> f,int fold, double gamma1=8, double gamma2=40000);
 
 
 private:

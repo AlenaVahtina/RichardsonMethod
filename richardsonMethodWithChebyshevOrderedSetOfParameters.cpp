@@ -1,7 +1,7 @@
 #include "richardsonMethodWithChebyshevOrderedSetOfParameters.h"
 
 //функция расчета итогового значения вектора у для еденичной матрицы и без конкурирующих процессов
-void RichardsonMethod::computeResultVectorForE (vector<double> &y, BaseMatrix *SLAU, vector<double> f,int fold){
+void RichardsonMethod::computeResultVectorForE (vector<double> &y, BaseMatrix *SLAU, vector<double> f,int fold, double gamma1, double gamma2){
 
     vector<double> oldy=y;
     //граничные условия, колличество ячеек и шаг
@@ -18,6 +18,8 @@ void RichardsonMethod::computeResultVectorForE (vector<double> &y, BaseMatrix *S
     //второй метод вычисления гамма
     gamma1=8/(b-a)*(b-a);
     gamma2=4/(step*step);
+
+    SLAU->minesMatrex();
 
     Common::gammacalculation1(gamma1,gamma2, SLAU, nAmountPoints);
 
@@ -44,7 +46,7 @@ void RichardsonMethod::computeResultVectorForE (vector<double> &y, BaseMatrix *S
     for (int i=0; i<iterationNomber; i++){
         tao[i]=tao0/(1+p0*lambda[i]);
     }
-    SLAU->minesMatrex();
+
     f[0]=ya/(step*step);
     f[nAmountPoints-1]=yb/(step*step);
     iterationNomber=tao.size();
@@ -67,7 +69,7 @@ void RichardsonMethod::computeResultVectorForE (vector<double> &y, BaseMatrix *S
 
 
 //функция для не единичной без конкурирущих, т.е для gamma вручную
-void RichardsonMethod::computeResultVectorForC (vector<double> &y, BaseMatrix *SLAU, vector<double> f,int fold){
+void RichardsonMethod::computeResultVectorForC (vector<double> &y, BaseMatrix *SLAU, vector<double> f,int fold, double gamma1, double gamma2){
 
     vector<double> oldy=y;
     //граничные условия, колличество ячеек и шаг
