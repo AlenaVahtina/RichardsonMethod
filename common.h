@@ -55,6 +55,9 @@ public:
     //критерий для физики
     static bool appliedCriteria(vector<double>y, vector<double>&y1, double relativE, double absolutlyE);
 
+    //проверка на неверное количество итераций и неверные гамма
+    static bool error(double gamma1, double gamma2, int iterationNomber);
+
 };
 
 

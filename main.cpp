@@ -59,7 +59,7 @@ int main()
     step=(b-a)/nAmountPoints;
 
     //число итераций
-    iterationNomber=512;
+    iterationNomber=1024;
     cout<<"Enter the number of iterations\n"<<iterationNomber<<'\n';
     Rid.setS(iterationNomber);
 
@@ -97,8 +97,8 @@ int main()
 
      //вычисление у (основное решение задачи)
      BaseMatrix *testslau=new NormalMatrix(Matrix);
-     Rid.computeResultVectorForE(y, testslau,f,fold);
-//     Rid.computeResultVectorForC(y, testslau,f,fold);
+//     Rid.computeResultVectorForE(y, testslau,f,fold);
+     Rid.computeResultVectorForC(y, testslau,f,fold);
 
      deltak=Rid.getErrors();
 

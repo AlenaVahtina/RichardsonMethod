@@ -34,7 +34,7 @@ public:
 
     void computeResultVectorForC (vector<double> &y, BaseMatrix *SLAU, vector<double> f,int fold, double gamma1=8, double gamma2=40000);
 
-    void  calculate (vector<double> &y, BaseMatrix *SLAU, vector<double> f,int fold, bool matrixType=true);
+    void  calculate (vector<double> &y, BaseMatrix *SLAU, vector<double> f,int fold, double gamma1, double gamma2, bool matrixType=true);
 
 
 private:

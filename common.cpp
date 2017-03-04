@@ -3,6 +3,18 @@
 //функция расчета гамма1 и гамма2 для модуля без конкурирующих процессов
 void Common::gammacalculation1(double& gamma1, double & gamma2,BaseMatrix *SLAU, int nAmountPoints){
 
+
+    //гамма 1 и гамма 2; границы спектра (первый метод более точный)
+    //первый метод вычисления гамма
+    //gamma1=4*sin(M_PI*step/2*(b-a))*sin(M_PI*step/2*(b-a))/(step*step);
+    //gamma2=4*cos(M_PI*step/2*(b-a))*cos(M_PI*step/2*(b-a))/(step*step);
+
+    //второй метод вычисления гамма
+    //gamma1=8/(b-a)*(b-a);
+    //gamma2=4/(step*step);
+
+
+
     NormalMatrix* matrC=static_cast<NormalMatrix*>(new NormalMatrix(SLAU));//перевод в нормальный тип матрицы матрицу);
 
    //расчет нижней границы(гамма2) с помощью кругов Герщгорина
@@ -133,4 +145,20 @@ bool Common::appliedCriteria(vector<double>y, vector<double>&y1, double relativE
             return false;
     }
 
+}
+
+
+bool Common::error(double gamma1, double gamma2, int iterationNomber)
+{
+    if ((0>gamma1) || (gamma1>gamma2))
+    {
+        cout<<"gamma1 or gamma2 does not meet the requirements"<<'\n';
+        return false;
+    }
+
+    if (!Common::fold2(iterationNomber))
+    {
+        cout<<"s not multiply 2"<<'\n';
+        return false;
+    }
 }
