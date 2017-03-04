@@ -34,6 +34,8 @@ public:
 
     void computeResultVectorForC (vector<double> &y, BaseMatrix *SLAU, vector<double> f,int fold, double gamma1=8, double gamma2=40000);
 
+    void  calculate (vector<double> &y, BaseMatrix *SLAU, vector<double> f,int fold, bool matrixType=true);
+
 
 private:
     double a,b,ya,yb,step;
@@ -53,6 +55,7 @@ private:
     vector<double> deltak2;
 
     double gamma1, gamma2, p0, tao0, tao01, tao02, p, q, gamma12, gamma11, p01, p02;
+    double divider;
 };
 
 #endif // RICHARDSONMETHOD_H
