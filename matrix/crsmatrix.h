@@ -29,6 +29,10 @@ public:
     void readMatrix (int length, int nomberNotNullElemet);
 
 
+    //чтение матрицы из файла в Йельском формате
+    void readMatrixFile(int length, int nomberNotNullElemet);
+
+
     //создание матрицы B из А
     BaseMatrix *createB();
 

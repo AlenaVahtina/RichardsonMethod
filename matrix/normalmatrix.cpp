@@ -51,6 +51,22 @@ void NormalMatrix::readMatrix(int nAmountPoints){
 }
 
 
+//чтение матрицы из файла
+void NormalMatrix::readMatrixFile(int nAmountPoints){
+    ifstream dataFiele("data.txt");
+    if (!dataFiele) {exit (1);}
+    Matrix.resize(nAmountPoints);
+    cout<<Matrix.size()<<endl;
+    for (int i=0;i<nAmountPoints; i++){
+        Matrix[i].resize(nAmountPoints);
+        for (int j=0;j<nAmountPoints; j++){
+            dataFiele>>Matrix[i][j];
+        }
+    }
+    dataFiele.close();
+}
+
+
 //создание матрицы B из A
 BaseMatrix *NormalMatrix::createB() {
     double max;

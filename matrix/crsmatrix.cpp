@@ -68,6 +68,31 @@ void CrsMatrix::readMatrix (int length, int nomberNotNullElemet){
     }
 }
 
+//чтение матрицы с клавиатуры в Йельском формате
+void CrsMatrix::readMatrixFile (int length, int nomberNotNullElemet){
+
+    ifstream dataFiele("data.txt");
+    if (!dataFiele) {exit (1);}
+
+    pointer.resize(length);
+
+    for (int i=0; i<length;i++){
+        dataFiele>>pointer[i];
+    }
+
+    values.resize(nomberNotNullElemet);
+
+    for (int i=0; i<nomberNotNullElemet;i++){
+        dataFiele>>values[i];
+      }
+
+    cols.resize(nomberNotNullElemet);
+
+    for (int i=0; i<nomberNotNullElemet;i++){
+        dataFiele>>cols[i];
+    }
+}
+
 
 //создание матрицы B из А
 BaseMatrix *CrsMatrix::createB()

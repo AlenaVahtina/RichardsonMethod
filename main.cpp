@@ -16,6 +16,12 @@ int main()
     system("rm *.png *.dat");
 
 
+    vector<vector<double>> Matrix2;
+    NormalMatrix *SLAU123=new NormalMatrix(Matrix2);
+    SLAU123->readMatrixFile(5);
+    SLAU123->writeMatrix();
+
+
     BaseMatrix *SLAU=new NormalMatrix(vector <vector <double> >({
                                                                     {2, 1, 0, 0, 0, 0},
                                                                     {1, 2, 1, 0, 0, 0},
@@ -98,7 +104,8 @@ int main()
      //вычисление у (основное решение задачи)
      BaseMatrix *testslau=new NormalMatrix(Matrix);
 //     Rid.computeResultVectorForE(y, testslau,f,fold);
-     Rid.computeResultVectorForC(y, testslau,f,fold);
+//     Rid.computeResultVectorForC(y, testslau,f,fold);
+     Rid.computeResultVectorForEWithRivalProcess(y, testslau, f, fold);
 
      deltak=Rid.getErrors();
 

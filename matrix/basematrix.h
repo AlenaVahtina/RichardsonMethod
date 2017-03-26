@@ -21,6 +21,9 @@ public:
     //чтение матрицы с клавиатуры
     virtual void readMatrix(){ }
 
+    //чтение матрицы из файла
+    virtual void readMatrixFile(){ }
+
 
     //создание матрицы B из A
     virtual BaseMatrix * createB(){ }

@@ -26,6 +26,10 @@ public:
     void readMatrix(int nAmountPoints);
 
 
+    //чтение матрицы из файла
+    void readMatrixFile(int nAmountPoints);
+
+
     //создание матрицы B из A
     BaseMatrix *createB();
 

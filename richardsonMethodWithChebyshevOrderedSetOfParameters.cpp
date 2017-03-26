@@ -15,7 +15,7 @@ void RichardsonMethod::computeResultVectorForE (vector<double> &y, BaseMatrix *S
     Common::gammacalculation1(gamma1,gamma2, SLAU, nAmountPoints);
 
     if (!Common::error(gamma1, gamma2, iterationNomber))
-        {calculate(y,SLAU,f,fold,gamma1, gamma2, true);}
+        {calculate(y,SLAU,f,fold,gamma1, gamma2, deltak, true);}
     else {
         return;
     }
@@ -37,7 +37,7 @@ void RichardsonMethod::computeResultVectorForC (vector<double> &y, BaseMatrix *S
     gamma1=0.0002;
 
     if (!Common::error(gamma1, gamma2, iterationNomber))
-        {calculate(y,SLAU,f,fold,gamma1, gamma2, false);}
+        {calculate(y,SLAU,f,fold,gamma1, gamma2, deltak, false);}
     else {
         return;
     }
@@ -45,7 +45,72 @@ void RichardsonMethod::computeResultVectorForC (vector<double> &y, BaseMatrix *S
 }
 
 
-void  RichardsonMethod::calculate (vector<double> &y, BaseMatrix *SLAU, vector<double> f,int fold, double gamma1, double gamma2, bool matrixType){
+
+
+
+//функция расчета итогового значенияя вектора с канкурирующими процессами для единичной матрицы
+void RichardsonMethod::computeResultVectorForEWithRivalProcess(vector<double> &y, BaseMatrix *SLAU,vector<double> f,int fold, double gamma11, double gamma12, double gamma2)
+{
+//    std::string plname="";
+    nAmountPoints=y.size();
+
+    step=(b-a)/nAmountPoints;
+    ya=1;
+    yb=0;
+    gamma1=8/(b-a)*(b-a);
+    gamma2=40000;
+    gamma11=4000;
+    gamma12=800;
+
+    SLAU->minesMatrex();
+
+    vector<double> y1=y;
+    vector<double> y2=y;
+    y1.resize(y.size());
+    y2.resize(y.size());
+
+    bool endOfIteration =false;
+    while (true){
+        calculate(y1,SLAU,f,fold,gamma11, gamma2, deltak1, true);
+        calculate(y2,SLAU,f,fold,gamma12, gamma2, deltak2, true);
+
+//        int istop=iterationNomber-1;
+
+//        if (endOfIteration)break;
+        break;
+
+//        if (deltak1[istop]<deltak2[istop])
+//            {
+//            iterationNomber=2*iterationNomber;
+//        }
+//        else {
+//            if((deltak1[istop]-deltak2[istop])>EPSELON_ERROU*deltak1[istop]){
+//                iterationNomber=2*iterationNomber;
+//                gamma11=gamma11;
+//                gamma12=gamma12/4;
+//            }
+//            else {
+//                iterationNomber=2*iterationNomber;
+//                gamma11=gamma12;
+//                gamma12=gamma12/4;
+
+//                endOfIteration=true;
+//                y1=y2;
+//            }
+//        }
+//        plname+="0";
+//        Plots p;
+ //           p.AveragePlotDoble(deltak1,"y1"+plname+".png","y1"+plname);
+ //           p.AveragePlotDoble(deltak2,"y2"+plname+".png","y2"+plname);
+//        p.AveragePlotDoble2(deltak1,deltak2,"y1"+plname+".png","y1"+plname);
+    }
+}
+
+
+
+
+
+void  RichardsonMethod::calculate (vector<double> &y, BaseMatrix *SLAU, vector<double> f,int fold, double gamma1, double gamma2, vector<double> &deltak, bool matrixType){
 
 
     BaseMatrix *SLAUB;

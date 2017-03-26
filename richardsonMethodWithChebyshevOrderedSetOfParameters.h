@@ -14,6 +14,8 @@
 
 using namespace std;
 
+const double EPSELON_ERROU=0.00000000000001;
+
 #ifndef M_PI
     const double M_PI=3,1415926535897932384626;
 #endif
@@ -29,12 +31,13 @@ public:
     void setS(double _iterationNomber){iterationNomber=_iterationNomber;}
     vector<double> getErrors(){return deltak;}
 
-    //функция расчета итогового значения вектора у для еденичной матрицы и без конкурирующих процессов
     void computeResultVectorForE (vector<double> &y, BaseMatrix *SLAU, vector<double> f,int fold, double gamma1=8, double gamma2=40000);
 
     void computeResultVectorForC (vector<double> &y, BaseMatrix *SLAU, vector<double> f,int fold, double gamma1=8, double gamma2=40000);
 
-    void  calculate (vector<double> &y, BaseMatrix *SLAU, vector<double> f,int fold, double gamma1, double gamma2, bool matrixType=true);
+    void computeResultVectorForEWithRivalProcess(vector<double> &y, BaseMatrix *SLAU,vector<double> f,int fold, double gamma11=4000, double gamma12=800, double gamma2=40000);
+
+    void  calculate (vector<double> &y, BaseMatrix *SLAU, vector<double> f,int fold, double gamma1, double gamma2, vector<double> &deltak, bool matrixType=true);
 
 
 private:
