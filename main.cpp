@@ -16,24 +16,6 @@ int main()
     system("rm *.png *.dat");
 
 
-    vector<vector<double>> Matrix2;
-    NormalMatrix *SLAU123=new NormalMatrix(Matrix2);
-    SLAU123->readMatrixFile(5);
-    SLAU123->writeMatrix();
-
-
-    BaseMatrix *SLAU=new NormalMatrix(vector <vector <double> >({
-                                                                    {2, 1, 0, 0, 0, 0},
-                                                                    {1, 2, 1, 0, 0, 0},
-                                                                    {0, 1, 2, 1, 0, 0},
-                                                                    {0, 0, 1, 2, 1, 0},
-                                                                    {0, 0, 0, 1, 2, 1},
-                                                                    {0, 0, 0, 0, 1, 2}
-                                                                    }));
-    BaseMatrix *SLAU12=new CrsMatrix(vector <int> ({0,2,5,8,11,14,16}), vector <int> ({0,1,2,1,2,3,2,3,4,3,4,5,4,5}), vector <double> ({2,1,1,2,1,1,2,1,1,2,1,1,2,1,1,2}));
-//    cout<<SLAU12->GetElement(0,3);
-    SLAU->createC()->writeMatrix();
-
     RichardsonMethod Rid;
     Plots Plot;
 
@@ -65,7 +47,7 @@ int main()
     step=(b-a)/nAmountPoints;
 
     //число итераций
-    iterationNomber=1024;
+    iterationNomber=512;
     cout<<"Enter the number of iterations\n"<<iterationNomber<<'\n';
     Rid.setS(iterationNomber);
 
@@ -104,8 +86,8 @@ int main()
      //вычисление у (основное решение задачи)
      BaseMatrix *testslau=new NormalMatrix(Matrix);
 //     Rid.computeResultVectorForE(y, testslau,f,fold);
-//     Rid.computeResultVectorForC(y, testslau,f,fold);
-     Rid.computeResultVectorForEWithRivalProcess(y, testslau, f, fold);
+     Rid.computeResultVectorForC(y, testslau,f,fold);
+//     Rid.computeResultVectorForEWithRivalProcess(y, testslau, f, fold);
 
      deltak=Rid.getErrors();
 

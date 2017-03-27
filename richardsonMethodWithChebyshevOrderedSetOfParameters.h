@@ -37,7 +37,7 @@ public:
 
     void computeResultVectorForEWithRivalProcess(vector<double> &y, BaseMatrix *SLAU,vector<double> f,int fold, double gamma11=4000, double gamma12=800, double gamma2=40000);
 
-    void  calculate (vector<double> &y, BaseMatrix *SLAU, vector<double> f,int fold, double gamma1, double gamma2, vector<double> &deltak, bool matrixType=true);
+    void  calculate (vector<double> &y, BaseMatrix *SLAU, vector<double> f,int fold, double gamma1, double gamma2, vector<double> &deltak, bool matrixType=true, bool processType=false, int iterationNomberFrom=0, int iterationNomberTo=0);
 
 
 private:
