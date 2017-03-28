@@ -36,7 +36,7 @@ int main()
 
 
     //число ячеек (узлов)
-    nAmountPoints=100;
+    nAmountPoints=10;
     cout<<"The number of cells \n"<<nAmountPoints<<'\n';
 
     //настройки а и b по умолчанию
@@ -47,7 +47,7 @@ int main()
     step=(b-a)/nAmountPoints;
 
     //число итераций
-    iterationNomber=512;
+    iterationNomber=32;
     cout<<"Enter the number of iterations\n"<<iterationNomber<<'\n';
     Rid.setS(iterationNomber);
 
@@ -85,8 +85,8 @@ int main()
 
      //вычисление у (основное решение задачи)
      BaseMatrix *testslau=new NormalMatrix(Matrix);
-//     Rid.computeResultVectorForE(y, testslau,f,fold);
-     Rid.computeResultVectorForC(y, testslau,f,fold);
+     Rid.computeResultVectorForE(y, testslau,f,fold);
+//     Rid.computeResultVectorForC(y, testslau,f,fold);
 //     Rid.computeResultVectorForEWithRivalProcess(y, testslau, f, fold);
 
      deltak=Rid.getErrors();
