@@ -51,7 +51,7 @@ void RichardsonMethod::computeResultVectorForC (vector<double> &y, BaseMatrix *S
 //функция расчета итогового значенияя вектора с канкурирующими процессами для единичной матрицы
 void RichardsonMethod::computeResultVectorForEWithRivalProcess(vector<double> &y, BaseMatrix *SLAU,vector<double> f,int fold, double gamma11, double gamma12, double gamma2)
 {
-//    std::string plname="";
+    std::string plname="";
     nAmountPoints=y.size();
 
     step=(b-a)/nAmountPoints;
@@ -98,11 +98,11 @@ void RichardsonMethod::computeResultVectorForEWithRivalProcess(vector<double> &y
                 y1=y2;
             }
         }
-//        plname+="0";
-//        Plots p;
-//        p.AveragePlotDoble(deltak1,"y1"+plname+".png","y1"+plname);
-//        p.AveragePlotDoble(deltak2,"y2"+plname+".png","y2"+plname);
-//        p.AveragePlotDoble2(deltak1,deltak2,"y1"+plname+".png","y1"+plname);
+        plname+="0";
+        Plots p;
+        p.averagePlotDoble(deltak1,"y1"+plname+".png","y1"+plname);
+        p.averagePlotDoble(deltak2,"y2"+plname+".png","y2"+plname);
+        p.averagePlotDoble2(deltak1,deltak2,"y1"+plname+".png","y1"+plname);
     }
 }
 
