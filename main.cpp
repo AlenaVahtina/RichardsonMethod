@@ -36,7 +36,7 @@ int main()
 
 
     //число ячеек (узлов)
-    nAmountPoints=10;
+    nAmountPoints=32;
     cout<<"The number of cells \n"<<nAmountPoints<<'\n';
 
     //настройки а и b по умолчанию
@@ -47,7 +47,7 @@ int main()
     step=(b-a)/nAmountPoints;
 
     //число итераций
-    iterationNomber=32;
+    iterationNomber=10;
     cout<<"Enter the number of iterations\n"<<iterationNomber<<'\n';
     Rid.setS(iterationNomber);
 
