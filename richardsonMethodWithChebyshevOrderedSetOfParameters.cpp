@@ -15,7 +15,7 @@ void RichardsonMethod::computeResultVectorForE (vector<double> &y, BaseMatrix *S
     Common::gammacalculation1(gamma1,gamma2, SLAU, nAmountPoints);
 
     if (!Common::error(gamma1, gamma2, iterationNomber))
-        {calculate(y,SLAU,f,fold,gamma1, gamma2, deltak, true, true, 0, iterationNomber);}
+        {calculate(y,SLAU,f,fold,gamma1, gamma2, deltak, true, false, 0, iterationNomber);}
     else {
         return;
     }
@@ -72,12 +72,12 @@ void RichardsonMethod::computeResultVectorForEWithRivalProcess(vector<double> &y
     bool endOfIteration =false;
     while (true){
         calculate(y1,SLAU,f,fold,gamma11, gamma2, deltak1, true, true, 0, iterationNomber);
-        calculate(y2,SLAU,f,fold,gamma12, gamma2, deltak2, true, 0, iterationNomber);
+        calculate(y2,SLAU,f,fold,gamma12, gamma2, deltak2, true, true, 0, iterationNomber);
 
         int istop=iterationNomber-1;
 
         if (endOfIteration)break;
-        break;
+
 
         if (deltak1[istop]<deltak2[istop])
             {
