@@ -76,7 +76,8 @@ void RichardsonMethod::computeResultVectorForEWithRivalProcess(vector<double> &y
 
         int istop=iterationNomber-1;
 
-        if (endOfIteration)break;
+        if (endOfIteration)
+            break;
 
 
         if (deltak1[istop]<deltak2[istop])
@@ -100,8 +101,8 @@ void RichardsonMethod::computeResultVectorForEWithRivalProcess(vector<double> &y
         }
         plname+="0";
         Plots p;
-        p.averagePlotDoble(deltak1,"y1"+plname+".png","y1"+plname);
-        p.averagePlotDoble(deltak2,"y2"+plname+".png","y2"+plname);
+//        p.averagePlotDoble(deltak1,"y1"+plname+".png","y1"+plname);
+//        p.averagePlotDoble(deltak2,"y2"+plname+".png","y2"+plname);
         p.averagePlotDoble2(deltak1,deltak2,"y1"+plname+".png","y1"+plname);
     }
 }
