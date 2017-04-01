@@ -80,7 +80,8 @@ void RichardsonMethod::computeResultVectorForEWithRivalProcess(vector<double> &y
 
         int istop=iterationNomber-1;
 
-        if (endOfIteration)break;
+        if (endOfIteration)
+            break;
 
 
         if (deltak1[istop]<deltak2[istop])
