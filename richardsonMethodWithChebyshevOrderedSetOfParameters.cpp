@@ -69,12 +69,15 @@ void RichardsonMethod::computeResultVectorForEWithRivalProcess(vector<double> &y
     y1.resize(y.size());
     y2.resize(y.size());
 
-    deltak1.resize(iterationNomber);
-    deltak2.resize(iterationNomber);
+//    deltak1.resize(iterationNomber);
+//    deltak2.resize(iterationNomber);
 
     bool endOfIteration =false;
 
     while (true){
+        deltak1.resize(iterationNomber);
+        deltak2.resize(iterationNomber);
+
         calculate(y1,SLAU,f,fold,gamma11, gamma2, deltak1, true, true, 0, iterationNomber);
         calculate(y2,SLAU,f,fold,gamma12, gamma2, deltak2, true, true, 0, iterationNomber);
 
@@ -114,84 +117,81 @@ void RichardsonMethod::computeResultVectorForEWithRivalProcess(vector<double> &y
 
 
 
-////функция расчета итогового значенияя вектора с канкурирующими процессами для не единичной матрицы
-//void Richardson::computeResultVectorForNotEWithRivalProcess(vector<double> &y, BaseMatrix *SLAU,vector<double> f,int fold, double gamma11, double gamma12, double gamma2){
-//    std::string plname="";
-//    nAmountPoints=y.size();
+//функция расчета итогового значенияя вектора с канкурирующими процессами для не единичной матрицы
+void RichardsonMethod::computeResultVectorForNotEWithRivalProcess(vector<double> &y, BaseMatrix *SLAU,vector<double> f,int fold, double gamma11, double gamma12, double gamma2){
 
-//    step=(b-a)/nAmountPoints;
-//    ya=1;
-//    yb=0;
-//    gamma1=8/(b-a)*(b-a);
-//    gamma2=4/(step*step);
-//    gamma11=gamma1;
-//    gamma12=gamma1;
+    std::string plname="";
+    nAmountPoints=y.size();
 
-
-//    vector<double> y1=y;
-//    vector<double> y2=y;
-//    y1.resize(y.size());
-//    y2.resize(y.size());
-
-//    SLAU->MinesMatrex();
-//    BaseMatrix *SLAU2=SLAU->CreateC();
-//    SLAU2->WriteMatrix();
+    step=(b-a)/nAmountPoints;
+    ya=1;
+    yb=0;
+    gamma1=8/(b-a)*(b-a);
+    gamma2=4/(step*step);
+    gamma11=gamma1;
+    gamma12=gamma1;
 
 
+    vector<double> y1=y;
+    vector<double> y2=y;
+    y1.resize(y.size());
+    y2.resize(y.size());
 
-//    gammacalculation(gamma11, gamma12, gamma2, SLAU2);
+    SLAU->createB();
+    BaseMatrix *SLAU2=SLAU->createC();
 
-
-
-//    bool notExcept2=false;
-//    bool endOfIteration =false;
-
-//    while (true){
-
-//       deltak1.resize(iterationNomber);
-//       deltak2.resize(iterationNomber);
-
-//       calculate(y1,SLAU,f,fold,gamma11, gamma2, deltak1, true, true, 0, iterationNomber);
-//       calculate(y2,SLAU,f,fold,gamma12, gamma2, deltak2, true, true, 0, iterationNomber);
+//    Common::gammacalculation(gamma11, gamma12,  gamma2, SLAU2, p, q, nAmountPoints);
 
 
-//       int istop=iterationNomber-1;
-//       if ((endOfIteration) || (deltak1[istop]<EPSELON_SOLUTION) || (deltak2[istop]<EPSELON_SOLUTION))break;
+    bool notExcept2=false;
+    bool endOfIteration =false;
 
-//       cout<<deltak1[istop]<<" "<<deltak2[istop]<<"\n";
-//       if ((deltak1[istop]<deltak2[istop])&&(deltak2[istop]>EPSELON_SOLUTION*10000))
-//           {
-//           iterationNomber=2*iterationNomber;
-//       }
-//       else {
-//           cout<<"else "<<deltak1[istop]-deltak2[istop]<<" "<<deltak1[istop]<<" "<< EPSELON_ERROU*deltak1[istop]<<"\n";
-//           if(((deltak1[istop]-deltak2[istop])>EPSELON_ERROU*deltak1[istop])&&(deltak2[istop]>EPSELON_SOLUTION*10000))
-//           {
-//               iterationNomber=2*iterationNomber;
-//               gamma11=gamma11;
-//               gamma12=gamma12/4;
-//               notExcept2=true;
-//           }
-//           else {
-//               iterationNomber=2*iterationNomber;
-//               gamma11=gamma12;
-//               gamma12=gamma12/4;
+    while (true){
 
-//               endOfIteration=true;
-//               y1=y2;
-//           }
-//       }
-//       plname+="0";
-//       Plots p;
-//           p.AveragePlotDoble(deltak1,"y1"+plname+".png","y1"+plname);
-//           p.AveragePlotDoble(deltak2,"y2"+plname+".png","y2"+plname);
-//           p.AveragePlotDoble2(deltak1,deltak2,"y1"+plname+".png","y1"+plname);
+       deltak1.resize(iterationNomber);
+       deltak2.resize(iterationNomber);
+
+       calculate(y1,SLAU,f,fold,gamma11, gamma2, deltak1, false, true, 0, iterationNomber);
+       calculate(y2,SLAU,f,fold,gamma12, gamma2, deltak2, false, true, 0, iterationNomber);
+
+
+       int istop=iterationNomber-1;
+       if ((endOfIteration) || (deltak1[istop]<EPSELON_SOLUTION) || (deltak2[istop]<EPSELON_SOLUTION))break;
+
+
+       if ((deltak1[istop]<deltak2[istop])&&(deltak2[istop]>EPSELON_SOLUTION*10000))
+           {
+           iterationNomber=2*iterationNomber;
+       }
+       else {
+           cout<<"else "<<deltak1[istop]-deltak2[istop]<<" "<<deltak1[istop]<<" "<< EPSELON_ERROU*deltak1[istop]<<"\n";
+           if(((deltak1[istop]-deltak2[istop])>EPSELON_ERROU*deltak1[istop])&&(deltak2[istop]>EPSELON_SOLUTION*10000))
+           {
+               iterationNomber=2*iterationNomber;
+               gamma11=gamma11;
+               gamma12=gamma12/4;
+               notExcept2=true;
+           }
+           else {
+               iterationNomber=2*iterationNomber;
+               gamma11=gamma12;
+               gamma12=gamma12/4;
+
+               endOfIteration=true;
+               y1=y2;
+           }
+       }
+       plname+="0";
+       Plots p;
+//           p.averagePlotDoble(deltak1,"y1"+plname+".png","y1"+plname);
+//           p.averagePlotDoble(deltak2,"y2"+plname+".png","y2"+plname);
+           p.averagePlotDoble2 (deltak1,deltak2,"y1"+plname+".png","y1"+plname);
 
 
 
-//   }
-//   y=y1;
-//}
+   }
+   y=y1;
+}
 
 
 

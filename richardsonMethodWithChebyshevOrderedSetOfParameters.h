@@ -14,7 +14,8 @@
 
 using namespace std;
 
-const double EPSELON_ERROU=0.0000001;
+const double EPSELON_ERROU=0.5;
+const double EPSELON_SOLUTION=0.000001;
 
 #ifndef M_PI
     const double M_PI=3,1415926535897932384626;
@@ -36,6 +37,8 @@ public:
     void computeResultVectorForC (vector<double> &y, BaseMatrix *SLAU, vector<double> f,int fold, double gamma1=8, double gamma2=40000);
 
     void computeResultVectorForEWithRivalProcess(vector<double> &y, BaseMatrix *SLAU,vector<double> f,int fold, double gamma11=4000, double gamma12=800, double gamma2=40000);
+
+    void computeResultVectorForNotEWithRivalProcess(vector<double> &y, BaseMatrix *SLAU,vector<double> f,int fold, double gamma11=4000, double gamma12=800, double gamma2=40000);
 
     void  calculate (vector<double> &y, BaseMatrix *SLAU, vector<double> f,int fold, double gamma1, double gamma2, vector<double> &deltak, bool matrixType=true, bool processType=false, int iterationNomberFrom=0, int iterationNomberTo=0);
 

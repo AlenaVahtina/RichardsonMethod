@@ -87,7 +87,8 @@ int main()
      BaseMatrix *testslau=new NormalMatrix(Matrix);
 //     Rid.computeResultVectorForE(y, testslau,f,fold);
 //     Rid.computeResultVectorForC(y, testslau,f,fold);
-     Rid.computeResultVectorForEWithRivalProcess(y, testslau, f, fold);
+//     Rid.computeResultVectorForEWithRivalProcess(y, testslau, f, fold);
+     Rid.computeResultVectorForNotEWithRivalProcess(y, testslau, f, fold);
 
      deltak=Rid.getErrors();
 
