@@ -1,18 +1,34 @@
+#include "mainwindow.h"
+#include "ui_mainwindow.h"
 #include <iostream>
-#include "matrix/basematrix.h"
-#include "functions.h"
-#include "gnuplot.h"
-#include "plots.h"
-#include "matrix/normalmatrix.h"
-#include "matrix/crsmatrix.h"
-#include "common.h"
-#include "richardsonMethodWithChebyshevOrderedSetOfParameters.h"
+#include <../matrix/basematrix.h>
+#include "../functions.h"
+#include "../gnuplot.h"
+#include "../plots.h"
+#include "../matrix/normalmatrix.h"
+#include "../matrix/crsmatrix.h"
+#include "../common.h"
+#include "../richardsonMethodWithChebyshevOrderedSetOfParameters.h"
+
+#include <QDir>
+#include <QDebug>
 
 using namespace std;
 
-int main()
+MainWindow::MainWindow(QWidget *parent) :
+    QMainWindow(parent),
+    ui(new Ui::MainWindow)
 {
-    //удаление файлов данных и графиков предыдущей работы программы
+    ui->setupUi(this);
+}
+
+MainWindow::~MainWindow()
+{
+    delete ui;
+}
+
+void MainWindow::on_pushButton_clicked()
+{
     system("rm *.png *.dat");
 
 
@@ -27,7 +43,7 @@ int main()
     vector<double> f;//функция, правая часть
     vector<double> y;//искомое расспределение темпиратур, вектор неизвестных
     vector<double> deltak;// вектор ошибок
-    vector<vector<double>> Matrix;
+    vector <vector<double> > Matrix;
 
 
     //какие графики итерации нужно выводить, fold=0-ни одного, fold=1-(iterationNomber-1)-графики кратные fold, fold=iterationNomber -только последнюю итерацию
@@ -100,12 +116,47 @@ int main()
     cout<<endl;
 
 
-
-    //построение графиков (по умолчанию выведены функции построения графиков для единичной матрицы без конкурирующих процессов)
-//    Plot.setfold(fold);
-//    Plot.YPlot(y);
-//    Plot.PlotWithE(deltak);
-//    Plot.AveragePlot(deltak);
-    return 0;
+    ui->pushButton_4->click();
 }
 
+void MainWindow::showImage(QString path){
+        QPixmap pixmap(path);
+        ui->label->setPixmap(pixmap);
+       // ui->label->setMask(pixmap.mask());
+        ui->label->repaint();
+}
+
+void MainWindow::on_pushButton_4_clicked()
+{
+    QStringList filters;
+    QDir dir(".");
+    filters << "*.png" << "*.jpg" << "*.bmp";
+    allFiles = dir.entryList(filters, QDir::Files|QDir::NoDotAndDotDot);
+    if(allFiles.size()!=0){
+        showImage(allFiles.at(0));
+        current=0;
+    }
+}
+
+void MainWindow::on_pushButton_2_clicked()
+{
+    if(allFiles.size()!=0){
+        if(allFiles.size()-1 == current)
+            current=0;
+        else
+            current++;
+        showImage(allFiles.at(current));
+    }
+
+}
+
+void MainWindow::on_pushButton_3_clicked()
+{
+    if(allFiles.size()!=0){
+        if(0 == current)
+            current=allFiles.size()-1;
+        else
+            current--;
+        showImage(allFiles.at(current));
+    }
+}

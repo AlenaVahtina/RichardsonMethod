@@ -54,7 +54,7 @@ void NormalMatrix::readMatrix(int nAmountPoints){
 //чтение матрицы из файла
 void NormalMatrix::readMatrixFile(int nAmountPoints){
     ifstream dataFiele("data.txt");
-    if (!dataFiele) {exit (1);}
+    if (!dataFiele) {return;}
     Matrix.resize(nAmountPoints);
     for (int i=0;i<nAmountPoints; i++){
         Matrix[i].resize(nAmountPoints);

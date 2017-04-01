@@ -14,7 +14,7 @@
 
 using namespace std;
 
-const double EPSELON_ERROU=0.001;
+const double EPSELON_ERROU=0.0000001;
 
 #ifndef M_PI
     const double M_PI=3,1415926535897932384626;

@@ -41,7 +41,7 @@ CrsMatrix::CrsMatrix(BaseMatrix * another){
     }else if (another->getType()==BaseMatrix::NORMALMATRIX){
         //перевод из matrix в три вектора
         NormalMatrix* normal=static_cast<NormalMatrix*>(another);
-        vector<vector<double>> to =normal->Matrix;
+        vector< vector<double> > to =normal->Matrix;
         translateNormalCRS(to, values,cols, pointer);
     }
 }
@@ -72,7 +72,7 @@ void CrsMatrix::readMatrix (int length, int nomberNotNullElemet){
 void CrsMatrix::readMatrixFile (int length, int nomberNotNullElemet){
 
     ifstream dataFiele("data.txt");
-    if (!dataFiele) {exit (1);}
+    if (!dataFiele) {return;}
 
     pointer.resize(length);
 

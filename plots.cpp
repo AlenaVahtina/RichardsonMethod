@@ -11,7 +11,8 @@ void Plots::yPlot(vector<double> &y){
     if (!f.is_open())
       {
         cout << "Error opening file output.dat.\n";
-        exit(EXIT_FAILURE);
+//        exit(EXIT_FAILURE);
+        return;
       }
 
     for (int i=0; i<y.size(); i++){
@@ -31,11 +32,12 @@ void Plots::yPlot(vector<double> &y){
 //построение графика у на каждой итерации с пресвоением нового имени
 void Plots::iteratPlot(vector<double> &y,std::string plotname,std::string filename){
     ofstream f;
-        f.open(filename);
+        f.open(filename.data());
         if (!f.is_open())
           {
             cout << "Error opening file output.dat.\n";
-            exit(EXIT_FAILURE);
+            //exit(EXIT_FAILURE);
+            return;
           }
         for (int i=0; i<y.size(); i++){
             f<<y[i]<<"   "<<i<<endl;
@@ -59,7 +61,8 @@ void Plots::plotWithError(vector<double> &deltak){
     if (!f.is_open())
       {
         cout << "Error opening file output.dat.\n";
-        exit(EXIT_FAILURE);
+        //exit(EXIT_FAILURE);
+        return;
       }
 
     for (int i=0; i<deltak.size(); i++){
@@ -83,7 +86,8 @@ void Plots::averagePlot(vector<double> &deltak){
     if (!f.is_open())
       {
         cout << "Error opening file output.dat.\n";
-        exit(EXIT_FAILURE);
+        //exit(EXIT_FAILURE);
+        return;
       }
     if (deltak.size()==0)return;
     f<<deltak[0]<<"   "<<log10(deltak[0])<<"  "<<0<<endl;
@@ -111,11 +115,12 @@ void Plots::averagePlot(vector<double> &deltak){
 //построение графиков для конкурирующих процессов
 void Plots::averagePlotDoble(vector<double> &deltak,std::string plotname,std::string filename){
     ofstream f;
-    f.open(filename);
+    f.open(filename.data());
     if (!f.is_open())
       {
         cout << "Error opening file output.dat.\n";
-        exit(EXIT_FAILURE);
+        //exit(EXIT_FAILURE);
+        return;
       }
     f<<deltak[0]<<"   "<<log10(deltak[0])<<"  "<<0<<endl;
     double predk=deltak[0];
@@ -142,11 +147,12 @@ void Plots::averagePlotDoble(vector<double> &deltak,std::string plotname,std::st
 //построение приведенных графиков для конкурирующих процессов
 void Plots::averagePlotDoble2(vector<double> &deltak, vector<double> &deltak2, std::string plotname,std::string filename){
     ofstream f;
-    f.open(filename);
+    f.open(filename.data());
     if (!f.is_open())
       {
         cout << "Error opening file output.dat.\n";
-        exit(EXIT_FAILURE);
+        //exit(EXIT_FAILURE);
+        return;
       }
     f<<deltak[0]<<"   "<<log10(deltak[0])<<"   "<<deltak2[0]<<"  "<<log10(deltak2[0])<<"   "<<0<<endl;
     double predk=deltak[0];
