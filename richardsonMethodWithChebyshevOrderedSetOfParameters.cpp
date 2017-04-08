@@ -69,8 +69,6 @@ void RichardsonMethod::computeResultVectorForEWithRivalProcess(vector<double> &y
     y1.resize(y.size());
     y2.resize(y.size());
 
-//    deltak1.resize(iterationNomber);
-//    deltak2.resize(iterationNomber);
 
     bool endOfIteration =false;
 
@@ -81,38 +79,40 @@ void RichardsonMethod::computeResultVectorForEWithRivalProcess(vector<double> &y
         calculate(y1,SLAU,f,fold,gamma11, gamma2, deltak1, true, true, 0, iterationNomber);
         calculate(y2,SLAU,f,fold,gamma12, gamma2, deltak2, true, true, 0, iterationNomber);
 
-        int istop=iterationNomber-1;
+        endOfIteration = Common::issolution(deltak1,EPSELON_SOLUTION)?1:0;
+        endOfIteration = Common::issolution(deltak2,EPSELON_SOLUTION)?2:0;
 
-        if (endOfIteration)
-            break;
+        if(endOfIteration==0){
+           int istop=Common::cross(deltak1,deltak2);
+           if (istop==-1){
+               iterationNomber=2*iterationNomber;
+           }else {
+               if (Common::criterion27(deltak1,deltak2,istop,EPSELON_ERROU)==false){
+                   iterationNomber=2*iterationNomber;
+                   gamma11=gamma11;
+                   gamma12=gamma12/4;
+               }
+               else {
+                   iterationNomber=2*iterationNomber;
+                   gamma11=gamma12;
+                   gamma12=gamma12/4;
+               }
+           }
+        }else{
+            y = (endOfIteration == 1)?y1:y2;
 
-
-        if (deltak1[istop]<deltak2[istop])
-            {
-            iterationNomber=2*iterationNomber;
         }
-        else {
-            if((deltak1[istop]-deltak2[istop])>EPSELON_ERROU*deltak1[istop]){
-                iterationNomber=2*iterationNomber;
-                gamma11=gamma11;
-                gamma12=gamma12/4;
-            }
-            else {
-                iterationNomber=2*iterationNomber;
-                gamma11=gamma12;
-                gamma12=gamma12/4;
 
-                endOfIteration=true;
-                y1=y2;
-            }
-        }
         plname+="0";
         Plots p;
 //        p.averagePlotDoble(deltak1,"y1"+plname+".png","y1"+plname);
 //        p.averagePlotDoble(deltak2,"y2"+plname+".png","y2"+plname);
         p.averagePlotDoble2(deltak1,deltak2,"y1"+plname+".png","y1"+plname);
+
+        if(endOfIteration!=0){
+            break;
+        }
     }
-    y=y1;
 }
 
 
@@ -130,11 +130,6 @@ void RichardsonMethod::computeResultVectorForNotEWithRivalProcess(vector<double>
     gamma2=4/(step*step);
     gamma11=gamma1;
     gamma12=gamma1;
-
-//    gamma1=8/(b-a)*(b-a);
-//    gamma2=40000;
-//    gamma11=4000;
-//    gamma12=800;
 
 
     vector<double> y1=y;
@@ -160,9 +155,7 @@ void RichardsonMethod::computeResultVectorForNotEWithRivalProcess(vector<double>
        calculate(y1,SLAU,f,fold,gamma11, gamma2, deltak1, false, true, 0, iterationNomber);
        calculate(y2,SLAU,f,fold,gamma12, gamma2, deltak2, false, true, 0, iterationNomber);
 
-//       vector<double> deltak_raznost;
-//       deltak_raznost.resize(iterationNomber);
-//       for()
+
         endOfIteration = Common::issolution(deltak1,EPSELON_SOLUTION)?1:0;
         endOfIteration = Common::issolution(deltak2,EPSELON_SOLUTION)?2:0;
 
@@ -188,32 +181,7 @@ void RichardsonMethod::computeResultVectorForNotEWithRivalProcess(vector<double>
             y = (endOfIteration == 1)?y1:y2;
 
         }
-//       int istop=iterationNomber-1;
-//       if ((endOfIteration) || (deltak1[istop]<EPSELON_SOLUTION) || (deltak2[istop]<EPSELON_SOLUTION))break;
 
-
-//       if ((deltak1[istop]<deltak2[istop])&&(deltak2[istop]>EPSELON_SOLUTION))
-//           {
-//           iterationNomber=2*iterationNomber;
-//       }
-//       else {
-//           cout<<"else "<<deltak1[istop]-deltak2[istop]<<" "<<deltak1[istop]<<" "<< EPSELON_ERROU*deltak1[istop]<<"\n";
-//           if(((deltak1[istop]-deltak2[istop])>EPSELON_ERROU*deltak1[istop])&&(deltak2[istop]>EPSELON_SOLUTION*10000))
-//           {
-//               iterationNomber=2*iterationNomber;
-//               gamma11=gamma11;
-//               gamma12=gamma12/4;
-//             //  notExcept2=true;
-//           }
-//           else {
-//               iterationNomber=2*iterationNomber;
-//               gamma11=gamma12;
-//               gamma12=gamma12/4;
-
-//               endOfIteration=true;
-//               y1=y2;
-//           }
-//       }
        plname+="0";
        Plots p;
 //           p.averagePlotDoble(deltak1,"y1"+plname+".png","y1"+plname);
