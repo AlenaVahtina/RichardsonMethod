@@ -127,9 +127,11 @@ BaseMatrix *NormalMatrix::matrixMatrix (BaseMatrix * secondM)
 
 //функция создания матрицы С=B^(-1/2)*A*B^(-1/2)
 BaseMatrix *NormalMatrix::createC(){
-    BaseMatrix *MatrixB=this->createB()->reB();
+    BaseMatrix *MatrixB=this->createB();
+    MatrixB->reB();
     BaseMatrix *MatrixC=this->createB()->reB();
-    return MatrixC->matrixMatrix(static_cast<BaseMatrix*>(this))->matrixMatrix(MatrixB);
+    BaseMatrix *m =MatrixC->matrixMatrix(static_cast<BaseMatrix*>(this))->matrixMatrix(MatrixB);
+    return m;
 }
 
 //функция обращения матрицы(-A)

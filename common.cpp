@@ -107,7 +107,7 @@ void Common::flambda (vector <int> &index, vector <double> &lambda, double itera
 //функция итерационной ошибки
 double Common::IterError(vector<double> &y, vector<double> &oldy) {
     double maxk;
-    for (int i=1; i<y.size(); i++){
+    for (uint i=1; i<y.size(); i++){
         if (fabs(y[i]-oldy[i])>maxk) {maxk=fabs(y[i]-oldy[i]);}
     }
     oldy=y;
@@ -144,6 +144,7 @@ bool Common::appliedCriteria(vector<double>y, vector<double>&y1, double relativE
         else
             return false;
     }
+    return false;
 
 }
 
@@ -161,4 +162,41 @@ bool Common::error(double gamma1, double gamma2, int iterationNomber)
         cout<<"s not multiply 2"<<'\n';
         return false;
     }
+    return true;
 }
+
+
+// фун. для проверки на пересечение
+int Common::cross(vector<double> deltak1, vector<double> deltak2)
+{
+    int iterationNomber=deltak1.size();
+    for (int i=3; i<iterationNomber; i+=4) {
+        if (deltak1[i]>deltak2[i]) {
+            return i;
+        }
+    }
+    return -1;
+}
+
+
+bool Common::criterion27(vector<double> deltak1, vector<double> deltak2, int istop, double eps)
+{
+    int iterationNomber=deltak1.size();
+    for (int i=istop; i<iterationNomber; i+=4) {
+        if ((deltak1[i]-deltak2[i])>deltak1[i]*eps) {
+            return true;
+        }
+    }
+    return false;
+}
+
+bool Common::issolution(vector<double> deltak, double eps) {
+    int iterationNomber=deltak.size();
+    for (int i=3; i<iterationNomber; i+=4) {
+        if (deltak[i]<eps) {
+            return true;
+        }
+    }
+    return false;
+}
+

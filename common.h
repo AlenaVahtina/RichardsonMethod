@@ -21,8 +21,8 @@ class Common
 {
 public:
 
-    const double EPSELON_SOLUTION=0.00000000000001;
-    const double EPSELON_ERROU=0.3;
+//    const double EPSELON_SOLUTION=0.00000000000001;
+//    const double EPSELON_ERROU=0.03;
 
 
     //функция расчета гамма1* гамма1** и гамма2
@@ -58,6 +58,13 @@ public:
     //проверка на неверное количество итераций и неверные гамма
     static bool error(double gamma1, double gamma2, int iterationNomber);
 
+    // фун. для проверки на пересечение
+    static int cross(vector<double> deltak1, vector<double> deltak2);
+
+
+    static  bool criterion27(vector<double> deltak1, vector<double> deltak2, int istop, double eps);
+
+    static bool issolution(vector<double> deltak, double eps);
 };
 
 

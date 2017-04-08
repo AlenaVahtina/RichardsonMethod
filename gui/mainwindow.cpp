@@ -96,15 +96,15 @@ void MainWindow::on_pushButton_clicked()
     }
 
     //считать параметры q и p
-    Rid.setP(0);
-    Rid.setQ(0);
+    Rid.setP(0.02);
+    Rid.setQ(0.1);
 
      //вычисление у (основное решение задачи)
      BaseMatrix *testslau=new NormalMatrix(Matrix);
 //     Rid.computeResultVectorForE(y, testslau,f,fold);
 //     Rid.computeResultVectorForC(y, testslau,f,fold);
-//     Rid.computeResultVectorForEWithRivalProcess(y, testslau, f, fold);
-       Rid.computeResultVectorForNotEWithRivalProcess(y, testslau, f, fold);
+   //  Rid.computeResultVectorForEWithRivalProcess(y, testslau, f, fold);
+      Rid.computeResultVectorForNotEWithRivalProcess(y, testslau, f, fold);
 
      deltak=Rid.getErrors();
 
