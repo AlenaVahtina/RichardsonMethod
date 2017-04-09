@@ -12,6 +12,7 @@
 
 #include <QDir>
 #include <QDebug>
+#include <QFileDialog>
 
 using namespace std;
 
@@ -46,13 +47,21 @@ void MainWindow::on_pushButton_clicked()
     vector <vector<double> > Matrix;
 
 
+
+
     //какие графики итерации нужно выводить, fold=0-ни одного, fold=1-(iterationNomber-1)-графики кратные fold, fold=iterationNomber -только последнюю итерацию
     int fold=4;
     Plot.setfold(fold);
 
 
     //число ячеек (узлов)
-    nAmountPoints=100;
+    if (!ui->lineEdit_3->text().isEmpty())
+    {
+        nAmountPoints=ui->lineEdit_3->text().toInt();
+    }
+    else {
+        nAmountPoints=100;
+    }
     cout<<"The number of cells \n"<<nAmountPoints<<'\n';
 
     //настройки а и b по умолчанию
@@ -63,7 +72,13 @@ void MainWindow::on_pushButton_clicked()
     step=(b-a)/nAmountPoints;
 
     //число итераций
+    if (!ui->lineEdit->text().isEmpty())
+    {
+        iterationNomber=ui->lineEdit->text().toInt();
+    }else
+    {
     iterationNomber=16;
+    }
     cout<<"Enter the number of iterations\n"<<iterationNomber<<'\n';
     Rid.setS(iterationNomber);
 
@@ -99,12 +114,31 @@ void MainWindow::on_pushButton_clicked()
     Rid.setP(0.02);
     Rid.setQ(0.1);
 
+    bool matrixType=ui->radioButton->isChecked();
+    bool processType=ui->radioButton_3->isChecked();
      //вычисление у (основное решение задачи)
-     BaseMatrix *testslau=new NormalMatrix(Matrix);
-//     Rid.computeResultVectorForE(y, testslau,f,fold);
-//     Rid.computeResultVectorForC(y, testslau,f,fold);
-//     Rid.computeResultVectorForEWithRivalProcess(y, testslau, f, fold);
-      Rid.computeResultVectorForNotEWithRivalProcess(y, testslau, f, fold);
+    QString files= ui->lineEdit_2->text();
+     BaseMatrix *testslau;
+     if(files.isEmpty()){
+         testslau=new NormalMatrix(Matrix);
+     }else{
+         NormalMatrix* a = new NormalMatrix(Matrix);
+         a->readMatrixFile(nAmountPoints , files.toStdString());
+         testslau=a;
+     }
+     if (processType){
+         if (matrixType){
+            Rid.computeResultVectorForE(y, testslau,f,fold);
+         }else{
+            Rid.computeResultVectorForC(y, testslau,f,fold);
+         }
+     }else{
+        if (matrixType){
+            Rid.computeResultVectorForEWithRivalProcess(y, testslau, f, fold);
+        }else{
+            Rid.computeResultVectorForNotEWithRivalProcess(y, testslau, f, fold);
+        }
+     }
 
      deltak=Rid.getErrors();
 
@@ -160,4 +194,14 @@ void MainWindow::on_pushButton_3_clicked()
             current--;
         showImage(allFiles.at(current));
     }
+}
+
+void MainWindow::on_pushButton_5_clicked()
+{
+    ui->lineEdit_2->setText(QFileDialog::getOpenFileName(
+                            this,
+                            "Выберите файл с матрицей",
+                            "/home",
+                            "Text File (*.txt)"));
+
 }

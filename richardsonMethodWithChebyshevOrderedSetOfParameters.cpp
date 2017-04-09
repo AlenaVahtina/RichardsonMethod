@@ -181,9 +181,9 @@ void RichardsonMethod::computeResultVectorForNotEWithRivalProcess(vector<double>
             y = (endOfIteration == 1)?y1:y2;
 
 
-            plname+="0";
-            Plots plot;
-            plot.iteratPlot(y1,std::string("output")+std::to_string(iterationNomber)+".png",std::string("output")+std::to_string(iterationNomber)+".dat");
+//            plname+="0";
+//            Plots plot;
+//            plot.iteratPlot(y1,std::string("output")+std::to_string(iterationNomber)+".png",std::string("output")+std::to_string(iterationNomber)+".dat");
 
 
         }
@@ -192,7 +192,7 @@ void RichardsonMethod::computeResultVectorForNotEWithRivalProcess(vector<double>
        Plots p;
 //           p.averagePlotDoble(deltak1,"y1"+plname+".png","y1"+plname);
 //           p.averagePlotDoble(deltak2,"y2"+plname+".png","y2"+plname);
-//           p.averagePlotDoble2 (deltak1,deltak2,"y1"+plname+".png","y1"+plname);
+           p.averagePlotDoble2 (deltak1,deltak2,"y1"+plname+".png","y1"+plname);
 
 
         if(endOfIteration!=0){

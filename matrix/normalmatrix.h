@@ -27,7 +27,7 @@ public:
 
 
     //чтение матрицы из файла
-    void readMatrixFile(int nAmountPoints);
+    void readMatrixFile(int nAmountPoints, string fileName);
 
 
     //создание матрицы B из A

@@ -92,8 +92,8 @@ void Plots::averagePlot(vector<double> &deltak){
     if (deltak.size()==0)return;
     f<<deltak[0]<<"   "<<log10(deltak[0])<<"  "<<0<<endl;
     double predk=deltak[0];
-    for (int i=4; i<deltak.size()-1; i++){
-        if ((deltak[i]<predk) && (i%4==0)) {
+    for (int i=3; i<deltak.size()-1; i+=4){
+        if ((deltak[i]<predk)) {
             f<<deltak[i]<<"   "<<log10(deltak[i])<<"  "<<i<<endl;
             predk=deltak[i];
         }
@@ -124,8 +124,8 @@ void Plots::averagePlotDoble(vector<double> &deltak,std::string plotname,std::st
       }
     f<<deltak[0]<<"   "<<log10(deltak[0])<<"  "<<0<<endl;
     double predk=deltak[0];
-    for (int i=4; i<deltak.size()-1; i++){
-        if ((deltak[i]<predk) && (i%4==0)) {
+    for (int i=3; i<deltak.size()-1; i+=4){
+        if ((deltak[i]<predk) ) {
             f<<deltak[i]<<"   "<<log10(deltak[i])<<"  "<<i<<endl;
             predk=deltak[i];
         }
@@ -156,8 +156,8 @@ void Plots::averagePlotDoble2(vector<double> &deltak, vector<double> &deltak2, s
       }
     f<<deltak[0]<<"   "<<log10(deltak[0])<<"   "<<deltak2[0]<<"  "<<log10(deltak2[0])<<"   "<<0<<endl;
     double predk=deltak[0];
-    for (int i=4; i<deltak.size()-1; i++){
-        if ((deltak[i]<predk) && (deltak2[i]<predk) && (i%4==0)) {
+    for (int i=3; i<deltak.size()-1; i+=4){
+        if ((deltak[i]<predk) && (deltak2[i]<predk) ) {
             f<<deltak[i]<<"   "<<log10(deltak[i])<<"   "<<deltak2[i]<<"  "<<log10(deltak2[i])<<"   "<<i<<endl;
             predk=deltak[i];
         }
