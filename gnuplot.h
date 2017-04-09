@@ -11,7 +11,7 @@
 #else
     #define GNUPLOT_NAME "gnuplot -persist"
 #endif
-static int ggg=0;
+
 using std::string;
 using std::cerr;
 

@@ -162,7 +162,7 @@ bool Common::error(double gamma1, double gamma2, int iterationNomber)
         cout<<"s not multiply 2"<<'\n';
         return false;
     }
-    return true;
+//    return true;
 }
 
 

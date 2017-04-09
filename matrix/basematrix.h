@@ -26,22 +26,22 @@ public:
 
 
     //создание матрицы B из A
-    virtual BaseMatrix * createB(){ }
+    virtual BaseMatrix * createB(){ return 0; }
 
 
     //преобразование матрицы B^(-1/2)
-    virtual BaseMatrix * reB(){ }
+    virtual BaseMatrix * reB(){ return 0; }
 
 
     //функция умножения матриц (создание матрицы С)
-    virtual BaseMatrix * matrixMatrix (BaseMatrix * secondM) { }
+    virtual BaseMatrix * matrixMatrix (BaseMatrix * secondM) { return 0; }
 
 
     //функция обращения матрицы(-A)
-    virtual BaseMatrix * minesMatrex(){ }
+    virtual BaseMatrix * minesMatrex(){ return 0; }
 
     //создание матрицы С
-    virtual BaseMatrix * createC(){ }
+    virtual BaseMatrix * createC(){ return 0; }
 
 
     //функция умножения матрицы на вектор
@@ -52,7 +52,7 @@ public:
     virtual void writeMatrix (){ }
 
     //взять элемент
-    virtual double getElement(int row, int column) const{ }
+    virtual double getElement(int row, int column) const{ return 0; }
 };
 
 #endif // BASEMATRIX_H

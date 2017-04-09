@@ -181,9 +181,9 @@ void RichardsonMethod::computeResultVectorForNotEWithRivalProcess(vector<double>
             y = (endOfIteration == 1)?y1:y2;
 
 
-            plname+="0";
-            Plots plot;
-            plot.iteratPlot(y1,std::string("output")+std::to_string(iterationNomber)+".png",std::string("output")+std::to_string(iterationNomber)+".dat");
+//            plname+="0";
+//            Plots plot;
+//            plot.iteratPlot(y1,std::string("output")+std::to_string(iterationNomber)+".png",std::string("output")+std::to_string(iterationNomber)+".dat");
 
 
         }
