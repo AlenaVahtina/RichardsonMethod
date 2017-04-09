@@ -24,7 +24,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>PushButton</string>
+     <string>Старт</string>
     </property>
    </widget>
    <widget class="QLabel" name="label">
@@ -44,45 +44,6 @@
     </property>
     <property name="text">
      <string>TextLabel</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pushButton_2">
-    <property name="geometry">
-     <rect>
-      <x>640</x>
-      <y>0</y>
-      <width>99</width>
-      <height>27</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>&gt;&gt;</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pushButton_3">
-    <property name="geometry">
-     <rect>
-      <x>430</x>
-      <y>0</y>
-      <width>99</width>
-      <height>27</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>&lt;&lt;</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pushButton_4">
-    <property name="geometry">
-     <rect>
-      <x>530</x>
-      <y>0</y>
-      <width>99</width>
-      <height>27</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>reload</string>
     </property>
    </widget>
    <widget class="QWidget" name="layoutWidget">
@@ -176,7 +137,7 @@
       <x>0</x>
       <y>11</y>
       <width>211</width>
-      <height>61</height>
+      <height>62</height>
      </rect>
     </property>
     <layout class="QGridLayout" name="gridLayout">
@@ -193,7 +154,7 @@
      <item row="1" column="0" colspan="2">
       <widget class="QPushButton" name="pushButton_5">
        <property name="text">
-        <string>PushButton</string>
+        <string>Загрузить</string>
        </property>
       </widget>
      </item>
@@ -228,6 +189,39 @@
      </item>
      <item row="1" column="1">
       <widget class="QLineEdit" name="lineEdit_3"/>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QWidget" name="">
+    <property name="geometry">
+     <rect>
+      <x>430</x>
+      <y>0</y>
+      <width>305</width>
+      <height>29</height>
+     </rect>
+    </property>
+    <layout class="QGridLayout" name="gridLayout_3">
+     <item row="0" column="0">
+      <widget class="QPushButton" name="pushButton_3">
+       <property name="text">
+        <string>&lt;&lt;</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1">
+      <widget class="QPushButton" name="pushButton_4">
+       <property name="text">
+        <string>перезагрузить</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="2">
+      <widget class="QPushButton" name="pushButton_2">
+       <property name="text">
+        <string>&gt;&gt;</string>
+       </property>
+      </widget>
      </item>
     </layout>
    </widget>
