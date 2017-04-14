@@ -25,7 +25,7 @@ void Plots::yPlot(vector<double> &y){
     plot("set output 'output.png'");
     plot("set xlabel 's' ");
     plot("set ylabel 'y' ");
-    plot("plot 'output.dat' using 2:1 with lines title 'y(i)'");
+    plot("plot 'output.dat' using 2:1 with linespoints title 'y(i)'");
 }
 
 
@@ -50,7 +50,7 @@ void Plots::iteratPlot(vector<double> &y,std::string plotname,std::string filena
         plot("set xlabel 's' ");
         plot("set ylabel 'y' ");
         plot("set output '"+plotname+"'");
-        plot("plot '"+filename+"' using 2:1 with lines title 'y(i)'");
+        plot("plot '"+filename+"' using 2:1 with linespoints title 'y(i)'");
 }
 
 
@@ -169,6 +169,7 @@ void Plots::averagePlotDoble2(vector<double> &deltak, vector<double> &deltak2, s
     plot("set output '"+plotname+"'");
     plot("set xtics 4");
     plot("set grid xtics mxtics ytics");
+    plot("set title '"+to_string(deltak.size())+"'");
     plot("set format x '' ");
     plot("set xlabel 's' ");
     plot("set ylabel 'y' ");

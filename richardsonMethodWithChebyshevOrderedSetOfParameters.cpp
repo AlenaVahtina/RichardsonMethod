@@ -106,7 +106,7 @@ void RichardsonMethod::computeResultVectorForEWithRivalProcess(vector<double> &y
         plname+="0";
         Plots p;
 //        p.averagePlotDoble(deltak1,"y1"+plname+".png","y1"+plname);
-//        p.averagePlotDoble(deltak2,"y2"+plname+".png","y2"+plname);
+        p.averagePlotDoble(deltak2,"y2"+plname+".png","y2"+plname);
         p.averagePlotDoble2(deltak1,deltak2,"y1"+plname+".png","y1"+plname);
 
         if(endOfIteration!=0){
