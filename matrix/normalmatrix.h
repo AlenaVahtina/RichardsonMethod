@@ -29,6 +29,9 @@ public:
     //чтение матрицы из файла
     void readMatrixFile(int nAmountPoints, string fileName);
 
+    //запись матрицы в файл
+    void writeMatrixFile(int nAmountPoints ,string fileName);
+
 
     //создание матрицы B из A
     BaseMatrix *createB();

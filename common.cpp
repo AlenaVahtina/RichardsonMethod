@@ -10,8 +10,8 @@ void Common::gammacalculation1(double& gamma1, double & gamma2,BaseMatrix *SLAU,
     //gamma2=4*cos(M_PI*step/2*(b-a))*cos(M_PI*step/2*(b-a))/(step*step);
 
     //второй метод вычисления гамма
-    //gamma1=8/(b-a)*(b-a);
-    //gamma2=4/(step*step);
+//    gamma1=8/(b-a)*(b-a);
+//    gamma2=4/(step*step);
 
 
 

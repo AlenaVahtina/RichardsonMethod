@@ -10,9 +10,11 @@ void RichardsonMethod::computeResultVectorForE (vector<double> &y, BaseMatrix *S
     yb=0;
 
 
-    SLAU->minesMatrex();
+//    SLAU->minesMatrex();
 
-    Common::gammacalculation1(gamma1,gamma2, SLAU, nAmountPoints);
+//    Common::gammacalculation1(gamma1,gamma2, SLAU, nAmountPoints);
+    gamma1=0.0008;
+    gamma2=4;
 
     if (!Common::error(gamma1, gamma2, iterationNomber))
         {calculate(y,SLAU,f,fold,gamma1, gamma2, deltak, true, false, 0, iterationNomber);}
@@ -33,8 +35,12 @@ void RichardsonMethod::computeResultVectorForC (vector<double> &y, BaseMatrix *S
     ya=1;
     yb=0;
 
-    gamma2=2;
-    gamma1=0.0002;
+//    gamma2=2;
+//    gamma1=0.0002;
+        gamma1=8/(b-a)*(b-a);
+        gamma2=4/(step*step);
+
+//        SLAU->minesMatrex();
 
     if (!Common::error(gamma1, gamma2, iterationNomber))
         {calculate(y,SLAU,f,fold,gamma1, gamma2, deltak, false, false, 0, iterationNomber);}

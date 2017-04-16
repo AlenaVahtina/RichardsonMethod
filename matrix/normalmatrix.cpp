@@ -66,6 +66,18 @@ void NormalMatrix::readMatrixFile(int nAmountPoints, string fileName){
 }
 
 
+void NormalMatrix::writeMatrixFile(int nAmountPoints ,string fileName){
+    ofstream dataFiele(fileName);
+    Matrix.resize(nAmountPoints);
+    for (int i=0;i<nAmountPoints; i++){
+        Matrix[i].resize(nAmountPoints);
+        for (int j=0;j<nAmountPoints; j++){
+            dataFiele<<Matrix[i][j];
+        }
+    }
+    dataFiele.close();
+}
+
 //создание матрицы B из A
 BaseMatrix *NormalMatrix::createB() {
     double max;
