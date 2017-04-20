@@ -9,15 +9,23 @@ void RichardsonMethod::computeResultVectorForE (vector<double> &y, BaseMatrix *S
     ya=1;
     yb=0;
 
+    gamma1=8*100/(b-a)*(b-a);
+    gamma2=4*100/(step*step);
+
+//    f[iterationNomber/2]=2000000*22.13/0.01;
+
+//    gamma1=8/(b-a)*(b-a);
+//    gamma2=4/(step*step);
+
 
 //    SLAU->minesMatrex();
 
 //    Common::gammacalculation1(gamma1,gamma2, SLAU, nAmountPoints);
-    gamma1=0.0008;
-    gamma2=4;
+//    gamma1=0.0008;
+//    gamma2=4;
 
     if (!Common::error(gamma1, gamma2, iterationNomber))
-        {calculate(y,SLAU,f,fold,gamma1, gamma2, deltak, true, false, 0, iterationNomber);}
+        {calculate(y,SLAU,f,fold, gamma1, gamma2, deltak, true, false, 0, iterationNomber);}
     else {
         return;
     }
@@ -35,10 +43,10 @@ void RichardsonMethod::computeResultVectorForC (vector<double> &y, BaseMatrix *S
     ya=1;
     yb=0;
 
-//    gamma2=2;
-//    gamma1=0.0002;
-        gamma1=8/(b-a)*(b-a);
-        gamma2=4/(step*step);
+    gamma2=2;
+    gamma1=0.0002;
+//        gamma1=8/(b-a)*(b-a);
+//        gamma2=4/(step*step);
 
 //        SLAU->minesMatrex();
 
@@ -208,8 +216,6 @@ void RichardsonMethod::computeResultVectorForNotEWithRivalProcess(vector<double>
    }
 }
 
-
-
 void  RichardsonMethod::calculate (vector<double> &y, BaseMatrix *SLAU, vector<double> f,int fold, double gamma1, double gamma2, vector<double> &deltak, bool matrixType, bool processType, int iterationNomberFrom, int iterationNomberTo){
 
     iterationNomberFrom=0;
@@ -226,6 +232,8 @@ void  RichardsonMethod::calculate (vector<double> &y, BaseMatrix *SLAU, vector<d
          divider=1;
          SLAU->minesMatrex();
     }
+    if (matrixType && !processType)
+        SLAU->minesMatrex();
 
     //посчитать p0
     p0=(1-gamma1/gamma2)/(1+gamma1/gamma2);

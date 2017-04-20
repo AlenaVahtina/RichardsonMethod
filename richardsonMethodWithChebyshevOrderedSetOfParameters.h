@@ -42,7 +42,6 @@ public:
 
     void  calculate (vector<double> &y, BaseMatrix *SLAU, vector<double> f,int fold, double gamma1, double gamma2, vector<double> &deltak, bool matrixType=true, bool processType=false, int iterationNomberFrom=0, int iterationNomberTo=0);
 
-
 private:
     double a,b,ya,yb,step;
     int nAmountPoints; //чтение колличества ячеек

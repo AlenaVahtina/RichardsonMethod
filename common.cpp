@@ -15,28 +15,28 @@ void Common::gammacalculation1(double& gamma1, double & gamma2,BaseMatrix *SLAU,
 
 
 
-    NormalMatrix* matrC=static_cast<NormalMatrix*>(new NormalMatrix(SLAU));//перевод в нормальный тип матрицы матрицу);
+//    NormalMatrix* matrC=static_cast<NormalMatrix*>(new NormalMatrix(SLAU));//перевод в нормальный тип матрицы матрицу);
 
-   //расчет нижней границы(гамма2) с помощью кругов Герщгорина
-    vector<double> R;
-    R.resize(nAmountPoints);
-    for (int i=0; i<nAmountPoints;i++){
-        for (int j=0; j<nAmountPoints; j++){
-            if (i!=j) {
-                R[i]+=fabs(matrC->Matrix[i][j]);
-            }
-        }
-    }
-    std::cout.flush();
+//   //расчет нижней границы(гамма2) с помощью кругов Герщгорина
+//    vector<double> R;
+//    R.resize(nAmountPoints);
+//    for (int i=0; i<nAmountPoints;i++){
+//        for (int j=0; j<nAmountPoints; j++){
+//            if (i!=j) {
+//                R[i]+=fabs(matrC->Matrix[i][j]);
+//            }
+//        }
+//    }
+//    std::cout.flush();
 
-    gamma2=0;
-    for (int i=0; i<nAmountPoints;i++){
-        if (gamma2<fabs(matrC->Matrix[i][i]+R[i])) {
-                gamma2=fabs(matrC->Matrix[i][i]+R[i]);
-        }
-   }
-    gamma1=gamma2/10;
-    cout<<gamma1<<"   "<<gamma2<<"   ";
+//    gamma2=0;
+//    for (int i=0; i<nAmountPoints;i++){
+//        if (gamma2<fabs(matrC->Matrix[i][i]+R[i])) {
+//                gamma2=fabs(matrC->Matrix[i][i]+R[i]);
+//        }
+//   }
+//    gamma1=gamma2/10;
+//    cout<<gamma1<<"   "<<gamma2<<"   ";
 }
 
 

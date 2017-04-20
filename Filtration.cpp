@@ -8,9 +8,9 @@ using namespace std;
 int main()
 {    
     //Эти константы настраиваются
-    double K=11;
-    double betta=120;
-    double timeConst=0.1;
+    double K=0.0046;
+    double betta=22.13;
+    double timeConst=0.01;
 
     int nAmountPoints=51;
     ofstream dataFiele("data6.txt");
