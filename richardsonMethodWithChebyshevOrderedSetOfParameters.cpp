@@ -6,19 +6,19 @@ void RichardsonMethod::computeResultVectorForE (vector<double> &y, BaseMatrix *S
     //граничные условия, колличество ячеек и шаг
     nAmountPoints=y.size();
     step=(b-a)/nAmountPoints;
-    ya=1;
-    yb=0;
+    ya=10;
+    yb=5;
 
-    gamma1=8*100/(b-a)*(b-a);
-    gamma2=4*100/(step*step);
+//    gamma1=8*2/(b-a)*(b-a);
+//    gamma2=4*15/(step*step);
 
-//    f[iterationNomber/2]=2000000*22.13/0.01;
+//    f[iterationNomber/2]=2*22.13;
 
-//    gamma1=8/(b-a)*(b-a);
-//    gamma2=4/(step*step);
+    gamma1=8*0.0046+1.0/0.1;
+    gamma2=4*0.0046/(step*step)+1.0/0.1;
 
 
-//    SLAU->minesMatrex();
+    SLAU->minesMatrex();
 
 //    Common::gammacalculation1(gamma1,gamma2, SLAU, nAmountPoints);
 //    gamma1=0.0008;
@@ -249,8 +249,13 @@ void  RichardsonMethod::calculate (vector<double> &y, BaseMatrix *SLAU, vector<d
     SLAU->minesMatrex();
 
     vector<double> oldy=y;
-    f[0]=ya/(step*step);
-    f[nAmountPoints-1]=yb/(step*step);
+//    f[0]=ya/(step*step);
+//    f[nAmountPoints-1]=yb/(step*step);
+
+    f[0]=ya/1;
+    f[nAmountPoints-1]=yb/1;
+
+
     iterationNomber=tao.size();
 
     Plots plot;
@@ -272,4 +277,75 @@ void  RichardsonMethod::calculate (vector<double> &y, BaseMatrix *SLAU, vector<d
 
     y[0]=ya;
     y[nAmountPoints-1]=yb;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//функция расчета итогового значения вектора у для еденичной матрицы и без конкурирующих процессов Лапласс
+void RichardsonMethod::computeResultVectorForELaplass (vector<double> &y, BaseMatrix *SLAU, vector<double> f,int fold, double gamma1, double gamma2){
+
+    //граничные условия, колличество ячеек и шаг
+    nAmountPoints=y.size();
+    step=(b-a)/nAmountPoints;
+    ya=1;
+    yb=0;
+
+    gamma1=8/(b-a)*(b-a);
+    gamma2=4/(step*step);
+
+
+    if (!Common::error(gamma1, gamma2, iterationNomber))
+        {calculate(y,SLAU,f,fold, gamma1, gamma2, deltak, true, false, 0, iterationNomber);}
+    else {
+        return;
+    }
+
 }

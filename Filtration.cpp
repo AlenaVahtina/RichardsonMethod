@@ -25,10 +25,12 @@ int main()
     for (int i=0; i<nAmountPoints; i++){
         for (int j=0; j<nAmountPoints; j++){
             if(j>0) Matrix[j-1][j]=-K/(step*step);
-            Matrix[j][j]=(2*K+betta+(1.0/timeConst))/(step*step);
+            Matrix[j][j]=2*K/(step*step)+(1.0/timeConst);
             if(j<nAmountPoints-1) Matrix[j+1][j]=-K/(step*step);
         }
    }
+   Matrix[nAmountPoints/2][nAmountPoints/2]+=betta;
+
 
    
     //Заполнение вектора f
