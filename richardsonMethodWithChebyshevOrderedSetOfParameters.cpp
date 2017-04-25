@@ -349,3 +349,31 @@ void RichardsonMethod::computeResultVectorForELaplass (vector<double> &y, BaseMa
     }
 
 }
+
+
+//функция расчета итогового значения вектора у для еденичной матрицы и без конкурирующих процессов Лапласс
+void RichardsonMethod::computeResultVectorForELaplassWithDelta (vector<double> &y, BaseMatrix *SLAU, vector<double> f,int fold, double gamma1, double gamma2){
+
+    //граничные условия, колличество ячеек и шаг
+    nAmountPoints=y.size();
+    step=(b-a)/nAmountPoints;
+    ya=1;
+    yb=0;
+
+    gamma1=8/(b-a)*(b-a);
+    gamma2=4/(step*step);
+
+
+    if (!Common::error(gamma1, gamma2, iterationNomber))
+        {
+        calculate(y,SLAU,f,fold, gamma1, gamma2, deltak, true, false, 0, iterationNomber);
+        cout<<'\n'<<"  ";
+        for (int i=0; i<iterationNomber; i++){
+        if (deltak[i]<EPSELON_SOLUTION) {cout<<i;}
+        }
+    }
+    else {
+        return;
+    }
+
+}

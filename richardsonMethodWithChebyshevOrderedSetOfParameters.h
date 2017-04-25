@@ -44,6 +44,9 @@ public:
 
     void computeResultVectorForELaplass (vector<double> &y, BaseMatrix *SLAU, vector<double> f,int fold, double gamma1, double gamma2);
 
+
+    void computeResultVectorForELaplassWithDelta (vector<double> &y, BaseMatrix *SLAU, vector<double> f,int fold, double gamma1, double gamma2);
+
 private:
     double a,b,ya,yb,step;
     int nAmountPoints; //чтение колличества ячеек

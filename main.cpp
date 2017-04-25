@@ -47,7 +47,7 @@ int main()
     step=(b-a)/nAmountPoints;
 
     //число итераций
-    iterationNomber=16;
+    iterationNomber=512;
     cout<<"Enter the number of iterations\n"<<iterationNomber<<'\n';
     Rid.setS(iterationNomber);
 
@@ -88,7 +88,9 @@ int main()
 //     Rid.computeResultVectorForE(y, testslau,f,fold);
 //     Rid.computeResultVectorForC(y, testslau,f,fold);
 //     Rid.computeResultVectorForEWithRivalProcess(y, testslau, f, fold);
-     Rid.computeResultVectorForNotEWithRivalProcess(y, testslau, f, fold);
+//     Rid.computeResultVectorForNotEWithRivalProcess(y, testslau, f, fold);
+//     Rid.computeResultVectorForELaplassWithDelta(y, testslau, f, fold,1,1);
+     Rid.computeResultVectorForELaplass(y, testslau, f, fold,1,1);
 
      deltak=Rid.getErrors();
 
