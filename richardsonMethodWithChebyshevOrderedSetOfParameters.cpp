@@ -6,16 +6,26 @@ void RichardsonMethod::computeResultVectorForE (vector<double> &y, BaseMatrix *S
     //граничные условия, колличество ячеек и шаг
     nAmountPoints=y.size();
     step=(b-a)/nAmountPoints;
-    ya=10;
-    yb=5;
+//    ya=10;
+//    yb=5;
+
+        ya=10;
+        yb=10;
+
 
 //    gamma1=8*2/(b-a)*(b-a);
 //    gamma2=4*15/(step*step);
 
-//    f[iterationNomber/2]=2*22.13;
+    for (int i=1;i<nAmountPoints; i++)
+    {
+       f[i]= 10/0.01;
+    }
+    f[0]+=0.0046*10/step*step;
+    f[nAmountPoints-1]+=0.0046*10/step*step;
+    f[nAmountPoints/2]+=1.0*22.13;
 
-    gamma1=8*0.0046+1.0/0.1;
-    gamma2=4*0.0046/(step*step)+1.0/0.1;
+    gamma1=8*0.0046+1.0/0.01;
+    gamma2=4*0.0046/(step*step)+1.0/0.01+22.13;
 
 
     SLAU->minesMatrex();

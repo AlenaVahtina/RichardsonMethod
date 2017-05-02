@@ -129,6 +129,7 @@ void MainWindow::on_pushButton_clicked()
      if (processType){
          if (matrixType){
             Rid.computeResultVectorForE(y, testslau,f,fold);
+//            Rid.computeResultVectorForELaplass(y, testslau,f,fold);
          }else{
             Rid.computeResultVectorForC(y, testslau,f,fold);
          }

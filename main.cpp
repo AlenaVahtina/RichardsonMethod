@@ -75,9 +75,9 @@ int main()
 
     //считать значения вектора f
     f.resize(nAmountPoints);
-    for (int i=0; i<nAmountPoints; i++){
-        f[i]=0;
-    }
+//    for (int i=0; i<nAmountPoints; i++){
+//        f[i]=0;
+//    }
 
     //считать параметры q и p
     Rid.setP(0);
