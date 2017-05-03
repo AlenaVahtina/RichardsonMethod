@@ -16,7 +16,7 @@ void RichardsonMethod::computeResultVectorForE (vector<double> &y, BaseMatrix *S
 //    gamma1=8*2/(b-a)*(b-a);
 //    gamma2=4*15/(step*step);
 
-    for (int i=1;i<nAmountPoints; i++)
+    for (int i=0;i<nAmountPoints; i++)
     {
        f[i]= 10/0.01;
     }
@@ -262,8 +262,8 @@ void  RichardsonMethod::calculate (vector<double> &y, BaseMatrix *SLAU, vector<d
 //    f[0]=ya/(step*step);
 //    f[nAmountPoints-1]=yb/(step*step);
 
-    f[0]=ya/1;
-    f[nAmountPoints-1]=yb/1;
+//    f[0]=ya/1;
+//    f[nAmountPoints-1]=yb/1;
 
 
     iterationNomber=tao.size();
