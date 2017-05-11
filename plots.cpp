@@ -49,6 +49,9 @@ void Plots::iteratPlot(vector<double> &y,std::string plotname,std::string filena
         plot("set terminal png size 900,800 enhanced font \"Helvetica,20\"");
         plot(" set yrange [0:10]"); //Только для фильтрации включать, и думать это разменрность по y
         plot("set title '"+plotname+"'");
+
+        plot("set yrange [0:10]");
+
         plot("set xlabel 's' ");
         plot("set ylabel 'y' ");
         plot("set output '"+plotname+"'");
