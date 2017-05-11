@@ -10,7 +10,7 @@ int main()
     //Эти константы настраиваются
     double K=0.0046;
     double betta=22.13;
-    double timeConst=0.01;
+    double timeConst=0.5;
 
     int nAmountPoints=51;
     ofstream dataFiele("data6.txt");

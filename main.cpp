@@ -31,12 +31,12 @@ int main()
 
 
     //какие графики итерации нужно выводить, fold=0-ни одного, fold=1-(iterationNomber-1)-графики кратные fold, fold=iterationNomber -только последнюю итерацию
-    int fold=4;
+    int fold=1;
     Plot.setfold(fold);
 
 
     //число ячеек (узлов)
-    nAmountPoints=100;
+    nAmountPoints=51;
     cout<<"The number of cells \n"<<nAmountPoints<<'\n';
 
     //настройки а и b по умолчанию
@@ -47,22 +47,28 @@ int main()
     step=(b-a)/nAmountPoints;
 
     //число итераций
-    iterationNomber=512;
+    iterationNomber=128;
     cout<<"Enter the number of iterations\n"<<iterationNomber<<'\n';
     Rid.setS(iterationNomber);
 
-    //заполнение матрицы СЛАУ A
-    Matrix.resize(nAmountPoints);
-    for (int i=0; i<nAmountPoints; i++){
-        Matrix[i].resize(nAmountPoints);
-    }
-    for (int i=0; i<nAmountPoints; i++){
-        for (int j=0; j<nAmountPoints; j++){
-            if(j>0) Matrix[j-1][j]=1/(step*step);
-            Matrix[j][j]=-2/(step*step);
-            if(j<nAmountPoints-1) Matrix[j+1][j]=1/(step*step);
-        }
-    }
+//    //заполнение матрицы СЛАУ A
+//    Matrix.resize(nAmountPoints);
+//    for (int i=0; i<nAmountPoints; i++){
+//        Matrix[i].resize(nAmountPoints);
+//    }
+//    for (int i=0; i<nAmountPoints; i++){
+//        for (int j=0; j<nAmountPoints; j++){
+//            if(j>0) Matrix[j-1][j]=1/(step*step);
+//            Matrix[j][j]=-2/(step*step);
+//            if(j<nAmountPoints-1) Matrix[j+1][j]=1/(step*step);
+//        }
+//    }
+
+    BaseMatrix *testslau=new NormalMatrix(Matrix);
+    NormalMatrix* mat = new NormalMatrix(Matrix);
+    mat->readMatrixFile(nAmountPoints, "/home/alena/RichardsonMethod/data6.txt");
+    testslau=mat;
+
 
     //нулевое заполнение y
     y.resize(nAmountPoints);
@@ -84,13 +90,13 @@ int main()
     Rid.setQ(0);
 
      //вычисление у (основное решение задачи)
-     BaseMatrix *testslau=new NormalMatrix(Matrix);
-//     Rid.computeResultVectorForE(y, testslau,f,fold);
+//     BaseMatrix *testslau=new NormalMatrix(Matrix);
+     Rid.computeResultVectorForE(y, testslau,f,fold);
 //     Rid.computeResultVectorForC(y, testslau,f,fold);
 //     Rid.computeResultVectorForEWithRivalProcess(y, testslau, f, fold);
 //     Rid.computeResultVectorForNotEWithRivalProcess(y, testslau, f, fold);
 //     Rid.computeResultVectorForELaplassWithDelta(y, testslau, f, fold,1,1);
-     Rid.computeResultVectorForELaplass(y, testslau, f, fold,1,1);
+//     Rid.computeResultVectorForELaplass(y, testslau, f, fold,1,1);
 
      deltak=Rid.getErrors();
 

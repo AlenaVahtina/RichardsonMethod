@@ -16,16 +16,24 @@ void RichardsonMethod::computeResultVectorForE (vector<double> &y, BaseMatrix *S
 //    gamma1=8*2/(b-a)*(b-a);
 //    gamma2=4*15/(step*step);
 
+
+
+    //Эти константы настраиваются
+    double K=0.0046;
+    double betta=22.13;
+    double timeConst=0.5;
+
+
     for (int i=0;i<nAmountPoints; i++)
     {
-       f[i]= 10/0.01;
+       f[i]= 10/timeConst;
     }
-    f[0]+=0.0046*10/step*step;
-    f[nAmountPoints-1]+=0.0046*10/step*step;
-    f[nAmountPoints/2]+=1.0*22.13;
+    f[0]+=K*10/step*step;
+    f[nAmountPoints-1]+=K*10/step*step;
+    f[nAmountPoints/2]+=1.0*betta;
 
-    gamma1=8*0.0046+1.0/0.01;
-    gamma2=4*0.0046/(step*step)+1.0/0.01+22.13;
+    gamma1=8*K+1.0/timeConst;
+    gamma2=4*K/(step*step)+1.0/timeConst+betta;
 
 
     SLAU->minesMatrex();
