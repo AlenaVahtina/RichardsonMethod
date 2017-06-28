@@ -77,7 +77,7 @@ void MainWindow::on_pushButton_clicked()
         iterationNomber=ui->lineEdit->text().toInt();
     }else
     {
-    iterationNomber=16;
+    iterationNomber=512;
     }
     cout<<"Enter the number of iterations\n"<<iterationNomber<<'\n';
     Rid.setS(iterationNomber);
@@ -128,8 +128,8 @@ void MainWindow::on_pushButton_clicked()
      }
      if (processType){
          if (matrixType){
-            Rid.computeResultVectorForE(y, testslau,f,fold);
-//            Rid.computeResultVectorForELaplass(y, testslau,f,fold);
+//            Rid.computeResultVectorForE(y, testslau,f,fold);
+            Rid.computeResultVectorForELaplass(y, testslau,f,fold);
          }else{
             Rid.computeResultVectorForC(y, testslau,f,fold);
          }

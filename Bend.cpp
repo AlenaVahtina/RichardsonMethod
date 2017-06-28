@@ -10,7 +10,7 @@ int main()
     double k1=2;
     double k2=15;
     int nAmountPoints=51;
-    ofstream dataFiele("data5.txt");
+    ofstream dataFiele("dataBend.txt");
     vector < vector < double > > Matrix;
     double step = double (1.0/nAmountPoints);
 

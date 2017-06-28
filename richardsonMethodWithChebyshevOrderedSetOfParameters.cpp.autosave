@@ -233,56 +233,6 @@ void  RichardsonMethod::calculate (vector<double> &y, BaseMatrix *SLAU, vector<d
     y[nAmountPoints-1]=yb;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 //функция расчета итогового значения вектора у для еденичной матрицы и без конкурирующих процессов Лапласс
 void RichardsonMethod::computeResultVectorForELaplass (vector<double> &y, BaseMatrix *SLAU, vector<double> f,int fold, double gamma1, double gamma2){
 
@@ -303,7 +253,6 @@ void RichardsonMethod::computeResultVectorForELaplass (vector<double> &y, BaseMa
     }
 
 }
-
 
 //функция расчета итогового значения вектора у для еденичной матрицы и без конкурирующих процессов Лапласс
 void RichardsonMethod::computeResultVectorForELaplassWithDelta (vector<double> &y, BaseMatrix *SLAU, vector<double> f,int fold, double gamma1, double gamma2){

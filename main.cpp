@@ -15,10 +15,8 @@ int main()
     //удаление файлов данных и графиков предыдущей работы программы
     system("rm *.png *.dat");
 
-
     RichardsonMethod Rid;
     Plots Plot;
-
 
     //инициализация данных
     double a=0,b=1,step;//левый и правый конец, шаг
@@ -51,19 +49,6 @@ int main()
     cout<<"Enter the number of iterations\n"<<iterationNomber<<'\n';
     Rid.setS(iterationNomber);
 
-//    //заполнение матрицы СЛАУ A
-//    Matrix.resize(nAmountPoints);
-//    for (int i=0; i<nAmountPoints; i++){
-//        Matrix[i].resize(nAmountPoints);
-//    }
-//    for (int i=0; i<nAmountPoints; i++){
-//        for (int j=0; j<nAmountPoints; j++){
-//            if(j>0) Matrix[j-1][j]=1/(step*step);
-//            Matrix[j][j]=-2/(step*step);
-//            if(j<nAmountPoints-1) Matrix[j+1][j]=1/(step*step);
-//        }
-//    }
-
     BaseMatrix *testslau=new NormalMatrix(Matrix);
     NormalMatrix* mat = new NormalMatrix(Matrix);
     mat->readMatrixFile(nAmountPoints, "/home/alena/RichardsonMethod/data6.txt");
@@ -81,25 +66,21 @@ int main()
 
     //считать значения вектора f
     f.resize(nAmountPoints);
-//    for (int i=0; i<nAmountPoints; i++){
-//        f[i]=0;
-//    }
 
     //считать параметры q и p
     Rid.setP(0);
     Rid.setQ(0);
 
-     //вычисление у (основное решение задачи)
-//     BaseMatrix *testslau=new NormalMatrix(Matrix);
-     Rid.computeResultVectorForE(y, testslau,f,fold);
-//     Rid.computeResultVectorForC(y, testslau,f,fold);
-//     Rid.computeResultVectorForEWithRivalProcess(y, testslau, f, fold);
-//     Rid.computeResultVectorForNotEWithRivalProcess(y, testslau, f, fold);
-//     Rid.computeResultVectorForELaplassWithDelta(y, testslau, f, fold,1,1);
-//     Rid.computeResultVectorForELaplass(y, testslau, f, fold,1,1);
+    //вычисление у (основное решение задачи)
+//  BaseMatrix *testslau=new NormalMatrix(Matrix);
+    Rid.computeResultVectorForE(y, testslau,f,fold);
+//  Rid.computeResultVectorForC(y, testslau,f,fold);
+//  Rid.computeResultVectorForEWithRivalProcess(y, testslau, f, fold);
+//  Rid.computeResultVectorForNotEWithRivalProcess(y, testslau, f, fold);
+//  Rid.computeResultVectorForELaplassWithDelta(y, testslau, f, fold,1,1);
+//  Rid.computeResultVectorForELaplass(y, testslau, f, fold,1,1);
 
-     deltak=Rid.getErrors();
-
+    deltak=Rid.getErrors();
 
     //вывод у
     cout<<endl;
@@ -108,13 +89,11 @@ int main()
     }
     cout<<endl;
 
-
-
     //построение графиков (по умолчанию выведены функции построения графиков для единичной матрицы без конкурирующих процессов)
-//    Plot.setfold(fold);
-//    Plot.YPlot(y);
-//    Plot.PlotWithE(deltak);
-//    Plot.AveragePlot(deltak);
+//  Plot.setfold(fold);
+//  Plot.YPlot(y);
+//  Plot.PlotWithE(deltak);
+//  Plot.AveragePlot(deltak);
     return 0;
 }
 

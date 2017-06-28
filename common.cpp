@@ -1,45 +1,5 @@
 #include "common.h"
 
-//функция расчета гамма1 и гамма2 для модуля без конкурирующих процессов
-void Common::gammacalculation1(double& gamma1, double & gamma2,BaseMatrix *SLAU, int nAmountPoints){
-
-
-    //гамма 1 и гамма 2; границы спектра (первый метод более точный)
-    //первый метод вычисления гамма
-    //gamma1=4*sin(M_PI*step/2*(b-a))*sin(M_PI*step/2*(b-a))/(step*step);
-    //gamma2=4*cos(M_PI*step/2*(b-a))*cos(M_PI*step/2*(b-a))/(step*step);
-
-    //второй метод вычисления гамма
-//    gamma1=8/(b-a)*(b-a);
-//    gamma2=4/(step*step);
-
-
-
-//    NormalMatrix* matrC=static_cast<NormalMatrix*>(new NormalMatrix(SLAU));//перевод в нормальный тип матрицы матрицу);
-
-//   //расчет нижней границы(гамма2) с помощью кругов Герщгорина
-//    vector<double> R;
-//    R.resize(nAmountPoints);
-//    for (int i=0; i<nAmountPoints;i++){
-//        for (int j=0; j<nAmountPoints; j++){
-//            if (i!=j) {
-//                R[i]+=fabs(matrC->Matrix[i][j]);
-//            }
-//        }
-//    }
-//    std::cout.flush();
-
-//    gamma2=0;
-//    for (int i=0; i<nAmountPoints;i++){
-//        if (gamma2<fabs(matrC->Matrix[i][i]+R[i])) {
-//                gamma2=fabs(matrC->Matrix[i][i]+R[i]);
-//        }
-//   }
-//    gamma1=gamma2/10;
-//    cout<<gamma1<<"   "<<gamma2<<"   ";
-}
-
-
 //функция расчета гамма1* гамма1** и гамма2
 void Common::gammacalculation(double& gamma11,double &gamma12, double & gamma2,BaseMatrix *SLAU, double p, double q, int nAmountPoints){
 
@@ -63,11 +23,6 @@ void Common::gammacalculation(double& gamma11,double &gamma12, double & gamma2,B
                 gamma2=fabs(matrC->Matrix[i][i]+R[i]);
         }
    }
-    cout<<gamma2<<"   ";
-    //q и р
-//    q=0.5;
-//    p=q/4;
-
     //гамма1*
     gamma11=q*gamma2;
     cout<<gamma11<<"  гамма1*  ";
@@ -162,7 +117,7 @@ bool Common::error(double gamma1, double gamma2, int iterationNomber)
         cout<<"s not multiply 2"<<'\n';
         return false;
     }
-//    return true;
+    return true;
 }
 
 

@@ -28,18 +28,14 @@ public:
     static void supportingComputeResultVector (vector<double> &y, BaseMatrix *SLAU,vector<double> f,int fold, vector<double> &deltak,
                                                 int iterationNomber,double gamma1,double gamma2,int nAmountPoints,double step,int ya,int yb);
 
-
     //функция сортировки
     static void Rsort(vector<int> &index);
-
 
     //сделать массив лямбда
     static void flambda (vector <int> &index, vector <double> &lambda, double iterationNomber);
 
-
     //функция итерационной ошибки
     static double IterError(vector<double> &y, vector<double> &oldy);
-
 
     //является ли s степенью 2
     static bool fold2(int s);
@@ -52,7 +48,6 @@ public:
 
     // фун. для проверки на пересечение
     static int cross(vector<double> deltak1, vector<double> deltak2);
-
 
     static bool criterion27(vector<double> deltak1, vector<double> deltak2, int istop, double eps);
 

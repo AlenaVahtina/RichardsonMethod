@@ -42,7 +42,7 @@ public:
 
     void  calculate (vector<double> &y, BaseMatrix *SLAU, vector<double> f,int fold, double gamma1, double gamma2, vector<double> &deltak, bool matrixType=true, bool processType=false, int iterationNomberFrom=0, int iterationNomberTo=0);
 
-    void computeResultVectorForELaplass (vector<double> &y, BaseMatrix *SLAU, vector<double> f,int fold, double gamma1, double gamma2);
+    void computeResultVectorForELaplass (vector<double> &y, BaseMatrix *SLAU, vector<double> f,int fold, double gamma1=8, double gamma2=40000);
 
 
     void computeResultVectorForELaplassWithDelta (vector<double> &y, BaseMatrix *SLAU, vector<double> f,int fold, double gamma1, double gamma2);

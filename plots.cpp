@@ -11,7 +11,6 @@ void Plots::yPlot(vector<double> &y){
     if (!f.is_open())
       {
         cout << "Error opening file output.dat.\n";
-//        exit(EXIT_FAILURE);
         return;
       }
 
@@ -36,7 +35,6 @@ void Plots::iteratPlot(vector<double> &y,std::string plotname,std::string filena
         if (!f.is_open())
           {
             cout << "Error opening file output.dat.\n";
-            //exit(EXIT_FAILURE);
             return;
           }
         for (int i=0; i<y.size(); i++){
@@ -44,14 +42,9 @@ void Plots::iteratPlot(vector<double> &y,std::string plotname,std::string filena
         }
         f.close();
         Gnuplot plot;
-        //f<<"set terminal size 900,800"<<endl<<"set output '"<<i<<".png'"<<endl
         plot("set terminal postscript enhanced");
         plot("set terminal png size 900,800 enhanced font \"Helvetica,20\"");
-        plot(" set yrange [0:10]"); //Только для фильтрации включать, и думать это разменрность по y
         plot("set title '"+plotname+"'");
-
-        plot("set yrange [0:10]");
-
         plot("set xlabel 's' ");
         plot("set ylabel 'y' ");
         plot("set output '"+plotname+"'");
@@ -66,7 +59,6 @@ void Plots::plotWithError(vector<double> &deltak){
     if (!f.is_open())
       {
         cout << "Error opening file output.dat.\n";
-        //exit(EXIT_FAILURE);
         return;
       }
 
@@ -91,7 +83,6 @@ void Plots::averagePlot(vector<double> &deltak){
     if (!f.is_open())
       {
         cout << "Error opening file output.dat.\n";
-        //exit(EXIT_FAILURE);
         return;
       }
     if (deltak.size()==0)return;
@@ -124,7 +115,6 @@ void Plots::averagePlotDoble(vector<double> &deltak,std::string plotname,std::st
     if (!f.is_open())
       {
         cout << "Error opening file output.dat.\n";
-        //exit(EXIT_FAILURE);
         return;
       }
     f<<deltak[0]<<"   "<<log10(deltak[0])<<"  "<<0<<endl;
@@ -156,7 +146,6 @@ void Plots::averagePlotDoble2(vector<double> &deltak, vector<double> &deltak2, s
     if (!f.is_open())
       {
         cout << "Error opening file output.dat.\n";
-        //exit(EXIT_FAILURE);
         return;
       }
     f<<deltak[0]<<"   "<<log10(deltak[0])<<"   "<<deltak2[0]<<"  "<<log10(deltak2[0])<<"   "<<0<<endl;
